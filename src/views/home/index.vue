@@ -1,11 +1,14 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import {
   IconSunFill,
-  IconMoonFill,
-  IconGithub,
+  IconMoonFill
 } from '@arco-design/web-vue/es/icon';
-import vueSvg from '@/assets/vue.svg?component';
-
+/* 组件 */
+import Config from "@/components/Config/index.vue";
+import LoginComp from "@/components/Login/index.vue";
+import MessageComp from "@/components/Message/index.vue";
+import { Notification } from '@arco-design/web-vue';
 const theme = ref('light');
 
 const isDark = useDark({
@@ -45,23 +48,38 @@ const featureList = [
   { name: 'lint-staged', url: 'https://www.npmjs.com/package/lint-staged' },
   { name: 'commitlint', url: 'https://commitlint.js.org/', end: true },
 ];
+const menuIndex = ref(['0']);
+const testMenuList = [
+  {name:'配置',key:'0',componentName:Config},
+  { name : '登录',key:'1',componentName:LoginComp},
+  { name : '消息',key:'2',componentName:MessageComp},
+]
+const showComponent = computed(()=>{
+  return testMenuList.find(item=>item.key === menuIndex.value[0])?.componentName
+})
+const handleNotification = () => {
+  console.log(111111);
+      Notification.info({
+        id:"app",
+        position: "topLeft",
+        title: 'Notification',
+        content: 'This is a notification!',
+      })
+    }
 </script>
 
 <template>
-  <div class="w-1/2 text-center mx-auto pt-44">
-    <vueSvg class="w-40 h-40 mx-auto"></vueSvg>
-    <h1 class="font-bold dark:text-white">Hello, Welcome!</h1>
-    <strong class="dark:text-white text-lg">
-      更快创建功能完善的 Vue3 模板，持续更新~
-    </strong>
-    <p class="mt-12">
-      <template v-for="item in featureList" :key="item.url">
-        <a-link :href="item.url" target="_blank">{{ item.name }}</a-link>
-        <a-divider direction="vertical" v-if="!item.end" />
-      </template>
-    </p>
-
-    <ul class="mt-10 flex justify-center">
+  <div class="mt-5 sm:w - full md:w - 1/2 lg:w - 1/3">
+    <a-menu mode="horizontal" v-model:selected-keys="menuIndex"  :default-selected-keys="['0']">
+      <a-menu-item :key="item.key" v-for="item in testMenuList" :title="item.name">
+        {{ item.name }}
+        </a-menu-item>
+    </a-menu>
+    <component :is="showComponent"></component>
+    <a-button @click="handleNotification">
+      Open Notification
+    </a-button>
+    <ul class="mt-10 flex space-around">
       <li class="px-2">
         <a-tooltip
           :content="`点击切换为${theme === 'light' ? '暗黑' : '亮色'}模式`"
@@ -75,20 +93,6 @@ const featureList = [
         </a-tooltip>
       </li>
 
-      <li class="px-2">
-        <a-tooltip content="Github">
-          <a-button
-            type="outline"
-            shape="circle"
-            target="_blank"
-            href="https://github.com/xiaopengRUNNING/vite-vue3-template"
-          >
-            <template #icon>
-              <icon-github />
-            </template>
-          </a-button>
-        </a-tooltip>
-      </li>
     </ul>
   </div>
 </template>

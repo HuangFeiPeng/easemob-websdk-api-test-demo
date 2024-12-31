@@ -1,3 +1,4 @@
+import { log } from 'console';
 import { RouteRecordRaw } from 'vue-router';
 
 const modules = import.meta.glob('./modules/*.ts', {
@@ -6,7 +7,6 @@ const modules = import.meta.glob('./modules/*.ts', {
 });
 
 const appRoutes: RouteRecordRaw[] = [];
-
 Object.keys(modules).forEach((key) => {
   const defaultModule = modules[key] || {};
 
