@@ -57,15 +57,6 @@ const testMenuList = [
 const showComponent = computed(()=>{
   return testMenuList.find(item=>item.key === menuIndex.value[0])?.componentName
 })
-const handleNotification = () => {
-  console.log(111111);
-      Notification.info({
-        id:"app",
-        position: "topLeft",
-        title: 'Notification',
-        content: 'This is a notification!',
-      })
-    }
 </script>
 
 <template>
@@ -76,9 +67,6 @@ const handleNotification = () => {
         </a-menu-item>
     </a-menu>
     <component :is="showComponent"></component>
-    <a-button @click="handleNotification">
-      Open Notification
-    </a-button>
     <ul class="mt-10 flex space-around">
       <li class="px-2">
         <a-tooltip

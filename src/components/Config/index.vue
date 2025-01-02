@@ -18,20 +18,9 @@ const configForm = reactive<EasemobChat.ConnectionParameters>({
 const saveConfig = () => {
   console.log('configForm', configForm);
   initializationEMClient(configForm);
-  Notification.info({
-        title: 'Title',
-        content: 'This is a Notification!',
-        position: "topLeft"
-      })
+  Notification.success('配置已成功！')
 
 };
-const handleNotification = () => {
-  console.log(111111);
-      Notification.info({
-        title: 'Notification',
-        content: 'This is a notification!',
-      })
-    }
 </script>
 <template>
   <div class="m-10">
@@ -104,11 +93,8 @@ const handleNotification = () => {
       </a-form-item>
       <a-form-item>
         <a-button type="primary" @click="saveConfig">保存配置</a-button>
-        <a-button @click="handleNotification">
-      Open Notification
-    </a-button>
       </a-form-item>
     </a-form>
-    {{ configForm }}
+    <!-- {{ configForm }} -->
   </div>
 </template>
