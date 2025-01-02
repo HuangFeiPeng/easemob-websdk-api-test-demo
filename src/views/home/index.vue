@@ -11,7 +11,6 @@ initializationEMClient()
 emListenerV3(EMClient)
 emListenerV4(EMClient)
 const theme = ref('light');
-
 const isDark = useDark({
   valueDark: 'dark',
   valueLight: 'light',
