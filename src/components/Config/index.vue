@@ -2,8 +2,6 @@
 import { EasemobChat } from 'easemob-websdk';
 import { initializationEMClient, EMClient } from '@/EaseIM';
 import { Notification } from '@arco-design/web-vue';
-console.log('initializationEMClient', initializationEMClient, EMClient);
-
 const configForm = reactive<EasemobChat.ConnectionParameters>({
   appKey: 'easemob-demo#support',
   apiUrl: '',
