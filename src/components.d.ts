@@ -21,6 +21,7 @@ declare module '@vue/runtime-core' {
     AInputTag: typeof import('@arco-design/web-vue')['InputTag']
     AMenu: typeof import('@arco-design/web-vue')['Menu']
     AMenuItem: typeof import('@arco-design/web-vue')['MenuItem']
+    AOption: typeof import('@arco-design/web-vue')['Option']
     ARadio: typeof import('@arco-design/web-vue')['Radio']
     ARadioGroup: typeof import('@arco-design/web-vue')['RadioGroup']
     AResult: typeof import('@arco-design/web-vue')['Result']

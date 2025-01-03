@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { EasemobChat } from 'easemob-websdk';
-import { initializationEMClient, EMClient } from '@/EaseIM';
 import { Notification } from '@arco-design/web-vue';
+import { initializationEMClient, EMClient } from '@/EaseIM';
+
 const configForm = reactive<EasemobChat.ConnectionParameters>({
   appKey: 'easemob-demo#support',
   apiUrl: '',
@@ -16,8 +17,7 @@ const configForm = reactive<EasemobChat.ConnectionParameters>({
 const saveConfig = () => {
   console.log('configForm', configForm);
   initializationEMClient(configForm);
-  Notification.success('配置已成功！')
-
+  Notification.success('配置已成功！');
 };
 </script>
 <template>

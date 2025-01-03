@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { EMClient } from '@/EaseIM';
 import { IconDelete } from '@arco-design/web-vue/es/icon';
 import { Message } from '@arco-design/web-vue';
 import { EasemobChat } from 'easemob-websdk';
+import { EMClient } from '@/EaseIM';
 import { outConsoleLog } from '@/utils/consoleOutput';
+
 type FilterMessageType = Exclude<
   EasemobChat.MessageType,
   'delivery' | 'channel' | 'read'
@@ -42,7 +43,7 @@ const getHistoryMessage = async () => {
     outConsoleLog('获取历史消息成功', res);
     Message.success('获取历史消息成功');
   } catch (error) {
-    outConsoleLog('获取历史消息失败',error,'error');
+    outConsoleLog('获取历史消息失败', error, 'error');
     Message.error('获取历史消息失败');
   }
 };
@@ -60,7 +61,7 @@ const deleteHistoryMessageWithMsgIds = async () => {
     outConsoleLog('删除历史消息', res);
     Message.success('删除历史消息成功');
   } catch (error) {
-    outConsoleLog('删除历史消息失败',error,'error');
+    outConsoleLog('删除历史消息失败', error, 'error');
     Message.error('删除历史消息失败');
   }
 };
@@ -136,8 +137,8 @@ const deleteHistoryMessageWithMsgIds = async () => {
             <icon-delete />
           </template>
         </a-button>
-        <a-button class="ml-5 mr-5" type="primary"
-          disabled >删除消息漫游(按照时间戳)
+        <a-button class="ml-5 mr-5" type="primary" disabled
+          >删除消息漫游(按照时间戳)
           <template #icon>
             <icon-delete />
           </template>

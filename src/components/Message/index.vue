@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Message, FileItem } from '@arco-design/web-vue';
-import { WebSDK, EMClient } from '@/EaseIM';
 import { EasemobChat } from 'easemob-websdk';
-import HistoryMessageComp from "./historyMessage.vue";
-import ReactionMessageComp from './reactionMessage.vue'
-import PinMessageComp from './pinMessage.vue'
+import { WebSDK, EMClient } from '@/EaseIM';
+import HistoryMessageComp from './historyMessage.vue';
+import ReactionMessageComp from './reactionMessage.vue';
+import PinMessageComp from './pinMessage.vue';
 import { outConsoleLog } from '@/utils/consoleOutput';
-//过滤不可显示发送的消息类型
+// 过滤不可显示发送的消息类型
 type FilterMessageType = Exclude<
   EasemobChat.MessageType,
   'delivery' | 'channel' | 'read'
@@ -29,7 +29,7 @@ const messageForm = reactive<IMessageForm>({
   cursor: '',
   messageId: [],
   pageSize: 20,
-  deliverOnlineOnly:false
+  deliverOnlineOnly: false,
 });
 
 const sendTextMessage = async () => {
@@ -38,7 +38,7 @@ const sendTextMessage = async () => {
     chatType: messageForm.chatType,
     msg: messageForm.msgContent,
     to: messageForm.targetId,
-    deliverOnlineOnly:messageForm.deliverOnlineOnly
+    deliverOnlineOnly: messageForm.deliverOnlineOnly,
   };
   const msg = WebSDK.message.create(options);
   try {
@@ -47,7 +47,7 @@ const sendTextMessage = async () => {
 
     Message.success('发送文本消息成功');
   } catch (error) {
-    outConsoleLog('文本消息发送失败',error,'error');
+    outConsoleLog('文本消息发送失败', error, 'error');
     Message.error('发送文本消息失败');
   }
 };
@@ -57,7 +57,7 @@ const sendImageMessage = async () => {
     chatType: messageForm.chatType,
     to: messageForm.targetId,
     file: fileObj.value,
-    deliverOnlineOnly:messageForm.deliverOnlineOnly,
+    deliverOnlineOnly: messageForm.deliverOnlineOnly,
     onFileUploadComplete(data) {
       outConsoleLog('图片上传完成...', data);
     },
@@ -72,7 +72,7 @@ const sendImageMessage = async () => {
     outConsoleLog('图片发送成功', message);
     Message.success('发送图片消息成功');
   } catch (error) {
-    outConsoleLog('图片发送失败',error,'error');
+    outConsoleLog('图片发送失败', error, 'error');
     Message.error('发送图片消息失败');
   }
 };
@@ -91,7 +91,7 @@ const recallMessage = async () => {
     Message.success('撤回消息成功');
     messageForm.messageId = [];
   } catch (error) {
-    outConsoleLog('图片撤回失败',error,'error');
+    outConsoleLog('图片撤回失败', error, 'error');
     Message.error('撤回消息失败');
   }
 };
@@ -111,7 +111,7 @@ const getFile = (fileList: FileItem[]) => {
 };
 </script>
 <template>
-  <div class="w-11/12 ">
+  <div class="w-11/12">
     <a-collapse :default-active-key="[1]" accordion :bordered="false">
       <a-collapse-item header="基础消息功能" :key="1">
         <a-form :model="messageForm">
@@ -187,9 +187,7 @@ const getFile = (fileList: FileItem[]) => {
             </template>
           </a-form-item>
           <a-form-item label="是否直投在线">
-            <a-switch
-              v-model="messageForm.deliverOnlineOnly"
-            />
+            <a-switch v-model="messageForm.deliverOnlineOnly" />
           </a-form-item>
           <a-form-item label="messageId">
             <a-input-tag

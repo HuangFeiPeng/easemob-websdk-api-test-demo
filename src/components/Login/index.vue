@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { EMClient } from '@/EaseIM';
 import { Message } from '@arco-design/web-vue';
+import { EMClient } from '@/EaseIM';
+
 interface ILoginParams {
   userId: string;
   password: string;
@@ -30,7 +31,7 @@ const loginIM = async () => {
 };
 
 const loginWithToken = async () => {
-  if (!loginParams.userId ||!loginParams.accessToken) {
+  if (!loginParams.userId || !loginParams.accessToken) {
     Message.warning('请输入环信ID和token');
     return;
   }
@@ -47,7 +48,7 @@ const loginWithToken = async () => {
   }
 };
 
-const logoutIM =  () => {
+const logoutIM = () => {
   try {
     EMClient.close();
     Message.success('退出成功');
@@ -81,8 +82,12 @@ const logoutIM =  () => {
           </div>
           <div class="login__form__item m-10 flex justify-around">
             <a-button type="primary" @click="loginIM">登录</a-button>
-            <a-button type="primary" status="warning" @click="loginWithToken">token登录</a-button>
-            <a-button type="primary" status="danger" @click="logoutIM">退出</a-button>
+            <a-button type="primary" status="warning" @click="loginWithToken"
+              >token登录</a-button
+            >
+            <a-button type="primary" status="danger" @click="logoutIM"
+              >退出</a-button
+            >
           </div>
         </div>
       </div>

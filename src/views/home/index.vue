@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { IconSunFill, IconMoonFill } from '@arco-design/web-vue/es/icon';
-import { initializationEMClient,EMClient } from "@/EaseIM";
-import { emListenerV4,emListenerV3 } from '@/EaseIM/listener'
+import { initializationEMClient, EMClient } from '@/EaseIM';
+import { emListenerV4, emListenerV3 } from '@/EaseIM/listener';
 /* 组件 */
 import Config from '@/components/Config/index.vue';
 import LoginComp from '@/components/Login/index.vue';
 import MessageComp from '@/components/Message/index.vue';
 import ConversationComp from '@/components/Conversation/index.vue';
 import GroupComp from '@/components/Group/index.vue';
-initializationEMClient()
-emListenerV3(EMClient)
-emListenerV4(EMClient)
+
+initializationEMClient();
+emListenerV3(EMClient);
+emListenerV4(EMClient);
 const theme = ref('light');
 const isDark = useDark({
   valueDark: 'dark',

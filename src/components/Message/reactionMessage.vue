@@ -2,6 +2,7 @@
 import { Message } from '@arco-design/web-vue';
 import { EasemobChat } from 'easemob-websdk';
 import { EMClient } from '@/EaseIM';
+
 interface IReactionMessageForm {
   messageIds: string[];
   reaction: string;
@@ -52,7 +53,7 @@ const getReactionDetail = async () => {
   }
 };
 const addReaction = async () => {
-  if (!reactionMessageForm.messageIds.length ||!reactionMessageForm.reaction) {
+  if (!reactionMessageForm.messageIds.length || !reactionMessageForm.reaction) {
     Message.error('请输入消息ID以及reaction');
     return;
   }
@@ -69,7 +70,7 @@ const addReaction = async () => {
   }
 };
 const deleteReaction = async () => {
-  if (!reactionMessageForm.messageIds.length ||!reactionMessageForm.reaction) {
+  if (!reactionMessageForm.messageIds.length || !reactionMessageForm.reaction) {
     Message.error('请输入消息ID以及reaction');
     return;
   }
@@ -122,10 +123,18 @@ const deleteReaction = async () => {
       </a-radio-group>
     </a-form-item>
     <a-form-item>
-      <a-button type="primary" @click="getReactionList"> 获取消息的 Reaction 列表 </a-button>
-      <a-button class="ml-3 mr-3" type="primary" @click="getReactionDetail"> 获取 Reaction 详情 </a-button>
-      <a-button class="ml-3 mr-3" type="primary" @click="addReaction"> 添加Reaction </a-button>
-      <a-button class="ml-3 mr-3" type="primary" @click="deleteReaction"> 删除Reaction </a-button>
+      <a-button type="primary" @click="getReactionList">
+        获取消息的 Reaction 列表
+      </a-button>
+      <a-button class="ml-3 mr-3" type="primary" @click="getReactionDetail">
+        获取 Reaction 详情
+      </a-button>
+      <a-button class="ml-3 mr-3" type="primary" @click="addReaction">
+        添加Reaction
+      </a-button>
+      <a-button class="ml-3 mr-3" type="primary" @click="deleteReaction">
+        删除Reaction
+      </a-button>
     </a-form-item>
   </a-form>
 </template>
