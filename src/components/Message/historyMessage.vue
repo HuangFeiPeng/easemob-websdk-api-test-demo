@@ -3,6 +3,7 @@ import { EMClient } from '@/EaseIM';
 import { IconDelete } from '@arco-design/web-vue/es/icon';
 import { Message } from '@arco-design/web-vue';
 import { EasemobChat } from 'easemob-websdk';
+import { outConsoleLog } from '@/utils/consoleOutput';
 type FilterMessageType = Exclude<
   EasemobChat.MessageType,
   'delivery' | 'channel' | 'read'
@@ -38,10 +39,10 @@ const getHistoryMessage = async () => {
       cursor: getHistoryMessageForm.cursor,
       searchDirection: 'up',
     });
-    console.log('获取历史消息', res);
+    outConsoleLog('获取历史消息成功', res);
     Message.success('获取历史消息成功');
   } catch (error) {
-    console.log(error);
+    outConsoleLog('获取历史消息失败',error,'error');
     Message.error('获取历史消息失败');
   }
 };
@@ -56,10 +57,10 @@ const deleteHistoryMessageWithMsgIds = async () => {
       chatType: getHistoryMessageForm.chatType,
       messageIds: getHistoryMessageForm.messageId,
     });
-    console.log('删除历史消息', res);
+    outConsoleLog('删除历史消息', res);
     Message.success('删除历史消息成功');
   } catch (error) {
-    console.log(error);
+    outConsoleLog('删除历史消息失败',error,'error');
     Message.error('删除历史消息失败');
   }
 };

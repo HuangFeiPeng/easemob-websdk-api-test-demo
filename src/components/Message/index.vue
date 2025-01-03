@@ -5,6 +5,7 @@ import { EasemobChat } from 'easemob-websdk';
 import HistoryMessageComp from "./historyMessage.vue";
 import ReactionMessageComp from './reactionMessage.vue'
 import PinMessageComp from './pinMessage.vue'
+import { outConsoleLog } from '@/utils/consoleOutput';
 //过滤不可显示发送的消息类型
 type FilterMessageType = Exclude<
   EasemobChat.MessageType,
@@ -42,11 +43,11 @@ const sendTextMessage = async () => {
   const msg = WebSDK.message.create(options);
   try {
     const { message } = await EMClient.send(msg);
-    console.log('message', message);
+    outConsoleLog('文本消息发送成功', message);
 
     Message.success('发送文本消息成功');
   } catch (error) {
-    console.log(error);
+    outConsoleLog('文本消息发送失败',error,'error');
     Message.error('发送文本消息失败');
   }
 };
@@ -58,20 +59,20 @@ const sendImageMessage = async () => {
     file: fileObj.value,
     deliverOnlineOnly:messageForm.deliverOnlineOnly,
     onFileUploadComplete(data) {
-      console.log('data', data);
+      outConsoleLog('图片上传完成...', data);
     },
     onFileUploadProgress(data) {
-      console.log('data', data);
+      outConsoleLog('图片上传进度展示...', data);
       Message.info(`文件上传中...`);
     },
   };
   const msg = WebSDK.message.create(options);
   try {
     const { message } = await EMClient.send(msg);
-    console.log('message', message);
+    outConsoleLog('图片发送成功', message);
     Message.success('发送图片消息成功');
   } catch (error) {
-    console.log(error);
+    outConsoleLog('图片发送失败',error,'error');
     Message.error('发送图片消息失败');
   }
 };
@@ -86,11 +87,11 @@ const recallMessage = async () => {
       to: messageForm.targetId,
       ext: messageForm.chatType,
     });
-    console.log('撤回成功', res);
+    outConsoleLog('撤回成功', res);
     Message.success('撤回消息成功');
     messageForm.messageId = [];
   } catch (error) {
-    console.log(error);
+    outConsoleLog('图片撤回失败',error,'error');
     Message.error('撤回消息失败');
   }
 };
@@ -121,20 +122,6 @@ const getFile = (fileList: FileItem[]) => {
             />
             <template #extra>
               <div>要发送的目标ID，可以是单聊、群组、聊天室ID</div>
-            </template>
-          </a-form-item>
-          <a-form-item label="messageId">
-            <a-input-tag
-              v-model="messageForm.messageId"
-              placeholder="请输入消息ID"
-              :max-tag-count="5"
-              allow-clear
-              size="small"
-            />
-            <template #extra>
-              <div>
-                要撤回的消息ID，或者为消息漫游接口所需消息ID，可输入多个
-              </div>
             </template>
           </a-form-item>
           <a-form-item
@@ -203,6 +190,20 @@ const getFile = (fileList: FileItem[]) => {
             <a-switch
               v-model="messageForm.deliverOnlineOnly"
             />
+          </a-form-item>
+          <a-form-item label="messageId">
+            <a-input-tag
+              v-model="messageForm.messageId"
+              placeholder="请输入消息ID"
+              :max-tag-count="5"
+              allow-clear
+              size="small"
+            />
+            <template #extra>
+              <div>
+                要撤回的消息ID，或者为消息漫游接口所需消息ID，可输入多个
+              </div>
+            </template>
           </a-form-item>
           <a-form-item label="撤回消息">
             <a-button type="primary" @click="recallMessage">撤回消息</a-button>

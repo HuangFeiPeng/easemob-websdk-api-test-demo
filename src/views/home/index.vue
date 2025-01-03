@@ -7,6 +7,8 @@ import { emListenerV4,emListenerV3 } from '@/EaseIM/listener'
 import Config from '@/components/Config/index.vue';
 import LoginComp from '@/components/Login/index.vue';
 import MessageComp from '@/components/Message/index.vue';
+import ConversationComp from '@/components/Conversation/index.vue';
+import GroupComp from '@/components/Group/index.vue';
 initializationEMClient()
 emListenerV3(EMClient)
 emListenerV4(EMClient)
@@ -33,6 +35,8 @@ const testMenuList = [
   { name: '配置', key: '0', componentName: Config },
   { name: '登录', key: '1', componentName: LoginComp },
   { name: '消息', key: '2', componentName: MessageComp },
+  { name: '会话', key: '3', componentName: ConversationComp },
+  { name: '群组', key: '4', componentName: GroupComp },
 ];
 const showComponent = computed(() => {
   return testMenuList.find((item) => item.key === menuIndex.value[0])

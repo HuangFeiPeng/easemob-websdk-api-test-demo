@@ -2,6 +2,7 @@
 import { EasemobChat } from 'easemob-websdk';
 import { EMClient } from '@/EaseIM';
 import { Message } from '@arco-design/web-vue';
+import { outConsoleLog } from '@/utils/consoleOutput';
 interface IPinMessageForm {
   conversationId: string;
   messageId: string;
@@ -26,10 +27,9 @@ const pinMessage = async () => {
       conversationType: pinMessageForm.conversationType,
       messageId: pinMessageForm.messageId,
     });
-    console.log('置顶消息', res);
     Message.success('置顶消息成功');
   } catch (error) {
-    console.log(error);
+    outConsoleLog('置顶消息失败',error,'error');
     Message.error('置顶消息失败');
   }
 };
@@ -44,10 +44,9 @@ const unpinMessage = async () => {
       conversationType: pinMessageForm.conversationType,
       messageId: pinMessageForm.messageId,
     });
-    console.log('取消置顶消息', res);
     Message.success('取消置顶消息成功');
   } catch (error) {
-    console.log(error);
+    outConsoleLog('置顶消息获取失败',error,'error');
     Message.error('取消置顶消息失败');
   }
 };
@@ -63,10 +62,10 @@ const getConversationPinMessage = async () => {
       cursor: pinMessageForm.cursor,
       pageSize: pinMessageForm.pageSize,
     });
-    console.log('获取单个会话中的置顶消息', res);
+    outConsoleLog('获取单个会话中的置顶消息', res);
     Message.success('获取单个会话中的置顶消息成功');
   } catch (error) {
-    console.log(error);
+    outConsoleLog('获取单个会话中的置顶消息失败',error,'error');
     Message.error('获取单个会话中的置顶消息失败');
   }
 };
