@@ -3,6 +3,8 @@ import { Message, FileItem } from '@arco-design/web-vue';
 import { WebSDK, EMClient } from '@/EaseIM';
 import { EasemobChat } from 'easemob-websdk';
 import HistoryMessageComp from "./historyMessage.vue";
+import ReactionMessageComp from './reactionMessage.vue'
+import PinMessageComp from './pinMessage.vue'
 //过滤不可显示发送的消息类型
 type FilterMessageType = Exclude<
   EasemobChat.MessageType,
@@ -35,6 +37,7 @@ const sendTextMessage = async () => {
     chatType: messageForm.chatType,
     msg: messageForm.msgContent,
     to: messageForm.targetId,
+    deliverOnlineOnly:messageForm.deliverOnlineOnly
   };
   const msg = WebSDK.message.create(options);
   try {
@@ -53,6 +56,7 @@ const sendImageMessage = async () => {
     chatType: messageForm.chatType,
     to: messageForm.targetId,
     file: fileObj.value,
+    deliverOnlineOnly:messageForm.deliverOnlineOnly,
     onFileUploadComplete(data) {
       console.log('data', data);
     },
@@ -212,10 +216,10 @@ const getFile = (fileList: FileItem[]) => {
         <history-message-comp></history-message-comp>
       </a-collapse-item>
       <a-collapse-item header="表情回复" :key="3">
-        <div>Beijing Toutiao Technology Co., Ltd.</div>
+        <reaction-message-comp></reaction-message-comp>
       </a-collapse-item>
       <a-collapse-item header="消息置顶" :key="4">
-        <div>Beijing Toutiao Technology Co., Ltd.</div>
+        <pin-message-comp></pin-message-comp>
       </a-collapse-item>
     </a-collapse>
   </div>

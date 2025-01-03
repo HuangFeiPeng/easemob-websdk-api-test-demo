@@ -136,7 +136,7 @@ const deleteHistoryMessageWithMsgIds = async () => {
           </template>
         </a-button>
         <a-button class="ml-5 mr-5" type="primary"
-          >删除消息漫游(按照时间戳)
+          disabled >删除消息漫游(按照时间戳)
           <template #icon>
             <icon-delete />
           </template>

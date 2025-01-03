@@ -19,6 +19,12 @@ export const emListenerV4 = (EMClient:EasemobChat.Connection)=>{
         onTextMessage(message) {
             outConsoleLog('onTextMessage',message)
         },
+        onReactionChange(msg) {
+            outConsoleLog('onReactionChange',msg)
+        },
+        onMessagePinEvent(eventData) {
+            outConsoleLog('onMessagePinEvent',eventData)
+        },
     })
     
 }
