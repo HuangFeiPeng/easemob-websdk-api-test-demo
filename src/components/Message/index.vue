@@ -117,6 +117,30 @@ const recallMessage = async () => {
     Message.error('撤回消息失败');
   }
 };
+const modifyTextMessage = async () => {
+  if (!messageForm.messageId?.length) {
+    Message.error('请输入消息ID');
+    return;
+  }
+  const textMessagebody = WebSDK.message.create({
+    type: 'txt',
+    msg: messageForm.msgContent,
+    to: messageForm.targetId,
+    chatType: messageForm.chatType,
+  }) as EasemobChat.TextMsgBody;
+  try {
+    const res = await EMClient.modifyMessage({
+      messageId: messageForm.messageId[0] as string,
+      modifiedMessage: textMessagebody,
+    });
+    outConsoleLog('文本消息修改成功', res);
+    Message.success('文本消息修改成功');
+    messageForm.messageId = [];
+  } catch (error) {
+    outConsoleLog('文本消息修改失败', error, 'error');
+    Message.error('文本消息修改失败');
+  }
+};
 /* 附件获取 */
 const fileData = ref<FileItem>();
 const fileObj = ref<EasemobChat.FileObj>();
@@ -236,6 +260,14 @@ const getFile = (fileList: FileItem[]) => {
             <a-button type="primary" @click="recallMessage">撤回消息</a-button>
             <template #extra>
               <div>点击按钮执行撤回行为</div>
+            </template>
+          </a-form-item>
+          <a-form-item label="修改消息">
+            <a-button type="primary" @click="modifyTextMessage"
+              >文本消息修改</a-button
+            >
+            <template #extra>
+              <div>点击按钮执行修改自己发送的文本消息</div>
             </template>
           </a-form-item>
         </a-form>

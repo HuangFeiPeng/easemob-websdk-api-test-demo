@@ -35,5 +35,8 @@ export const emListenerV4 = (EMClient: EasemobChat.Connection) => {
     onChannelMessage(msg) {
       outConsoleLog('onChannelMessage', msg);
     },
+    onModifiedMessage(msg) {
+      outConsoleLog('onModifiedMessage', msg);
+    },
   });
 };
