@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Message } from '@arco-design/web-vue';
 import { EMClient } from '@/EaseIM';
-
+import { outConsoleLog } from '@/utils/consoleOutput';
 interface ILoginParams {
   userId: string;
   password: string;
@@ -57,9 +57,23 @@ const logoutIM = () => {
     Message.error('退出失败');
   }
 };
+const updateNewAccessToken = async () => {
+  if (!loginParams.accessToken) {
+    Message.warning('请输入要更新的token');
+    return;
+  }
+  try {
+    const res = await EMClient.renewToken(loginParams.accessToken);
+    outConsoleLog('更新token', res);
+    Message.success('更新token成功');
+  } catch (error) {
+    outConsoleLog('更新token失败', error, 'error');
+    Message.error('更新token失败');
+  }
+};
 </script>
 <template>
-  <div class="login w-80">
+  <div class="login">
     <div class="login__container">
       <div class="login__right">
         <div class="login__form">
@@ -80,13 +94,19 @@ const logoutIM = () => {
               v-model="loginParams.accessToken"
             />
           </div>
-          <div class="login__form__item m-10 flex justify-around">
+          <div class="login__form__item m-10">
             <a-button type="primary" @click="loginIM">登录</a-button>
             <a-button type="primary" status="warning" @click="loginWithToken"
               >token登录</a-button
             >
             <a-button type="primary" status="danger" @click="logoutIM"
               >退出</a-button
+            >
+            <a-button
+              type="primary"
+              status="danger"
+              @click="updateNewAccessToken"
+              >更新token</a-button
             >
           </div>
         </div>

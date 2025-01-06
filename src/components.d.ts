@@ -26,7 +26,6 @@ declare module '@vue/runtime-core' {
     ARadioGroup: typeof import('@arco-design/web-vue')['RadioGroup']
     AResult: typeof import('@arco-design/web-vue')['Result']
     ASelect: typeof import('@arco-design/web-vue')['Select']
-    ASelectOption: typeof import('@arco-design/web-vue')['SelectOption']
     ASpace: typeof import('@arco-design/web-vue')['Space']
     ASwitch: typeof import('@arco-design/web-vue')['Switch']
     ATooltip: typeof import('@arco-design/web-vue')['Tooltip']
@@ -41,5 +40,6 @@ declare module '@vue/runtime-core' {
     ReactionMessage: typeof import('./components/Message/reactionMessage.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Test: typeof import('./components/Conversation/test.vue')['default']
   }
 }
