@@ -76,6 +76,28 @@ const sendImageMessage = async () => {
     Message.error('发送图片消息失败');
   }
 };
+const sendCustomMessage = async () => {
+  const options: EasemobChat.CreateCustomMsgParameters = {
+    type: messageForm.messageType as 'custom',
+    chatType: messageForm.chatType,
+    to: messageForm.targetId,
+    customEvent: '随意定义的自定义事件名',
+    customExts: {
+      msg: '随意定义的消息内容',
+      nickname: 'XXXXXX',
+    },
+    deliverOnlineOnly: messageForm.deliverOnlineOnly,
+  };
+  const msg = WebSDK.message.create(options);
+  try {
+    const { message } = await EMClient.send(msg);
+    outConsoleLog('自定义消息发送成功', message);
+    Message.success('发送自定义消息成功');
+  } catch (error) {
+    outConsoleLog('自定义消息发送失败', error, 'error');
+    Message.error('发送自定义消息失败');
+  }
+};
 const recallMessage = async () => {
   if (!messageForm.messageId?.length) {
     Message.error('请输入消息ID');
@@ -181,6 +203,13 @@ const getFile = (fileList: FileItem[]) => {
               v-show="messageForm.messageType === 'img'"
               @click="sendImageMessage"
               >发送图片消息</a-button
+            >
+            <!-- 自定义消息 -->
+            <a-button
+              type="primary"
+              v-show="messageForm.messageType === 'custom'"
+              @click="sendCustomMessage"
+              >发送自定义消息</a-button
             >
             <template #extra>
               <div>点击按钮执行发送行为</div>
