@@ -98,19 +98,21 @@ defineOptions({
             />
           </div>
           <div class="login__form__item m-10">
-            <a-button type="primary" @click="loginIM">登录</a-button>
-            <a-button type="primary" status="warning" @click="loginWithToken"
-              >token登录</a-button
-            >
-            <a-button type="primary" status="danger" @click="logoutIM"
-              >退出</a-button
-            >
-            <a-button
-              type="primary"
-              status="danger"
-              @click="updateNewAccessToken"
-              >更新token</a-button
-            >
+            <a-space :size="'medium'" wrap>
+              <a-button type="primary" @click="loginIM">登录</a-button>
+              <a-button type="primary" status="warning" @click="loginWithToken"
+                >token登录</a-button
+              >
+              <a-button type="primary" status="danger" @click="logoutIM"
+                >退出</a-button
+              >
+              <a-button
+                type="primary"
+                status="danger"
+                @click="updateNewAccessToken"
+                >更新token</a-button
+              >
+            </a-space>
           </div>
         </div>
       </div>

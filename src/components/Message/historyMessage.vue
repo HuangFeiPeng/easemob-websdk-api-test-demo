@@ -128,21 +128,24 @@ const deleteHistoryMessageWithMsgIds = async () => {
         </template>
       </a-form-item>
       <a-form-item label="消息漫游">
-        <a-button type="primary" class="ml-5 mr-5" @click="getHistoryMessage"
-          >获取消息漫游</a-button
-        >
-        <a-button type="primary" @click="deleteHistoryMessageWithMsgIds"
-          >删除消息漫游(按照消息Id)
-          <template #icon>
-            <icon-delete />
-          </template>
-        </a-button>
-        <a-button class="ml-5 mr-5" type="primary" disabled
-          >删除消息漫游(按照时间戳)
-          <template #icon>
-            <icon-delete />
-          </template>
-        </a-button>
+        <a-space :size="'medium'" wrap>
+          <a-button type="primary" @click="getHistoryMessage"
+            >获取消息漫游</a-button
+          >
+          <a-button type="primary" @click="deleteHistoryMessageWithMsgIds"
+            >删除消息漫游(按照消息Id)
+            <template #icon>
+              <icon-delete />
+            </template>
+          </a-button>
+          <a-button type="primary" disabled
+            >删除消息漫游(按照时间戳)
+            <template #icon>
+              <icon-delete />
+            </template>
+          </a-button>
+        </a-space>
+
         <template #extra>
           <div>点击按钮执行消息漫游行为</div>
         </template>

@@ -99,16 +99,13 @@ const getConversationPinMessage = async () => {
       </a-radio-group>
     </a-form-item>
     <a-form-item label="置顶操作">
-      <a-button type="primary" @click="pinMessage">置顶消息</a-button>
-      <a-button class="ml-3" type="primary" @click="unpinMessage"
-        >取消置顶</a-button
-      >
-      <a-button
-        class="ml-3 mr-3"
-        type="primary"
-        @click="getConversationPinMessage"
-        >获取单个会话中的置顶消息</a-button
-      >
+      <a-space :size="'medium'" wrap>
+        <a-button type="primary" @click="pinMessage">置顶消息</a-button>
+        <a-button type="primary" @click="unpinMessage">取消置顶</a-button>
+        <a-button type="primary" @click="getConversationPinMessage"
+          >获取单个会话中的置顶消息</a-button
+        >
+      </a-space>
     </a-form-item>
   </a-form>
 </template>

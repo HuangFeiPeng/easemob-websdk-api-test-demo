@@ -10,6 +10,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AButton: typeof import('@arco-design/web-vue')['Button']
+    ACard: typeof import('@arco-design/web-vue')['Card']
     ACollapse: typeof import('@arco-design/web-vue')['Collapse']
     ACollapseItem: typeof import('@arco-design/web-vue')['CollapseItem']
     AConfigProvider: typeof import('@arco-design/web-vue')['ConfigProvider']
@@ -19,6 +20,7 @@ declare module '@vue/runtime-core' {
     AInputNumber: typeof import('@arco-design/web-vue')['InputNumber']
     AInputPassword: typeof import('@arco-design/web-vue')['InputPassword']
     AInputTag: typeof import('@arco-design/web-vue')['InputTag']
+    ALink: typeof import('@arco-design/web-vue')['Link']
     AMenu: typeof import('@arco-design/web-vue')['Menu']
     AMenuItem: typeof import('@arco-design/web-vue')['MenuItem']
     AModal: typeof import('@arco-design/web-vue')['Modal']
@@ -29,7 +31,6 @@ declare module '@vue/runtime-core' {
     ASelect: typeof import('@arco-design/web-vue')['Select']
     ASpace: typeof import('@arco-design/web-vue')['Space']
     ASwitch: typeof import('@arco-design/web-vue')['Switch']
-    AToolip: typeof import('@arco-design/web-vue')['Toolip']
     ATooltip: typeof import('@arco-design/web-vue')['Tooltip']
     AUpload: typeof import('@arco-design/web-vue')['Upload']
     Config: typeof import('./components/Config/index.vue')['default']
@@ -38,12 +39,10 @@ declare module '@vue/runtime-core' {
     HistoryMessage: typeof import('./components/Message/historyMessage.vue')['default']
     Login: typeof import('./components/Login/index.vue')['default']
     ManageGroup: typeof import('./components/Group/manageGroup.vue')['default']
-    MannerGroup: typeof import('./components/Group/mannerGroup.vue')['default']
     Message: typeof import('./components/Message/index.vue')['default']
     PinMessage: typeof import('./components/Message/pinMessage.vue')['default']
     ReactionMessage: typeof import('./components/Message/reactionMessage.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Test: typeof import('./components/Conversation/test.vue')['default']
   }
 }

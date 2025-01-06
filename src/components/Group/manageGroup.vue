@@ -132,7 +132,7 @@ const dissolveGroup = async () => {
 };
 </script>
 <template>
-  <div class="w-80">
+  <div>
     <a-form :model="manageGroupForm">
       <a-form-item label="群组ID">
         <a-input v-model="manageGroupForm.groupId" placeholder="请输入群组ID" />
@@ -149,12 +149,18 @@ const dissolveGroup = async () => {
       </a-form-item>
       <a-form-item label="needAffiliations">
         <a-switch v-model="manageGroupForm.needAffiliations" />
+        <template #extra>
+          <div>是否需要群组成员数等信息</div>
+        </template>
       </a-form-item>
       <a-form-item label="needRole">
         <a-switch v-model="manageGroupForm.needRole" />
+        <template #extra>
+          <div>是否需要当前用户在群组中的角色</div>
+        </template>
       </a-form-item>
       <a-form-item label="群操作">
-        <a-space :size="'medium'">
+        <a-space :size="'medium'" wrap>
           <a-tooltip
             content="对于公有群，用户即使不加入群也能获取群组详情，而对于私有群，用户只有加入了群组才能获取群详情"
           >
@@ -162,10 +168,6 @@ const dissolveGroup = async () => {
               >获取群组详情信息
             </a-button>
           </a-tooltip>
-          <!-- <a-button type="primary" @click="getGroupInfo"
-            >获取群组详情信息
-            </a-button
-          > -->
           <a-button type="primary" @click="getJoinedGroups"
             >获取加入的群组列表</a-button
           >

@@ -50,6 +50,26 @@ const showComponent = computed(() => {
 </script>
 
 <template>
+  <a-card>
+    <template #title>
+      <a-tooltip :content="`当前SDK版本：${EMClient.version}`">
+        <h1 class="text-2xl font-bold">环信WebAPI测试用例</h1>
+      </a-tooltip>
+    </template>
+    <template #extra>
+      <div>
+        <a-button type="outline" shape="circle" @click="toggleTheme()">
+          <template #icon>
+            <icon-sun-fill style="font-size: 16px" v-if="theme === 'dark'" />
+            <icon-moon-fill style="font-size: 16px" v-else />
+          </template>
+        </a-button>
+      </div>
+    </template>
+    <p>
+      PS：本项目API输出均打印在控制台，因此请右键点击【检查】打开console查看输出。
+    </p>
+  </a-card>
   <div class="mt-5 sm:w - full md:w - 1/2 lg:w - 1/3">
     <a-menu
       mode="horizontal"
@@ -68,20 +88,6 @@ const showComponent = computed(() => {
       <component :is="showComponent"></component>
     </KeepAlive>
     <!-- <component :is="showComponent"></component> -->
-    <ul class="mt-10 flex space-around">
-      <li class="px-2">
-        <a-tooltip
-          :content="`点击切换为${theme === 'light' ? '暗黑' : '亮色'}模式`"
-        >
-          <a-button type="outline" shape="circle" @click="toggleTheme()">
-            <template #icon>
-              <icon-sun-fill style="font-size: 16px" v-if="theme === 'dark'" />
-              <icon-moon-fill style="font-size: 16px" v-else />
-            </template>
-          </a-button>
-        </a-tooltip>
-      </li>
-    </ul>
   </div>
 </template>
 
