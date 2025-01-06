@@ -37,7 +37,6 @@ const testMenuList = [
     name: '配置',
     key: '0',
     component: ConfigComp,
-    componentName: ConfigComp.name,
   },
   { name: '登录', key: '1', component: LoginComp },
   { name: '消息', key: '2', component: MessageComp },
