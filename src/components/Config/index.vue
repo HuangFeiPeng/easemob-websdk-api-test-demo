@@ -19,6 +19,9 @@ const saveConfig = () => {
   initializationEMClient(configForm);
   Notification.success('配置已成功！');
 };
+defineOptions({
+  name: 'Config',
+});
 </script>
 <template>
   <div class="m-10">

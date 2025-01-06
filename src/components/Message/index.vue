@@ -155,6 +155,9 @@ const getFile = (fileList: FileItem[]) => {
     };
   }
 };
+defineOptions({
+  name: 'Message',
+});
 </script>
 <template>
   <div class="w-11/12">

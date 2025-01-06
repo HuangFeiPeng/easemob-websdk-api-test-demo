@@ -71,6 +71,9 @@ const updateNewAccessToken = async () => {
     Message.error('更新token失败');
   }
 };
+defineOptions({
+  name: 'Login',
+});
 </script>
 <template>
   <div class="login">

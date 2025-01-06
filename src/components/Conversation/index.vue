@@ -206,6 +206,9 @@ const getConversationListByMark = async () => {
     Message.error('根据会话标记从服务器分页查询会话列表失败');
   }
 };
+defineOptions({
+  name: 'Conversation',
+});
 </script>
 <template>
   <div class="w-11/12">

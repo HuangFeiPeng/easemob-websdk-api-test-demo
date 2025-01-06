@@ -4,7 +4,7 @@ import { IconSunFill, IconMoonFill } from '@arco-design/web-vue/es/icon';
 import { initializationEMClient, EMClient } from '@/EaseIM';
 import { emListenerV4, emListenerV3 } from '@/EaseIM/listener';
 /* 组件 */
-import Config from '@/components/Config/index.vue';
+import ConfigComp from '@/components/Config/index.vue';
 import LoginComp from '@/components/Login/index.vue';
 import MessageComp from '@/components/Message/index.vue';
 import ConversationComp from '@/components/Conversation/index.vue';
@@ -33,15 +33,20 @@ const isDark = useDark({
 const toggleTheme = useToggle(isDark);
 const menuIndex = ref(['1']);
 const testMenuList = [
-  { name: '配置', key: '0', componentName: Config },
-  { name: '登录', key: '1', componentName: LoginComp },
-  { name: '消息', key: '2', componentName: MessageComp },
-  { name: '会话', key: '3', componentName: ConversationComp },
-  { name: '群组', key: '4', componentName: GroupComp },
+  {
+    name: '配置',
+    key: '0',
+    component: ConfigComp,
+    componentName: ConfigComp.name,
+  },
+  { name: '登录', key: '1', component: LoginComp },
+  { name: '消息', key: '2', component: MessageComp },
+  { name: '会话', key: '3', component: ConversationComp },
+  { name: '群组', key: '4', component: GroupComp },
 ];
 const showComponent = computed(() => {
   return testMenuList.find((item) => item.key === menuIndex.value[0])
-    ?.componentName;
+    ?.component;
 });
 </script>
 
@@ -60,7 +65,10 @@ const showComponent = computed(() => {
         {{ item.name }}
       </a-menu-item>
     </a-menu>
-    <component :is="showComponent"></component>
+    <KeepAlive>
+      <component :is="showComponent"></component>
+    </KeepAlive>
+    <!-- <component :is="showComponent"></component> -->
     <ul class="mt-10 flex space-around">
       <li class="px-2">
         <a-tooltip
