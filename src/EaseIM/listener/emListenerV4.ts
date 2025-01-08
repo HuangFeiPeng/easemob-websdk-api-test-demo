@@ -26,6 +26,9 @@ export const emListenerV4 = (EMClient: EasemobChat.Connection) => {
     onTextMessage(message) {
       outConsoleLog('onTextMessage', message);
     },
+    onFileMessage(msg) {
+      outConsoleLog('onFileMessage',msg)
+    },
     onReactionChange(msg) {
       outConsoleLog('onReactionChange', msg);
     },
@@ -37,6 +40,12 @@ export const emListenerV4 = (EMClient: EasemobChat.Connection) => {
     },
     onModifiedMessage(msg) {
       outConsoleLog('onModifiedMessage', msg);
+    },
+    onGroupChange(event){
+      outConsoleLog('onGroupChange',event)
+    },
+    onGroupEvent(eventData) {
+      outConsoleLog('onGroupEvent',eventData)
     },
   });
 };

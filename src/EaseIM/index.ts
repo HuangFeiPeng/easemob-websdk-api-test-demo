@@ -1,5 +1,4 @@
 import EC, { EasemobChatStatic, EasemobChat } from 'easemob-websdk';
-
 export const EM_APPKEY = 'easemob-demo#support';
 export let EMClient = {} as EasemobChat.Connection;
 export const WebSDK = EC;
