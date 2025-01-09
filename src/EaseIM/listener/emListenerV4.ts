@@ -23,6 +23,7 @@ export const emListenerV4 = (EMClient: EasemobChat.Connection) => {
       outConsoleLog('onError', err);
       console.log(`${listenerV4}连接失败`);
     },
+    /* 消息 */
     onTextMessage(message) {
       outConsoleLog('onTextMessage', message);
     },
@@ -41,11 +42,28 @@ export const emListenerV4 = (EMClient: EasemobChat.Connection) => {
     onModifiedMessage(msg) {
       outConsoleLog('onModifiedMessage', msg);
     },
+    /* 群组事件 */
     onGroupChange(event){
       outConsoleLog('onGroupChange',event)
     },
     onGroupEvent(eventData) {
       outConsoleLog('onGroupEvent',eventData)
+    },
+    /* 联系人 */
+    onContactInvited(eventData) {
+      outConsoleLog('onContactInvited',eventData)
+    },
+    onContactDeleted(eventData) {
+      outConsoleLog('onContactDeleted',eventData)
+    },
+    onContactAdded(msg) {
+      outConsoleLog('onContactAdded',msg)
+    },
+    onContactAgreed(msg) {
+      outConsoleLog('onContactAgreed',msg)
+    },
+    onContactRefuse(msg) {
+      outConsoleLog('onContactRefuse',msg)
     },
   });
 };

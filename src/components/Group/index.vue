@@ -15,8 +15,12 @@ import ManageGroupAttribute from './manageGroupAttribute.vue';
       <a-collapse-item header="管理群组属性" :key="3">
         <ManageGroupAttribute />
       </a-collapse-item>
-      <a-collapse-item header="管理子区" :key="4"></a-collapse-item>
-      <a-collapse-item header="管理子区消息" :key="5"></a-collapse-item>
+      <a-collapse-item header="管理子区" :key="4" disabled></a-collapse-item>
+      <a-collapse-item
+        header="管理子区消息"
+        :key="5"
+        disabled
+      ></a-collapse-item>
     </a-collapse>
   </div>
 </template>
