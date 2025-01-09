@@ -9,7 +9,7 @@ import LoginComp from '@/components/Login/index.vue';
 import MessageComp from '@/components/Message/index.vue';
 import ConversationComp from '@/components/Conversation/index.vue';
 import GroupComp from '@/components/Group/index.vue';
-
+import ContactsComp from '@/components/Contacts/index.vue';
 initializationEMClient();
 emListenerV3(EMClient);
 emListenerV4(EMClient);
@@ -41,7 +41,8 @@ const testMenuList = [
   { name: '登录', key: '1', component: LoginComp },
   { name: '消息', key: '2', component: MessageComp },
   { name: '会话', key: '3', component: ConversationComp },
-  { name: '群组', key: '4', component: GroupComp },
+  { name: '用户关系', key: '4', component: ContactsComp },
+  { name: '群组', key: '5', component: GroupComp },
 ];
 const showComponent = computed(() => {
   return testMenuList.find((item) => item.key === menuIndex.value[0])
@@ -66,9 +67,14 @@ const showComponent = computed(() => {
         </a-button>
       </div>
     </template>
-    <p>
-      PS：本项目API输出均打印在控制台，因此请右键点击【检查】打开console查看输出。
-    </p>
+    <ul>
+      <li class="font-bold">
+        ⭐️：本项目API输出均打印在控制台，因此请右键点击【检查】打开console查看输出。
+      </li>
+      <li class="font-bold">
+        ⭐️：几乎所有API需要登录才能使用，如：发送消息、调用会话列表、操作好友添加等。
+      </li>
+    </ul>
   </a-card>
   <div class="mt-5 sm:w - full md:w - 1/2 lg:w - 1/3">
     <a-menu

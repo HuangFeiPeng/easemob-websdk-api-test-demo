@@ -65,5 +65,9 @@ export const emListenerV4 = (EMClient: EasemobChat.Connection) => {
     onContactRefuse(msg) {
       outConsoleLog('onContactRefuse',msg)
     },
+    /* 在线状态订阅 */
+    onPresenceStatusChange(msg) {
+      outConsoleLog('onPresenceStatusChange',msg)
+    },
   });
 };
