@@ -5,6 +5,7 @@ import { outConsoleLog } from '@/utils/consoleOutput';
 import { EMClient } from '@/EaseIM';
 interface IContactsAttributesForm extends EasemobChat.UpdateOwnUserInfoParams {
   userIds: string[];
+  gender: string;
 }
 const contactsAttributesForm = reactive<IContactsAttributesForm>({
   userIds: [],

@@ -31,7 +31,6 @@ declare module '@vue/runtime-core' {
     ASpace: typeof import('@arco-design/web-vue')['Space']
     ASwitch: typeof import('@arco-design/web-vue')['Switch']
     ATooltip: typeof import('@arco-design/web-vue')['Tooltip']
-    ATooptip: typeof import('@arco-design/web-vue')['Tooptip']
     AUpload: typeof import('@arco-design/web-vue')['Upload']
     Config: typeof import('./components/Config/index.vue')['default']
     Contacts: typeof import('./components/Contacts/index.vue')['default']
