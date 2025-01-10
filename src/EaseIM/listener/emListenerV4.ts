@@ -69,5 +69,12 @@ export const emListenerV4 = (EMClient: EasemobChat.Connection) => {
     onPresenceStatusChange(msg) {
       outConsoleLog('onPresenceStatusChange',msg)
     },
+    /* 聊天室 */
+    onChatroomEvent(eventData) {
+      outConsoleLog('onChatroomEvent',eventData)
+    },
+    onChatroomChange(eventData) {
+      outConsoleLog('onChatroomChange',eventData)
+    },
   });
 };

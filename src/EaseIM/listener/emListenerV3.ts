@@ -23,6 +23,6 @@ export const emListenerV3 = (EMClient: EasemobChat.Connection) => {
     },
     onTextMessage(message) {
       outConsoleLog('收到文本消息', message);
-    }
+    },
   });
 };

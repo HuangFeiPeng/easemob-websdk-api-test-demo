@@ -10,6 +10,7 @@ import MessageComp from '@/components/Message/index.vue';
 import ConversationComp from '@/components/Conversation/index.vue';
 import GroupComp from '@/components/Group/index.vue';
 import ContactsComp from '@/components/Contacts/index.vue';
+import ChatroomComp from '@/components/Chatroom/index.vue';
 initializationEMClient();
 emListenerV3(EMClient);
 emListenerV4(EMClient);
@@ -41,8 +42,9 @@ const testMenuList = [
   { name: '登录', key: '1', component: LoginComp },
   { name: '消息', key: '2', component: MessageComp },
   { name: '会话', key: '3', component: ConversationComp },
-  { name: '用户关系', key: '4', component: ContactsComp },
+  { name: '用户', key: '4', component: ContactsComp },
   { name: '群组', key: '5', component: GroupComp },
+  { name: '聊天室', key: '6', component: ChatroomComp },
 ];
 const showComponent = computed(() => {
   return testMenuList.find((item) => item.key === menuIndex.value[0])
