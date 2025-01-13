@@ -180,33 +180,31 @@ const updateChatroomAnnouncement = async () => {
     <a-form-item label="聊天室强制加入">
       <a-switch v-model="chatroomAttributeForm.chatroomIsForced" />
     </a-form-item>
-    <a-form laebl="聊天室基本属性操作">
-      <a-form-item>
-        <a-space :size="'medium'" wrap>
-          <a-tooltip
-            content="仅聊天室所有者和管理员可以调用 modifyChatRoom 修改聊天室名称、描述和最大成员数量。"
-          >
-            <a-button type="primary" @click="updateChatroomInfo">
-              更新聊天室详情
-            </a-button>
-          </a-tooltip>
-          <a-tooltip
-            content="仅聊天室所有者和管理员可以调用 setChatRoomAttribute 设置聊天室属性。"
-          >
-            <a-button type="primary" @click="getChatroomAnnouncement">
-              获取聊天室公告
-            </a-button>
-          </a-tooltip>
-          <a-tooltip
-            content="仅聊天室所有者和管理员可以调用 setChatRoomAttribute 设置聊天室属性。"
-          >
-            <a-button type="primary" @click="updateChatroomAnnouncement">
-              更新聊天室公告
-            </a-button>
-          </a-tooltip>
-        </a-space>
-      </a-form-item>
-    </a-form>
+    <a-form-item label="聊天室基本属性操作">
+      <a-space :size="'medium'" wrap>
+        <a-tooltip
+          content="仅聊天室所有者和管理员可以调用 modifyChatRoom 修改聊天室名称、描述和最大成员数量。"
+        >
+          <a-button type="primary" @click="updateChatroomInfo">
+            更新聊天室详情
+          </a-button>
+        </a-tooltip>
+        <a-tooltip
+          content="仅聊天室所有者和管理员可以调用 setChatRoomAttribute 设置聊天室属性。"
+        >
+          <a-button type="primary" @click="getChatroomAnnouncement">
+            获取聊天室公告
+          </a-button>
+        </a-tooltip>
+        <a-tooltip
+          content="仅聊天室所有者和管理员可以调用 setChatRoomAttribute 设置聊天室属性。"
+        >
+          <a-button type="primary" @click="updateChatroomAnnouncement">
+            更新聊天室公告
+          </a-button>
+        </a-tooltip>
+      </a-space>
+    </a-form-item>
   </a-form>
 </template>
 
