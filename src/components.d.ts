@@ -29,7 +29,6 @@ declare module '@vue/runtime-core' {
     AResult: typeof import('@arco-design/web-vue')['Result']
     ASelect: typeof import('@arco-design/web-vue')['Select']
     ASpace: typeof import('@arco-design/web-vue')['Space']
-    ASpance: typeof import('@arco-design/web-vue')['Spance']
     ASwitch: typeof import('@arco-design/web-vue')['Switch']
     ATooltip: typeof import('@arco-design/web-vue')['Tooltip']
     AUpload: typeof import('@arco-design/web-vue')['Upload']
