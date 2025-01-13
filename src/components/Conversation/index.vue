@@ -31,7 +31,7 @@ interface IConversationForm {
   cursor?: string;
   chatType: Exclude<EasemobChat.ChatType, 'chatRoom'>;
   deleteRoam?: boolean;
-  conversationMark?: EasemobChat.MarkType;
+  // conversationMark?: EasemobChat.MarkType;
 }
 
 const conversationForm = reactive<IConversationForm>({
@@ -40,7 +40,7 @@ const conversationForm = reactive<IConversationForm>({
   chatType: 'singleChat',
   deleteRoam: false,
   conversationId: '',
-  conversationMark: 0,
+  // conversationMark: 0,
 });
 const getConversationList = async () => {
   try {
@@ -144,68 +144,68 @@ const getConversationPinMessage = async () => {
   }
 };
 /* 会话标记操作 */
-const addConversationMark = async () => {
-  if (!conversationForm.conversationId) {
-    Message.error('请输出要标记的会话ID');
-    return;
-  }
-  try {
-    const res = await EMClient.addConversationMark({
-      // 实际可一次追加多个会话的标记，此处仅标记一个。
-      conversations: [
-        {
-          conversationId: conversationForm.conversationId,
-          conversationType: conversationForm.chatType,
-        },
-      ],
-      mark: conversationForm.conversationMark as EasemobChat.MarkType,
-    });
-    outConsoleLog('标记会话', res);
-    Message.success('标记会话成功');
-  } catch (error) {
-    outConsoleLog('标记会话失败', error, 'error');
-    Message.error('标记会话失败');
-  }
-};
-const removeConversationMark = async () => {
-  if (!conversationForm.conversationId) {
-    Message.error('请输出要取消标记的会话ID');
-    return;
-  }
-  try {
-    const res = await EMClient.removeConversationMark({
-      // 实际可一次取消多个会话的标记，此处仅取消一个。
-      conversations: [
-        {
-          conversationId: conversationForm.conversationId,
-          conversationType: conversationForm.chatType,
-        },
-      ],
-      mark: conversationForm.conversationMark as EasemobChat.MarkType,
-    });
-    outConsoleLog('取消标记会话', res);
-    Message.success('取消标记会话成功');
-  } catch (error) {
-    outConsoleLog('取消标记会话失败', error, 'error');
-    Message.error('取消标记会话失败');
-  }
-};
-const getConversationListByMark = async () => {
-  try {
-    const res = await EMClient.getServerConversationsByFilter({
-      pageSize: conversationForm.pageSize,
-      cursor: conversationForm.cursor,
-      filter: {
-        mark: conversationForm.conversationMark as EasemobChat.MarkType,
-      },
-    });
-    outConsoleLog('根据会话标记从服务器分页查询会话列表', res);
-    Message.success('根据会话标记从服务器分页查询会话列表成功');
-  } catch (error) {
-    outConsoleLog('根据会话标记从服务器分页查询会话列表失败', error, 'error');
-    Message.error('根据会话标记从服务器分页查询会话列表失败');
-  }
-};
+// const addConversationMark = async () => {
+//   if (!conversationForm.conversationId) {
+//     Message.error('请输出要标记的会话ID');
+//     return;
+//   }
+//   try {
+//     const res = await EMClient.addConversationMark({
+//       // 实际可一次追加多个会话的标记，此处仅标记一个。
+//       conversations: [
+//         {
+//           conversationId: conversationForm.conversationId,
+//           conversationType: conversationForm.chatType,
+//         },
+//       ],
+//       mark: conversationForm.conversationMark as EasemobChat.MarkType,
+//     });
+//     outConsoleLog('标记会话', res);
+//     Message.success('标记会话成功');
+//   } catch (error) {
+//     outConsoleLog('标记会话失败', error, 'error');
+//     Message.error('标记会话失败');
+//   }
+// };
+// const removeConversationMark = async () => {
+//   if (!conversationForm.conversationId) {
+//     Message.error('请输出要取消标记的会话ID');
+//     return;
+//   }
+//   try {
+//     const res = await EMClient.removeConversationMark({
+//       // 实际可一次取消多个会话的标记，此处仅取消一个。
+//       conversations: [
+//         {
+//           conversationId: conversationForm.conversationId,
+//           conversationType: conversationForm.chatType,
+//         },
+//       ],
+//       mark: conversationForm.conversationMark as EasemobChat.MarkType,
+//     });
+//     outConsoleLog('取消标记会话', res);
+//     Message.success('取消标记会话成功');
+//   } catch (error) {
+//     outConsoleLog('取消标记会话失败', error, 'error');
+//     Message.error('取消标记会话失败');
+//   }
+// };
+// const getConversationListByMark = async () => {
+//   try {
+//     const res = await EMClient.getServerConversationsByFilter({
+//       pageSize: conversationForm.pageSize,
+//       cursor: conversationForm.cursor,
+//       filter: {
+//         mark: conversationForm.conversationMark as EasemobChat.MarkType,
+//       },
+//     });
+//     outConsoleLog('根据会话标记从服务器分页查询会话列表', res);
+//     Message.success('根据会话标记从服务器分页查询会话列表成功');
+//   } catch (error) {
+//     outConsoleLog('根据会话标记从服务器分页查询会话列表失败', error, 'error');
+//     Message.error('根据会话标记从服务器分页查询会话列表失败');
+//   }
+// };
 defineOptions({
   name: 'Conversation',
 });
@@ -260,17 +260,17 @@ defineOptions({
         >
       </a-form-item>
       <a-form-item label="会话标记操作">
-        <a-button type="primary" @click="getConversationListByMark"
+        <!-- <a-button type="primary" @click="getConversationListByMark"
           >根据会话标记从服务器分页查询会话列表</a-button
-        >
-        <a-button class="ml-3" type="primary" @click="addConversationMark"
+        > -->
+        <!-- <a-button class="ml-3" type="primary" @click="addConversationMark"
           >标记会话</a-button
-        >
-        <a-button class="ml-3" type="primary" @click="removeConversationMark"
+        > -->
+        <!-- <a-button class="ml-3" type="primary" @click="removeConversationMark"
           >取消标记会话</a-button
-        >
+        > -->
       </a-form-item>
-      <a-form-item label="会话标记值">
+      <!-- <a-form-item label="会话标记值">
         <a-select
           v-model="conversationForm.conversationMark"
           :style="{ width: '360px' }"
@@ -280,7 +280,7 @@ defineOptions({
             index
           }}</a-option>
         </a-select>
-      </a-form-item>
+      </a-form-item> -->
     </a-form>
     {{ conversationForm }}
   </div>

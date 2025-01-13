@@ -12,7 +12,7 @@ type FilterMessageType = Exclude<
 interface IGetHistoryMessageForm {
   targetId: string;
   msgContent: string;
-  chatType: EasemobChat.ChatType;
+  chatType: Exclude<EasemobChat.ChatType, 'chatRoom'>;
   messageType: FilterMessageType;
   cursor?: string;
   messageId?: string[];
@@ -94,7 +94,7 @@ const deleteHistoryMessageWithMsgIds = async () => {
         <a-radio-group v-model="getHistoryMessageForm.chatType">
           <a-radio value="singleChat">单聊</a-radio>
           <a-radio value="groupChat">群聊</a-radio>
-          <a-radio value="chatRoom">聊天室</a-radio>
+          <!-- <a-radio value="chatRoom">聊天室</a-radio> -->
         </a-radio-group>
       </a-form-item>
       <!-- <a-form-item label="消息类型">

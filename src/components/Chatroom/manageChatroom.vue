@@ -5,8 +5,8 @@ import { Message } from '@arco-design/web-vue';
 import { outConsoleLog } from '@/utils/consoleOutput';
 interface IManageChatroomForm {
   chatroomId: string;
-  chatroomExt?: string;
-  leaveOtherChatrooms?: boolean;
+  // chatroomExt?: string;
+  // leaveOtherChatrooms?: boolean;
   pageSize?: number;
   pageNum?: number;
 }
@@ -18,8 +18,8 @@ interface ICreateChatroomForm {
 }
 const manageChatroomForm = reactive<IManageChatroomForm>({
   chatroomId: '',
-  chatroomExt: '',
-  leaveOtherChatrooms: false,
+  // chatroomExt: '',
+  // leaveOtherChatrooms: false,
   pageSize: 20,
   pageNum: 1,
 });
@@ -95,8 +95,8 @@ const joinChatroom = async () => {
   try {
     const res = await EMClient.joinChatRoom({
       roomId: manageChatroomForm.chatroomId,
-      ext: manageChatroomForm.chatroomExt,
-      leaveOtherRooms: manageChatroomForm.leaveOtherChatrooms,
+      // ext: manageChatroomForm.chatroomExt,
+      // leaveOtherRooms: manageChatroomForm.leaveOtherChatrooms,
     });
     outConsoleLog('加入聊天室成功', res);
     Message.success('加入聊天室成功');
@@ -131,7 +131,7 @@ const destoryChatroom = async () => {
         placeholder="请输入聊天室ID"
       />
     </a-form-item>
-    <a-form-item label="聊天室扩展信息">
+    <!-- <a-form-item label="聊天室扩展信息">
       <a-input
         v-model="manageChatroomForm.chatroomExt"
         placeholder="请输入聊天室扩展信息"
@@ -139,13 +139,13 @@ const destoryChatroom = async () => {
       <template #extra>
         <div>加入聊天室时携带的扩展信息，不填默认为空字符串</div>
       </template>
-    </a-form-item>
-    <a-form-item label="离开其他聊天室">
+    </a-form-item> -->
+    <!-- <a-form-item label="离开其他聊天室">
       <a-switch v-model="manageChatroomForm.leaveOtherChatrooms" />
       <template #extra>
         <div>加入聊天室时，是否离开已加入的其他聊天室</div>
       </template>
-    </a-form-item>
+    </a-form-item> -->
     <a-form-item label="聊天室分页参数">
       <a-space :size="'medium'" wrap>
         <a-tooltip content="pageNum">

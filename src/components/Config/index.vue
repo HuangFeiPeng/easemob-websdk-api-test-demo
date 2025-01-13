@@ -8,9 +8,9 @@ const configForm = reactive<EasemobChat.ConnectionParameters>({
   apiUrl: '',
   url: '',
   isHttpDNS: true,
-  isFixedDeviceId: true,
+  // isFixedDeviceId: true,
   useOwnUploadFun: false,
-  useReplacedMessageContents: false,
+  // useReplacedMessageContents: false,
   deviceId: EMClient.deviceId,
   delivery: false,
 });
@@ -53,14 +53,14 @@ defineOptions({
           <div>SDK连接所需的websocket地址</div>
         </template>
       </a-form-item>
-      <a-form-item label="isFixedDeviceId">
+      <!-- <a-form-item label="isFixedDeviceId">
         <a-switch v-model="configForm.isFixedDeviceId" />
         <template #extra>
           <div>
             SDK是否固定DeviceId，开启则同浏览器多标签页登录，会引起登录被踢
           </div>
         </template>
-      </a-form-item>
+      </a-form-item> -->
       <a-form-item label="useOwnUploadFun">
         <a-switch v-model="configForm.useOwnUploadFun" />
         <template #extra>
@@ -69,14 +69,14 @@ defineOptions({
           </div>
         </template>
       </a-form-item>
-      <a-form-item label="useReplacedMessageContents" auto-label-width>
+      <!-- <a-form-item label="useReplacedMessageContents" auto-label-width>
         <a-switch v-model="configForm.useReplacedMessageContents" />
         <template #extra>
           <div>
             开启后，发送消息时如果被内容审核进行了内容替换，发送方可以获取替换后的内容
           </div>
         </template>
-      </a-form-item>
+      </a-form-item> -->
       <a-form-item label="deviceId">
         <a-input
           v-model="configForm.deviceId"

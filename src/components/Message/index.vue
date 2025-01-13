@@ -42,8 +42,8 @@ const sendTextMessage = async () => {
   };
   const msg = WebSDK.message.create(options);
   try {
-    const { message } = await EMClient.send(msg);
-    outConsoleLog('文本消息发送成功', message);
+    const res = await EMClient.send(msg);
+    outConsoleLog('文本消息发送成功', res);
 
     Message.success('发送文本消息成功');
   } catch (error) {
@@ -68,8 +68,8 @@ const sendImageMessage = async () => {
   };
   const msg = WebSDK.message.create(options);
   try {
-    const { message } = await EMClient.send(msg);
-    outConsoleLog('图片发送成功', message);
+    const res = await EMClient.send(msg);
+    outConsoleLog('图片发送成功', res);
     Message.success('发送图片消息成功');
   } catch (error) {
     outConsoleLog('图片发送失败', error, 'error');
@@ -90,8 +90,8 @@ const sendCustomMessage = async () => {
   };
   const msg = WebSDK.message.create(options);
   try {
-    const { message } = await EMClient.send(msg);
-    outConsoleLog('自定义消息发送成功', message);
+    const res = await EMClient.send(msg);
+    outConsoleLog('自定义消息发送成功', res);
     Message.success('发送自定义消息成功');
   } catch (error) {
     outConsoleLog('自定义消息发送失败', error, 'error');
@@ -107,7 +107,7 @@ const recallMessage = async () => {
     const res = await EMClient.recallMessage({
       mid: messageForm.messageId[0] as string,
       to: messageForm.targetId,
-      ext: messageForm.chatType,
+      // ext: messageForm.chatType,
     });
     outConsoleLog('撤回成功', res);
     Message.success('撤回消息成功');

@@ -28,14 +28,14 @@ export const emListenerV4 = (EMClient: EasemobChat.Connection) => {
       outConsoleLog('onTextMessage', message);
     },
     onFileMessage(msg) {
-      outConsoleLog('onFileMessage',msg)
+      outConsoleLog('onFileMessage', msg);
     },
     onReactionChange(msg) {
       outConsoleLog('onReactionChange', msg);
     },
-    onMessagePinEvent(eventData) {
-      outConsoleLog('onMessagePinEvent', eventData);
-    },
+    // onMessagePinEvent(eventData) {
+    //   outConsoleLog('onMessagePinEvent', eventData);
+    // },
     onChannelMessage(msg) {
       outConsoleLog('onChannelMessage', msg);
     },
@@ -43,38 +43,38 @@ export const emListenerV4 = (EMClient: EasemobChat.Connection) => {
       outConsoleLog('onModifiedMessage', msg);
     },
     /* 群组事件 */
-    onGroupChange(event){
-      outConsoleLog('onGroupChange',event)
+    onGroupChange(event) {
+      outConsoleLog('onGroupChange', event);
     },
     onGroupEvent(eventData) {
-      outConsoleLog('onGroupEvent',eventData)
+      outConsoleLog('onGroupEvent', eventData);
     },
     /* 联系人 */
     onContactInvited(eventData) {
-      outConsoleLog('onContactInvited',eventData)
+      outConsoleLog('onContactInvited', eventData);
     },
     onContactDeleted(eventData) {
-      outConsoleLog('onContactDeleted',eventData)
+      outConsoleLog('onContactDeleted', eventData);
     },
     onContactAdded(msg) {
-      outConsoleLog('onContactAdded',msg)
+      outConsoleLog('onContactAdded', msg);
     },
     onContactAgreed(msg) {
-      outConsoleLog('onContactAgreed',msg)
+      outConsoleLog('onContactAgreed', msg);
     },
     onContactRefuse(msg) {
-      outConsoleLog('onContactRefuse',msg)
+      outConsoleLog('onContactRefuse', msg);
     },
     /* 在线状态订阅 */
     onPresenceStatusChange(msg) {
-      outConsoleLog('onPresenceStatusChange',msg)
+      outConsoleLog('onPresenceStatusChange', msg);
     },
     /* 聊天室 */
     onChatroomEvent(eventData) {
-      outConsoleLog('onChatroomEvent',eventData)
+      outConsoleLog('onChatroomEvent', eventData);
     },
     onChatroomChange(eventData) {
-      outConsoleLog('onChatroomChange',eventData)
+      outConsoleLog('onChatroomChange', eventData);
     },
   });
 };
