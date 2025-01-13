@@ -54,7 +54,7 @@ const showComponent = computed(() => {
   <a-card>
     <template #title>
       <a-tooltip :content="`当前SDK版本：${EMClient.version}`">
-        <h1 class="text-2xl font-bold">环信WebAPI测试用例</h1>
+        <h1 class="text-2xl font-bold">环信WebAPI测试用例(私有云版本)</h1>
       </a-tooltip>
     </template>
     <template #extra>
