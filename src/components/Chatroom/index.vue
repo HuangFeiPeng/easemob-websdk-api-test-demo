@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ManageChatroom from './manageChatroom.vue';
 import ManageChatroomMember from './mangeChatroomMember.vue';
+import ManageChatroomAttribute from './manageChatroomAttribute.vue';
 </script>
 <template>
   <div class="w-11/12">
@@ -11,7 +12,9 @@ import ManageChatroomMember from './mangeChatroomMember.vue';
       <a-collapse-item header="管理聊天室成员" :key="2">
         <ManageChatroomMember />
       </a-collapse-item>
-      <a-collapse-item header="管理聊天室属性" :key="3"> </a-collapse-item>
+      <a-collapse-item header="管理聊天室属性" :key="3">
+        <ManageChatroomAttribute />
+      </a-collapse-item>
     </a-collapse>
   </div>
 </template>
