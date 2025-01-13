@@ -242,7 +242,7 @@ defineOptions({
               <div>点击按钮执行发送行为</div>
             </template>
           </a-form-item>
-          <a-form-item label="是否直投在线">
+          <a-form-item label="是否只投在线">
             <a-switch v-model="messageForm.deliverOnlineOnly" />
           </a-form-item>
           <a-form-item label="messageId">
