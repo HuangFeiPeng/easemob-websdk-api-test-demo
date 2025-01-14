@@ -11,7 +11,7 @@ interface ChatroomAttributeForm {
   chatroomAnnouncement?: string;
   chatroomMaxusers?: number;
   chatroomAttributeKeys?: string[];
-  chatroomAttributeValue?: string;
+  chatroomAttributeValue?: string[];
   chatroomAutoDelete?: boolean;
   chatroomIsForced?: boolean;
 }
@@ -22,7 +22,7 @@ const chatroomAttributeForm = reactive<ChatroomAttributeForm>({
   chatroomAnnouncement: '',
   chatroomMaxusers: 2000,
   chatroomAttributeKeys: [],
-  chatroomAttributeValue: '',
+  chatroomAttributeValue: [],
   chatroomAutoDelete: false,
   chatroomIsForced: false,
 });
@@ -122,6 +122,135 @@ const updateChatroomAnnouncement = async () => {
     Message.error('更新聊天室公告失败');
   }
 };
+/* 管理聊天室成员KV属性 */
+const getChatRoomAttributes = async () => {
+  if (!chatroomAttributeForm.chatroomId) {
+    Message.error('聊天室ID不能为空');
+    return;
+  }
+  if (!chatroomAttributeForm.chatroomAttributeKeys?.length) {
+    Message.error('聊天室属性键不能为空');
+    return;
+  }
+  try {
+    const res = await EMClient.getChatRoomAttributes({
+      chatRoomId: chatroomAttributeForm.chatroomId,
+      attributeKeys: chatroomAttributeForm.chatroomAttributeKeys,
+    });
+    outConsoleLog('获取聊天室自定义属性成功', res.data);
+    Message.success('获取聊天室自定义属性成功');
+  } catch (error) {
+    outConsoleLog('获取聊天室自定义属性失败', error, 'error');
+    Message.error('获取聊天室自定义属性失败');
+  }
+};
+const setChatRoomAttribute = async () => {
+  if (!chatroomAttributeForm.chatroomId) {
+    Message.error('聊天室ID不能为空');
+    return;
+  }
+  if (!chatroomAttributeForm.chatroomAttributeKeys?.length) {
+    Message.error('聊天室属性键不能为空');
+    return;
+  }
+  if (!chatroomAttributeForm.chatroomAttributeValue?.length) {
+    Message.error('聊天室属性值不能为空');
+    return;
+  }
+  try {
+    await EMClient.setChatRoomAttribute({
+      chatRoomId: chatroomAttributeForm.chatroomId,
+      attributeKey: chatroomAttributeForm.chatroomAttributeKeys[0],
+      attributeValue: chatroomAttributeForm.chatroomAttributeValue[0],
+    });
+    outConsoleLog('设置/更新单个聊天室自定义属性成功');
+    Message.success('设置/更新单个聊天室自定义属性成功');
+  } catch (error) {
+    outConsoleLog('设置/更新单个聊天室自定义属性失败', error, 'error');
+    Message.error('设置/更新单个聊天室自定义属性失败');
+  } finally {
+    // chatroomAttributeForm.chatroomAttributeKeys = [];
+    chatroomAttributeForm.chatroomAttributeValue = [];
+  }
+};
+const setChatRoomAttributes = async () => {
+  if (!chatroomAttributeForm.chatroomId) {
+    Message.error('聊天室ID不能为空');
+    return;
+  }
+  if (!chatroomAttributeForm.chatroomAttributeKeys?.length) {
+    Message.error('聊天室属性键不能为空');
+    return;
+  }
+  if (!chatroomAttributeForm.chatroomAttributeValue?.length) {
+    Message.error('聊天室属性值不能为空');
+    return;
+  }
+  try {
+    const options: Record<string, string> = {};
+    for (
+      let i = 0;
+      i < chatroomAttributeForm.chatroomAttributeKeys.length;
+      i++
+    ) {
+      options[chatroomAttributeForm.chatroomAttributeKeys[i]] =
+        chatroomAttributeForm.chatroomAttributeValue[i];
+    }
+    await EMClient.setChatRoomAttributes({
+      chatRoomId: chatroomAttributeForm.chatroomId,
+      attributes: options,
+    });
+    outConsoleLog('设置/更新多个聊天室自定义属性成功');
+    Message.success('设置/更新多个聊天室自定义属性成功');
+  } catch (error) {
+    outConsoleLog('设置/更新多个聊天室自定义属性失败', error, 'error');
+    Message.error('设置/更新多个聊天室自定义属性失败');
+  } finally {
+    // chatroomAttributeForm.chatroomAttributeKeys = [];
+    chatroomAttributeForm.chatroomAttributeValue = [];
+  }
+};
+const removeChatRoomAttribute = async () => {
+  if (!chatroomAttributeForm.chatroomId) {
+    Message.error('聊天室ID不能为空');
+    return;
+  }
+  if (!chatroomAttributeForm.chatroomAttributeKeys?.length) {
+    Message.error('聊天室属性键不能为空');
+    return;
+  }
+  try {
+    await EMClient.removeChatRoomAttribute({
+      chatRoomId: chatroomAttributeForm.chatroomId,
+      attributeKey: chatroomAttributeForm.chatroomAttributeKeys[0],
+    });
+    outConsoleLog('删除单个聊天室自定义属性成功');
+    Message.success('删除单个聊天室自定义属性成功');
+  } catch (error) {
+    outConsoleLog('删除单个聊天室自定义属性失败', error, 'error');
+    Message.error('删除单个聊天室自定义属性失败');
+  }
+};
+const removeChatRoomAttributes = async () => {
+  if (!chatroomAttributeForm.chatroomId) {
+    Message.error('聊天室ID不能为空');
+    return;
+  }
+  if (!chatroomAttributeForm.chatroomAttributeKeys?.length) {
+    Message.error('聊天室属性键不能为空');
+    return;
+  }
+  try {
+    await EMClient.removeChatRoomAttributes({
+      chatRoomId: chatroomAttributeForm.chatroomId,
+      attributeKeys: chatroomAttributeForm.chatroomAttributeKeys,
+    });
+    outConsoleLog('删除多个聊天室自定义属性成功');
+    Message.success('删除多个聊天室自定义属性成功');
+  } catch (error) {
+    outConsoleLog('删除多个聊天室自定义属性失败', error, 'error');
+  }
+};
 </script>
 <template>
   <a-form :model="chatroomAttributeForm">
@@ -165,14 +294,21 @@ const updateChatroomAnnouncement = async () => {
         size="small"
       />
       <template #extra>
-        <div>聊天室属性键组成的数组，不包含自己的用户 ID，回车键可输入多个</div>
+        <div>聊天室属性键组成的数，回车键可输入多个</div>
       </template>
     </a-form-item>
     <a-form-item label="聊天室属性值">
-      <a-input
+      <a-input-tag
         v-model="chatroomAttributeForm.chatroomAttributeValue"
-        placeholder="请输入聊天室属性值"
+        placeholder="请输入聊天室属性键"
+        :max-tag-count="5"
+        allow-clear
+        size="small"
       />
+      <template #extra>
+        <p>聊天室属性值组成的数组，回车键可输入多个</p>
+        <b class="text-red-500">注意：属性值顺序与上方属性键对应！</b>
+      </template>
     </a-form-item>
     <a-form-item label="聊天室自动删除">
       <a-switch v-model="chatroomAttributeForm.chatroomAutoDelete" />
@@ -201,6 +337,54 @@ const updateChatroomAnnouncement = async () => {
         >
           <a-button type="primary" @click="updateChatroomAnnouncement">
             更新聊天室公告
+          </a-button>
+        </a-tooltip>
+      </a-space>
+    </a-form-item>
+    <a-form-item label="管理聊天室自定义属性">
+      <a-space :size="'medium'" wrap>
+        <a-tooltip
+          content="聊天室所有成员均可通过 getChatRoomAttributes 获取聊天室自定义属性。"
+        >
+          <a-button type="primary" @click="getChatRoomAttributes">
+            获取聊天室自定义属性
+          </a-button>
+        </a-tooltip>
+        <a-tooltip
+          content="聊天室成员均可通过调用 setChatRoomAttribute 设置和更新单个自定义属性。设置后，其他聊天室成员收到 onChatroomEvent 回调，事件为 updateChatRoomAttributes。"
+        >
+          <a-button type="primary" @click="setChatRoomAttribute">
+            设置/更新单个聊天室自定义属性
+          </a-button>
+        </a-tooltip>
+        <a-tooltip
+          content="聊天室成员均可以调用 setChatRoomAttributes 批量设置自定义属性。设置后，其他聊天室成员收到 onChatroomEvent 回调，事件为 updateChatRoomAttributes。"
+        >
+          <a-button type="primary" @click="setChatRoomAttributes">
+            设置/更新多个聊天室自定义属性
+          </a-button>
+        </a-tooltip>
+
+        <a-tooltip
+          content="聊天室成员均可以调用 removeChatRoomAttributes 批量删除自定义属性。删除后，其他聊天室成员收到 onChatroomEvent 回调，事件为 updateChatRoomAttributes。"
+        >
+          <a-button
+            type="primary"
+            status="danger"
+            @click="removeChatRoomAttribute"
+          >
+            删除单个聊天室自定义属性
+          </a-button>
+        </a-tooltip>
+        <a-tooltip
+          content="聊天室成员均可以调用 removeChatRoomAttributes 批量删除自定义属性。删除后，其他聊天室成员收到 onChatroomEvent 回调，事件为 updateChatRoomAttributes。"
+        >
+          <a-button
+            type="primary"
+            status="danger"
+            @click="removeChatRoomAttributes"
+          >
+            删除多个聊天室自定义属性
           </a-button>
         </a-tooltip>
       </a-space>
