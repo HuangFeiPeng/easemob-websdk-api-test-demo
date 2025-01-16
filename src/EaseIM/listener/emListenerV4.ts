@@ -19,6 +19,9 @@ export const emListenerV4 = (EMClient: EasemobChat.Connection) => {
     onDisconnected() {
       outConsoleLog('onDisconnected');
     },
+    onReconnecting() {
+      outConsoleLog('onReconnecting');
+    },
     onError(err) {
       outConsoleLog('onError', err);
       console.log(`${listenerV4}连接失败`);
