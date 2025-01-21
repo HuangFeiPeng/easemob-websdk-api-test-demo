@@ -270,7 +270,7 @@ const dissolveGroup = async () => {
           <a-input-number
             v-model="createGroupForm.maxusers"
             :min="1"
-            :max="200"
+            :max="10000"
           />
           <template #extra>
             <div>
