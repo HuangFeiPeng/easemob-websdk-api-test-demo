@@ -26,6 +26,12 @@ export const emListenerV4 = (EMClient: EasemobChat.Connection) => {
       outConsoleLog('onError', err);
       console.log(`${listenerV4}连接失败`);
     },
+    onTokenExpired() {
+      outConsoleLog('onTokenExpired');
+    },
+    onTokenWillExpire() {
+      outConsoleLog('onTokenWillExpire');
+    },
     /* 消息 */
     onTextMessage(message) {
       outConsoleLog('onTextMessage', message);

@@ -20,6 +20,7 @@ interface IMessageForm {
   messageId?: string[];
   pageSize?: number;
   deliverOnlineOnly?: boolean;
+  receiverList?: string[];
 }
 const messageForm = reactive<IMessageForm>({
   targetId: '',
@@ -30,8 +31,9 @@ const messageForm = reactive<IMessageForm>({
   messageId: [],
   pageSize: 20,
   deliverOnlineOnly: false,
+  receiverList: [],
 });
-
+//发送文本消息
 const sendTextMessage = async () => {
   const options: EasemobChat.CreateTextMsgParameters = {
     type: messageForm.messageType as 'txt',
@@ -40,6 +42,13 @@ const sendTextMessage = async () => {
     to: messageForm.targetId,
     deliverOnlineOnly: messageForm.deliverOnlineOnly,
   };
+  // 定向消息
+  if (
+    messageForm.chatType !== 'singleChat' &&
+    messageForm.receiverList?.length
+  ) {
+    options.receiverList = messageForm.receiverList;
+  }
   const msg = WebSDK.message.create(options);
   try {
     const { message } = await EMClient.send(msg);
@@ -51,6 +60,7 @@ const sendTextMessage = async () => {
     Message.error('发送文本消息失败');
   }
 };
+//发送图片消息
 const sendImageMessage = async () => {
   const options: EasemobChat.CreateImgMsgParameters = {
     type: messageForm.messageType as 'img',
@@ -66,6 +76,13 @@ const sendImageMessage = async () => {
       Message.info(`文件上传中...`);
     },
   };
+  // 定向消息
+  if (
+    messageForm.chatType !== 'singleChat' &&
+    messageForm.receiverList?.length
+  ) {
+    options.receiverList = messageForm.receiverList;
+  }
   const msg = WebSDK.message.create(options);
   try {
     const { message } = await EMClient.send(msg);
@@ -76,6 +93,7 @@ const sendImageMessage = async () => {
     Message.error('发送图片消息失败');
   }
 };
+//发送自定义消息
 const sendCustomMessage = async () => {
   const options: EasemobChat.CreateCustomMsgParameters = {
     type: messageForm.messageType as 'custom',
@@ -88,6 +106,13 @@ const sendCustomMessage = async () => {
     },
     deliverOnlineOnly: messageForm.deliverOnlineOnly,
   };
+  // 定向消息
+  if (
+    messageForm.chatType !== 'singleChat' &&
+    messageForm.receiverList?.length
+  ) {
+    options.receiverList = messageForm.receiverList;
+  }
   const msg = WebSDK.message.create(options);
   try {
     const { message } = await EMClient.send(msg);
@@ -98,6 +123,7 @@ const sendCustomMessage = async () => {
     Message.error('发送自定义消息失败');
   }
 };
+//撤回消息
 const recallMessage = async () => {
   if (!messageForm.messageId?.length) {
     Message.error('请输入消息ID');
@@ -117,6 +143,7 @@ const recallMessage = async () => {
     Message.error('撤回消息失败');
   }
 };
+//修改文本消息
 const modifyTextMessage = async () => {
   if (!messageForm.messageId?.length) {
     Message.error('请输入消息ID');
@@ -244,6 +271,23 @@ defineOptions({
           </a-form-item>
           <a-form-item label="是否只投在线">
             <a-switch v-model="messageForm.deliverOnlineOnly" />
+          </a-form-item>
+          <a-form-item
+            v-if="messageForm.chatType !== 'singleChat'"
+            label="定向消息Users"
+          >
+            <a-input-tag
+              v-model="messageForm.receiverList"
+              placeholder="请输入用户ID"
+              :max-tag-count="20"
+              allow-clear
+              size="small"
+            />
+            <template #extra>
+              <div>
+                定向消息发送，需要填写目标ID，并且目标ID为用户ID，可输入多个
+              </div>
+            </template>
           </a-form-item>
           <a-form-item label="messageId">
             <a-input-tag
