@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { IconSunFill, IconMoonFill } from '@arco-design/web-vue/es/icon';
 import { initializationEMClient, EMClient } from '@/EaseIM';
-
+import { SDK_TYPES } from '@/constants';
 /* 组件 */
 import ConfigComp from '@/components/Config/index.vue';
 import LoginComp from '@/components/Login/index.vue';
@@ -48,13 +48,38 @@ const showComponent = computed(() => {
   return testMenuList.find((item) => item.key === menuIndex.value[0])
     ?.component;
 });
+//环信/声网切换按钮
+const SDKVersion = ref(EMClient.version);
+const switchSDK = useLocalStorage('switchSDK', SDK_TYPES.EASEMOB);
+watch(switchSDK, (newVal, oldVal) => {
+  console.log('newVal', newVal);
+  if (newVal === SDK_TYPES.EASEMOB) {
+    console.log('切换为环信SDK');
+    initializationEMClient();
+    SDKVersion.value = EMClient.version;
+  } else if (newVal === SDK_TYPES.SHENGWANG) {
+    console.log('切换为声网SDK');
+    initializationEMClient();
+    SDKVersion.value = EMClient.version;
+  }
+});
 </script>
 
 <template>
   <a-card>
     <template #title>
-      <a-tooltip :content="`当前SDK版本：${EMClient.version}`">
-        <h1 class="text-2xl font-bold">环信WebAPI测试用例</h1>
+      <a-tooltip :content="`当前SDK版本：${SDKVersion}`">
+        <h1 class="text-2xl font-bold">
+          环信WebAPI测试用例
+          <a-switch
+            v-model="switchSDK"
+            checked-value="shengwang"
+            unchecked-value="easemob"
+          >
+            <template #checked> 声网SDK </template>
+            <template #unchecked> 环信SDK </template>
+          </a-switch>
+        </h1>
       </a-tooltip>
     </template>
     <template #extra>

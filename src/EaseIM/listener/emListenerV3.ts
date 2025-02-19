@@ -1,12 +1,13 @@
 import { EasemobChat } from 'easemob-websdk';
-
+import { SDK_TYPES } from '@/constants';
+const SDKTypes = useLocalStorage('switchSDK', SDK_TYPES.EASEMOB);
 const listenerV3 = 'emListenerV3';
 const outConsoleLog = (logContent: string, logData?: any) => {
   console.log(
     `%c${logContent}`,
     `color: red; font-size: 18px`,
     logData,
-    `From：${listenerV3}`,
+    `From：${SDKTypes.value}-${listenerV3}`,
   );
 };
 export const emListenerV3 = (EMClient: EasemobChat.Connection) => {

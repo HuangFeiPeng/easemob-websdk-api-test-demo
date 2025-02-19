@@ -2,9 +2,10 @@
 import { EasemobChat } from 'easemob-websdk';
 import { Notification } from '@arco-design/web-vue';
 import { initializationEMClient, EMClient } from '@/EaseIM';
-
+import { SDK_TYPES } from '@/constants';
 const configForm = reactive<EasemobChat.ConnectionParameters>({
   appKey: 'easemob-demo#support',
+  appId: '',
   apiUrl: '',
   url: '',
   isHttpDNS: true,
@@ -19,6 +20,21 @@ const saveConfig = () => {
   initializationEMClient(configForm);
   Notification.success('配置已成功！');
 };
+const SDKTypes = useLocalStorage('switchSDK', 'easemob');
+watch(
+  () => SDKTypes.value,
+  (newVal, oldVal) => {
+    console.log('newVal', newVal);
+    if (newVal === SDK_TYPES.EASEMOB) {
+      configForm.appKey = 'easemob-demo#support';
+    } else if (newVal === SDK_TYPES.SHENGWANG) {
+      console.log('切换为声网SDK 重置appkey');
+      configForm.appKey = '';
+      configForm.appId = '';
+      console.log(configForm);
+    }
+  },
+);
 defineOptions({
   name: 'Config',
 });
@@ -26,13 +42,19 @@ defineOptions({
 <template>
   <div class="m-10">
     <a-form :model="configForm" layout="horizontal">
-      <a-form-item label="appKey" required>
+      <a-form-item v-if="SDKTypes === 'easemob'" label="appKey" required>
         <a-input
           v-model="configForm.appKey"
           placeholder="请输入格式正确的appKey"
         />
         <template #extra>
-          <div>IM所必须的appKey</div>
+          <div>环信IM所必须的appKey</div>
+        </template>
+      </a-form-item>
+      <a-form-item v-if="SDKTypes === 'shengwang'" label="appId" required>
+        <a-input v-model="configForm.appId" placeholder="请输入appId" />
+        <template #extra>
+          <div>声网IM所必须的appId</div>
         </template>
       </a-form-item>
       <a-form-item label="isHttpDNS">

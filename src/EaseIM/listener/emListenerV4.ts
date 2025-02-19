@@ -1,5 +1,6 @@
 import { EasemobChat } from 'easemob-websdk';
-
+import { SDK_TYPES } from '@/constants';
+const SDKTypes = useLocalStorage('switchSDK', SDK_TYPES.EASEMOB);
 const listenerV4 = 'emListenerV4';
 const outConsoleLog = (logContent: string, logData?: any) => {
   // logConentent 字体为蓝色并且更大的console.log输出
@@ -7,7 +8,7 @@ const outConsoleLog = (logContent: string, logData?: any) => {
     `%c${logContent}`,
     `color: blue; font-size: 18px`,
     logData,
-    `From：${listenerV4}`,
+    `From：${SDKTypes.value}-${listenerV4}`,
   );
 };
 export const emListenerV4 = (EMClient: EasemobChat.Connection) => {
