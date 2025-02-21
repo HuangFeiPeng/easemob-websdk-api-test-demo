@@ -37,8 +37,26 @@ export const emListenerV4 = (EMClient: EasemobChat.Connection) => {
     onTextMessage(message) {
       outConsoleLog('onTextMessage', message);
     },
+    onImageMessage(msg) {
+      outConsoleLog('onImageMessage', msg);
+    },
     onFileMessage(msg) {
       outConsoleLog('onFileMessage', msg);
+    },
+    onAudioMessage(msg) {
+      outConsoleLog('onAudioMessage', msg);
+    },
+    onVideoMessage(msg) {
+      outConsoleLog('onVideoMessage', msg);
+    },
+    onLocationMessage(msg) {
+      outConsoleLog('onLocationMessage', msg);
+    },
+    onCmdMessage(msg) {
+      outConsoleLog('onCmdMessage', msg);
+    },
+    onCustomMessage(msg) {
+      outConsoleLog('onCustomMessage', msg);
     },
     onReactionChange(msg) {
       outConsoleLog('onReactionChange', msg);
