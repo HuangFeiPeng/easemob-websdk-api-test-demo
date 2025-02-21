@@ -4,7 +4,8 @@ import SC, { ShengwangChatStatic, ShengwangChat } from 'shengwang-chat';
 import { emListenerV4, emListenerV3 } from '@/EaseIM/listener';
 import { SDK_TYPES, EM_APPKEY, SHENGWANG_APPID } from '@/constants';
 const SDKTypes = useLocalStorage('switchSDK', SDK_TYPES.EASEMOB);
-
+console.log('[DEBUG] 实际SDK类型:', SDKTypes.value);
+console.log('[DEBUG] 本地存储值:', localStorage.getItem('switchSDK'));
 export let EMClient = {} as EasemobChat.Connection;
 export const WebSDK = EC;
 export const initializationEMClient = (
@@ -22,11 +23,20 @@ export const initializationEMClient = (
 
   let client: EasemobChat.Connection;
   if (SDKTypes.value === SDK_TYPES.EASEMOB) {
-    client = new EC.connection(options);
+    console.log('options++++', options);
+    client = new EC.connection({
+      appKey: options.appKey || EM_APPKEY,
+      // 明确排除appId参数
+      ...Object.fromEntries(
+        Object.entries(options).filter(([k]) => k !== 'appId'),
+      ),
+    });
     console.log('>>>环信IM初始化');
   } else if (SDKTypes.value === SDK_TYPES.SHENGWANG) {
     console.log('>>>声网IM初始化');
-    client = new SC.connection(options) as unknown as EasemobChat.Connection;
+    client = new SC.connection(
+      options as ShengwangChat.ConnectionParameters,
+    ) as unknown as EasemobChat.Connection;
   } else {
     throw new Error('Invalid SDK type');
   }
