@@ -93,6 +93,32 @@ const sendImageMessage = async () => {
     Message.error('发送图片消息失败');
   }
 };
+//发送命令消息
+const sendCmdMessage = async () => {
+  const options: EasemobChat.CreateCmdMsgParameters = {
+    type: messageForm.messageType as 'cmd',
+    chatType: messageForm.chatType,
+    action: 'THIS_IS_A_COMMAND',
+    to: messageForm.targetId,
+    deliverOnlineOnly: messageForm.deliverOnlineOnly,
+  };
+  // 定向消息
+  if (
+    messageForm.chatType !== 'singleChat' &&
+    messageForm.receiverList?.length
+  ) {
+    options.receiverList = messageForm.receiverList;
+  }
+  const msg = WebSDK.message.create(options);
+  try {
+    const { message } = await EMClient.send(msg);
+    outConsoleLog('命令消息发送成功', message);
+    Message.success('发送命令消息成功');
+  } catch (error) {
+    outConsoleLog('命令消息发送失败', error, 'error');
+    Message.error('发送命令消息失败');
+  }
+};
 //发送自定义消息
 const sendCustomMessage = async () => {
   const options: EasemobChat.CreateCustomMsgParameters = {
@@ -235,9 +261,9 @@ defineOptions({
               <a-radio value="txt">文本</a-radio>
               <a-radio value="img">图片</a-radio>
               <!-- <a-radio value="audio">语音</a-radio> -->
-              <a-radio value="video">视频</a-radio>
-              <a-radio value="file">文件</a-radio>
-              <a-radio value="location">位置</a-radio>
+              <a-radio value="video" disabled>视频</a-radio>
+              <a-radio value="file" disabled>文件</a-radio>
+              <a-radio value="location" disabled>位置</a-radio>
               <a-radio value="cmd">命令</a-radio>
               <a-radio value="custom">自定义</a-radio>
             </a-radio-group>
@@ -257,6 +283,12 @@ defineOptions({
               v-show="messageForm.messageType === 'img'"
               @click="sendImageMessage"
               >发送图片消息</a-button
+            >
+            <a-button
+              type="primary"
+              v-show="messageForm.messageType === 'cmd'"
+              @click="sendCmdMessage"
+              >发送命令消息</a-button
             >
             <!-- 自定义消息 -->
             <a-button
