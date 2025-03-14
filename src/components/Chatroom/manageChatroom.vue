@@ -105,6 +105,21 @@ const joinChatroom = async () => {
     Message.error('加入聊天室失败');
   }
 };
+const leaveChatroom = async () => {
+  if (!manageChatroomForm.chatroomId) {
+    Message.error('请输入聊天室ID');
+    return;
+  }
+  try {
+    const res = await EMClient.leaveChatRoom({
+      roomId: manageChatroomForm.chatroomId,
+    });
+    outConsoleLog('退出聊天室成功', res);
+  } catch (error) {
+    outConsoleLog('退出聊天室失败', error, 'error');
+    Message.error('退出聊天室失败');
+  }
+};
 const destoryChatroom = async () => {
   if (!manageChatroomForm.chatroomId) {
     Message.error('请输入聊天室ID');
@@ -178,7 +193,12 @@ const destoryChatroom = async () => {
           获取聊天室详情信息
         </a-button>
         <a-button type="primary" @click="joinChatroom">加入聊天室</a-button>
-        <a-button type="primary" @click="destoryChatroom">解散聊天室</a-button>
+        <a-button type="primary" status="danger" @click="leaveChatroom"
+          >退出聊天室</a-button
+        >
+        <a-button type="primary" status="danger" @click="destoryChatroom"
+          >解散聊天室</a-button
+        >
       </a-space>
     </a-form-item>
   </a-form>
