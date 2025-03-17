@@ -8,8 +8,8 @@ dependencies:
     specifier: ^1.3.5
     version: 1.3.5
   easemob-websdk:
-    specifier: ^4.12.0
-    version: 4.12.0
+    specifier: ^4.13.0
+    version: 4.13.0
   mitt:
     specifier: ^3.0.0
     version: 3.0.0
@@ -2433,8 +2433,8 @@ packages:
       gopd: 1.2.0
     dev: true
 
-  /easemob-websdk@4.12.0:
-    resolution: {integrity: sha512-kFc1zuCq0pcIstRrArs00iXVZltrX8sEgrkcbEWsAB7lTKxKT+gRNQ9IW1wqYepVBUbdkBMj81s62ViX+XVrFg==}
+  /easemob-websdk@4.13.0:
+    resolution: {integrity: sha512-fI+56kkR5MRr1uQU4TEPWM3Qbs36JCyvbXjrIZMboUJxEuVCtIUFYX+E04/HiUNMjF1qXHGTQpB807h+JTg63w==}
     dev: false
 
   /eastasianwidth@0.2.0:
