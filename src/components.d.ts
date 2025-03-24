@@ -33,6 +33,7 @@ declare module '@vue/runtime-core' {
     ATooltip: typeof import('@arco-design/web-vue')['Tooltip']
     AUpload: typeof import('@arco-design/web-vue')['Upload']
     Chatroom: typeof import('./components/Chatroom/index.vue')['default']
+    ChatroomMessageListOpt: typeof import('./components/Chatroom/ChatroomMessageListOpt.vue')['default']
     Config: typeof import('./components/Config/index.vue')['default']
     Contacts: typeof import('./components/Contacts/index.vue')['default']
     ContactsAttirbutes: typeof import('./components/Contacts/contactsAttirbutes.vue')['default']

@@ -2,6 +2,7 @@
 import ManageChatroom from './manageChatroom.vue';
 import ManageChatroomMember from './mangeChatroomMember.vue';
 import ManageChatroomAttribute from './manageChatroomAttribute.vue';
+import ChatroomsMessageListOpt from './ChatroomMessageListOpt.vue';
 </script>
 <template>
   <div class="w-11/12">
@@ -14,6 +15,9 @@ import ManageChatroomAttribute from './manageChatroomAttribute.vue';
       </a-collapse-item>
       <a-collapse-item header="管理聊天室属性" :key="3">
         <ManageChatroomAttribute />
+      </a-collapse-item>
+      <a-collapse-item header="聊天室消息优化示例效果" :key="4">
+        <ChatroomsMessageListOpt />
       </a-collapse-item>
     </a-collapse>
   </div>
