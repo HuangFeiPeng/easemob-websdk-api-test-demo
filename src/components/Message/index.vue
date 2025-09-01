@@ -9,7 +9,7 @@ import { outConsoleLog } from '@/utils/consoleOutput';
 // 过滤不可显示发送的消息类型
 type FilterMessageType = Exclude<
   EasemobChat.MessageType,
-  'delivery' | 'channel' | 'read'
+  'delivery' | 'channel'
 >;
 interface IMessageForm {
   targetId: string;
@@ -169,6 +169,29 @@ const recallMessage = async () => {
     Message.error('撤回消息失败');
   }
 };
+//发送消息已读回执
+const sendMessageReadAck = async () => {
+  console.log('>>>>>>发送已读回执');
+  if (!messageForm.messageId?.length) {
+    Message.error('请输入消息ID');
+    return;
+  }
+  const options: EasemobChat.CreateReadMsgParameters = {
+    type: 'read',
+    to: messageForm.targetId,
+    chatType: messageForm.chatType as 'singleChat' | 'groupChat',
+    id: messageForm.messageId[0] as string,
+  }
+  const msg = WebSDK.message.create(options);
+  try {
+    const res = await EMClient.send(msg);
+    outConsoleLog('已读回执发送成功', res);
+    Message.success('已读回执发送成功');
+  } catch (error) {
+    outConsoleLog('已读回执发送失败', error, 'error');
+    Message.error('已读回执发送失败');
+  }
+}
 //修改文本消息
 const modifyTextMessage = async () => {
   if (!messageForm.messageId?.length) {
@@ -218,35 +241,18 @@ defineOptions({
       <a-collapse-item header="基础消息功能" :key="1">
         <a-form :model="messageForm">
           <a-form-item label="目标ID">
-            <a-input
-              v-model="messageForm.targetId"
-              placeholder="请输入目标ID"
-            />
+            <a-input v-model="messageForm.targetId" placeholder="请输入目标ID" />
             <template #extra>
               <div>要发送的目标ID，可以是单聊、群组、聊天室ID</div>
             </template>
           </a-form-item>
-          <a-form-item
-            label="文本消息内容"
-            v-show="messageForm.messageType === 'txt'"
-          >
-            <a-input
-              v-model="messageForm.msgContent"
-              placeholder="请输入消息内容"
-            />
+          <a-form-item label="文本消息内容" v-show="messageForm.messageType === 'txt'">
+            <a-input v-model="messageForm.msgContent" placeholder="请输入消息内容" />
           </a-form-item>
           <!-- 上传文件 -->
-          <a-form-item
-            label="附件上传"
-            v-show="messageForm.messageType === 'img'"
-          >
+          <a-form-item label="附件上传" v-show="messageForm.messageType === 'img'">
             <a-space direction="vertical">
-              <a-upload
-                @change="getFile"
-                :auto-upload="false"
-                :show-retry-button="false"
-                :limit="1"
-              />
+              <a-upload @change="getFile" :auto-upload="false" :show-retry-button="false" :limit="1" />
             </a-space>
           </a-form-item>
           <a-form-item label="聊天类型">
@@ -266,37 +272,22 @@ defineOptions({
               <a-radio value="location" disabled>位置</a-radio>
               <a-radio value="cmd">命令</a-radio>
               <a-radio value="custom">自定义</a-radio>
+              <a-radio value="read">发送已读回执</a-radio>
             </a-radio-group>
             <template #extra>
               <div>勾选要发送的消息类型</div>
             </template>
           </a-form-item>
           <a-form-item label="发送消息">
-            <a-button
-              type="primary"
-              v-show="messageForm.messageType === 'txt'"
-              @click="sendTextMessage"
-              >发送文本消息</a-button
-            >
-            <a-button
-              type="primary"
-              v-show="messageForm.messageType === 'img'"
-              @click="sendImageMessage"
-              >发送图片消息</a-button
-            >
-            <a-button
-              type="primary"
-              v-show="messageForm.messageType === 'cmd'"
-              @click="sendCmdMessage"
-              >发送命令消息</a-button
-            >
+            <a-button type="primary" v-show="messageForm.messageType === 'txt'" @click="sendTextMessage">发送文本消息</a-button>
+            <a-button type="primary" v-show="messageForm.messageType === 'img'"
+              @click="sendImageMessage">发送图片消息</a-button>
+            <a-button type="primary" v-show="messageForm.messageType === 'read'"
+              @click="sendMessageReadAck">发送已读回执</a-button>
+            <a-button type="primary" v-show="messageForm.messageType === 'cmd'" @click="sendCmdMessage">发送命令消息</a-button>
             <!-- 自定义消息 -->
-            <a-button
-              type="primary"
-              v-show="messageForm.messageType === 'custom'"
-              @click="sendCustomMessage"
-              >发送自定义消息</a-button
-            >
+            <a-button type="primary" v-show="messageForm.messageType === 'custom'"
+              @click="sendCustomMessage">发送自定义消息</a-button>
             <template #extra>
               <div>点击按钮执行发送行为</div>
             </template>
@@ -304,17 +295,9 @@ defineOptions({
           <a-form-item label="是否只投在线">
             <a-switch v-model="messageForm.deliverOnlineOnly" />
           </a-form-item>
-          <a-form-item
-            v-if="messageForm.chatType !== 'singleChat'"
-            label="定向消息Users"
-          >
-            <a-input-tag
-              v-model="messageForm.receiverList"
-              placeholder="请输入用户ID"
-              :max-tag-count="20"
-              allow-clear
-              size="small"
-            />
+          <a-form-item v-if="messageForm.chatType !== 'singleChat'" label="定向消息Users">
+            <a-input-tag v-model="messageForm.receiverList" placeholder="请输入用户ID" :max-tag-count="20" allow-clear
+              size="small" />
             <template #extra>
               <div>
                 定向消息发送，需要填写目标ID，并且目标ID为用户ID，可输入多个
@@ -322,13 +305,8 @@ defineOptions({
             </template>
           </a-form-item>
           <a-form-item label="messageId">
-            <a-input-tag
-              v-model="messageForm.messageId"
-              placeholder="请输入消息ID"
-              :max-tag-count="5"
-              allow-clear
-              size="small"
-            />
+            <a-input-tag v-model="messageForm.messageId" placeholder="请输入消息ID" :max-tag-count="5" allow-clear
+              size="small" />
             <template #extra>
               <div>
                 要撤回的消息ID，或者为消息漫游接口所需消息ID，可输入多个
@@ -342,9 +320,7 @@ defineOptions({
             </template>
           </a-form-item>
           <a-form-item label="修改消息">
-            <a-button type="primary" @click="modifyTextMessage"
-              >文本消息修改</a-button
-            >
+            <a-button type="primary" @click="modifyTextMessage">文本消息修改</a-button>
             <template #extra>
               <div>点击按钮执行修改自己发送的文本消息</div>
             </template>

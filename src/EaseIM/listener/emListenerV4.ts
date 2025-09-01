@@ -58,6 +58,9 @@ export const emListenerV4 = (EMClient: EasemobChat.Connection) => {
     onCustomMessage(msg) {
       outConsoleLog('onCustomMessage', msg);
     },
+    onReadMessage(msg) {
+      outConsoleLog('onReadMessage', msg);
+    },
     onReactionChange(msg) {
       outConsoleLog('onReactionChange', msg);
     },

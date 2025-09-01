@@ -34,6 +34,9 @@ export const emListenerV3 = (EMClient: EasemobChat.Connection) => {
     onFileMessage(message) {
       outConsoleLog('收到文件消息', message);
     },
+    onReadMessage(message) {
+      outConsoleLog('收到已读消息', message);
+    },
     onPictureMessage(message) {
       outConsoleLog('收到图片消息', message);
     },
