@@ -9,7 +9,7 @@ const configForm = reactive<EasemobChat.ConnectionParameters>({
   apiUrl: '',
   url: '',
   isHttpDNS: true,
-  isFixedDeviceId: true,
+  isFixedDeviceId: false,
   useOwnUploadFun: false,
   useReplacedMessageContents: false,
   deviceId: EMClient.deviceId,
@@ -43,10 +43,7 @@ defineOptions({
   <div class="m-10">
     <a-form :model="configForm" layout="horizontal">
       <a-form-item v-if="SDKTypes === 'easemob'" label="appKey" required>
-        <a-input
-          v-model="configForm.appKey"
-          placeholder="请输入格式正确的appKey"
-        />
+        <a-input v-model="configForm.appKey" placeholder="请输入格式正确的appKey" />
         <template #extra>
           <div>环信IM所必须的appKey</div>
         </template>
@@ -100,10 +97,7 @@ defineOptions({
         </template>
       </a-form-item>
       <a-form-item label="deviceId">
-        <a-input
-          v-model="configForm.deviceId"
-          placeholder="请输入自定义resource ID"
-        />
+        <a-input v-model="configForm.deviceId" placeholder="请输入自定义resource ID" />
         <template #extra>
           <div>自定义resource ID，用于区分用户登录的设备</div>
         </template>

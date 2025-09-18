@@ -4,6 +4,8 @@ import store from './store';
 import './assets/tailwind.css';
 import App from './App.vue';
 import '@arco-design/web-vue/dist/arco.css';
+import eruda from 'eruda';
+eruda.init();
 
 const app = createApp(App);
 app.use(router);
