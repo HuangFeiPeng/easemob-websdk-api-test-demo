@@ -74,6 +74,19 @@ const leaveGroup = async () => {
     Message.error('退出群组失败');
   }
 };
+const inviteGroupMembers = async () => {
+  try {
+    const res = await EMClient.inviteUsersToGroup({
+      groupId: manageGroupMemberForm.groupId,
+      users: manageGroupMemberForm.groupUserIds,
+    });
+    outConsoleLog('邀请群成员入群成功', res);
+    Message.success('邀请群成员入群成功');
+  } catch (error) {
+    outConsoleLog('邀请群成员入群失败', error, 'error');
+    Message.error('邀请群成员入群失败');
+  }
+}
 /* 群成员自定义属性 */
 const setGroupMemberAttributes = async () => {
   const { groupId, groupUserIds, checkedMemberAttributes } =
@@ -506,19 +519,11 @@ const unmuteAllGroupMembers = async () => {
   <div>
     <a-form :model="manageGroupMemberForm">
       <a-form-item label="群组ID">
-        <a-input
-          v-model="manageGroupMemberForm.groupId"
-          placeholder="请输入群组ID"
-        />
+        <a-input v-model="manageGroupMemberForm.groupId" placeholder="请输入群组ID" />
       </a-form-item>
       <a-form-item label="群成员ID">
-        <a-input-tag
-          v-model="manageGroupMemberForm.groupUserIds"
-          placeholder="请输入群成员ID"
-          :max-tag-count="5"
-          allow-clear
-          size="small"
-        />
+        <a-input-tag v-model="manageGroupMemberForm.groupUserIds" placeholder="请输入群成员ID" :max-tag-count="5" allow-clear
+          size="small" />
         <template #extra>
           <div>
             群成员的用户 ID 组成的数组，不包含群主的用户 ID，回车键可输入多个
@@ -531,27 +536,22 @@ const unmuteAllGroupMembers = async () => {
           <a-button type="primary" status="danger" @click="leaveGroup">
             退出群组
           </a-button>
+          <!-- 邀请成员入群 -->
+          <a-button type="primary" @click="inviteGroupMembers">
+            邀请成员入群
+          </a-button>
         </a-space>
       </a-form-item>
       <a-form-item label="mock群成员自定义属性">
-        <a-select
-          v-model="manageGroupMemberForm.checkedMemberAttributes"
-          placeholder="请选择要设置的模拟群成员用户属性"
-          multiple
-        >
+        <a-select v-model="manageGroupMemberForm.checkedMemberAttributes" placeholder="请选择要设置的模拟群成员用户属性" multiple>
           <a-option v-for="(item, index) in mockMemberAttributes" :key="index">
             {{ item.key }}: {{ item.value }}
           </a-option>
         </a-select>
       </a-form-item>
       <a-form-item label="群属性keys">
-        <a-input-tag
-          v-model="manageGroupMemberForm.memberAttributesKeys"
-          placeholder="请输入群属性keys"
-          :max-tag-count="5"
-          allow-clear
-          size="small"
-        />
+        <a-input-tag v-model="manageGroupMemberForm.memberAttributesKeys" placeholder="请输入群属性keys" :max-tag-count="5"
+          allow-clear size="small" />
         <template #extra>
           <div>输入群成员自定义属性key，回车键可输入多个</div>
         </template>
@@ -621,15 +621,9 @@ const unmuteAllGroupMembers = async () => {
       </a-form-item>
       <a-form-item label="管理群组黑名单">
         <a-space :size="'medium'" wrap>
-          <a-button type="primary" @click="getGroupBlacklist"
-            >获取群组黑名单</a-button
-          >
-          <a-button type="primary" @click="addGroupBlacklist"
-            >添加群组黑名单</a-button
-          >
-          <a-button type="primary" @click="removeGroupBlacklist"
-            >删除群组黑名单</a-button
-          >
+          <a-button type="primary" @click="getGroupBlacklist">获取群组黑名单</a-button>
+          <a-button type="primary" @click="addGroupBlacklist">添加群组黑名单</a-button>
+          <a-button type="primary" @click="removeGroupBlacklist">删除群组黑名单</a-button>
         </a-space>
         <template #extra>
           <p>

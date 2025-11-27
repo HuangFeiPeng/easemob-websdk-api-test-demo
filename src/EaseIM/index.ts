@@ -7,6 +7,7 @@ const SDKTypes = useLocalStorage('switchSDK', SDK_TYPES.EASEMOB);
 console.log('[DEBUG] 实际SDK类型:', SDKTypes.value);
 console.log('[DEBUG] 本地存储值:', localStorage.getItem('switchSDK'));
 export let EMClient = {} as EasemobChat.Connection;
+
 export const WebSDK = EC;
 export const initializationEMClient = (
   options?: EasemobChat.ConnectionParameters,
@@ -41,6 +42,7 @@ export const initializationEMClient = (
     throw new Error('Invalid SDK type');
   }
   EMClient = client;
+  console.log('EMClient', EMClient);
   emListenerV3(EMClient);
   emListenerV4(EMClient);
 };
