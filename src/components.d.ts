@@ -20,6 +20,7 @@ declare module '@vue/runtime-core' {
     AForm: typeof import('@arco-design/web-vue')['Form']
     AFormItem: typeof import('@arco-design/web-vue')['FormItem']
     AInput: typeof import('@arco-design/web-vue')['Input']
+    AInputGroup: typeof import('@arco-design/web-vue')['InputGroup']
     AInputNumber: typeof import('@arco-design/web-vue')['InputNumber']
     AInputPassword: typeof import('@arco-design/web-vue')['InputPassword']
     AInputTag: typeof import('@arco-design/web-vue')['InputTag']
@@ -48,6 +49,7 @@ declare module '@vue/runtime-core' {
     Conversation: typeof import('./components/Conversation/index.vue')['default']
     Group: typeof import('./components/Group/index.vue')['default']
     HistoryMessage: typeof import('./components/Message/historyMessage.vue')['default']
+    IMNetworkTestAddressGenerator: typeof import('./components/Tools/IMNetworkTestAddressGenerator.vue')['default']
     Login: typeof import('./components/Login/index.vue')['default']
     ManageChatroom: typeof import('./components/Chatroom/manageChatroom.vue')['default']
     ManageChatroomAttribute: typeof import('./components/Chatroom/manageChatroomAttribute.vue')['default']
@@ -62,7 +64,6 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TokenGenerator: typeof import('./components/Tools/TokenGenerator.vue')['default']
-    Tool2: typeof import('./components/Tools/Tool2.vue')['default']
     Tool3: typeof import('./components/Tools/Tool3.vue')['default']
     Tools: typeof import('./components/Tools/index.vue')['default']
   }
