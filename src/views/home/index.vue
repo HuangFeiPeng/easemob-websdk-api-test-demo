@@ -11,6 +11,7 @@ import ConversationComp from '@/components/Conversation/index.vue';
 import GroupComp from '@/components/Group/index.vue';
 import ContactsComp from '@/components/Contacts/index.vue';
 import ChatroomComp from '@/components/Chatroom/index.vue';
+import Tools from '@/components/Tools/index.vue';
 initializationEMClient();
 const theme = ref('light');
 const isDark = useDark({
@@ -43,6 +44,7 @@ const testMenuList = [
   { name: '用户', key: '4', component: ContactsComp },
   { name: '群组', key: '5', component: GroupComp },
   { name: '聊天室', key: '6', component: ChatroomComp },
+  { name: '工具集', key: '7', component: Tools },
 ];
 const showComponent = computed(() => {
   return testMenuList.find((item) => item.key === menuIndex.value[0])
