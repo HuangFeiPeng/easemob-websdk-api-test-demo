@@ -67,6 +67,11 @@ const sendImageMessage = async () => {
     chatType: messageForm.chatType,
     to: messageForm.targetId,
     file: fileObj.value,
+    body:{
+      url:'htttps://www.example.com/example.jpg', // 如果有url可直接传url，没有url传空字符串''
+      filename:fileObj.value?.filename || 'example.jpg',
+      type:fileObj.value?.filetype || 'image/jpeg',
+    },
     deliverOnlineOnly: messageForm.deliverOnlineOnly,
     onFileUploadComplete(data) {
       outConsoleLog('图片上传完成...', data);
@@ -91,6 +96,37 @@ const sendImageMessage = async () => {
   } catch (error) {
     outConsoleLog('图片发送失败', error, 'error');
     Message.error('发送图片消息失败');
+  }
+};
+//发送视频消息
+const sendVideoMessage = async () => {
+  const options: EasemobChat.CreateVideoMsgParameters = {
+    type: 'video',
+    chatType: messageForm.chatType,
+    to: messageForm.targetId,
+    // file: fileObj.value,
+    body:{
+      url:'htttps://www.example.com/example.mp4', // 如果有url可直接传url，没有url传空字符串''
+      filename:fileObj.value?.filename || 'example.mp4',
+      type:fileObj.value?.filetype || 'video/mp4',
+    },
+    deliverOnlineOnly: messageForm.deliverOnlineOnly
+  };
+  // 定向消息
+  if (
+    messageForm.chatType !== 'singleChat' &&
+    messageForm.receiverList?.length
+  ) {
+    options.receiverList = messageForm.receiverList;
+  }
+  const msg = WebSDK.message.create(options);
+  try {
+    const { message } = await EMClient.send(msg);
+    outConsoleLog('视频发送成功', message);
+    Message.success('发送视频消息成功');
+  } catch (error) {
+    outConsoleLog('视频发送失败', error, 'error');
+    Message.error('发送视频消息失败');
   }
 };
 //发送命令消息
@@ -267,7 +303,7 @@ defineOptions({
               <a-radio value="txt">文本</a-radio>
               <a-radio value="img">图片</a-radio>
               <!-- <a-radio value="audio">语音</a-radio> -->
-              <a-radio value="video" disabled>视频</a-radio>
+              <a-radio value="video">视频</a-radio>
               <a-radio value="file" disabled>文件</a-radio>
               <a-radio value="location" disabled>位置</a-radio>
               <a-radio value="cmd">命令</a-radio>
@@ -282,6 +318,8 @@ defineOptions({
             <a-button type="primary" v-show="messageForm.messageType === 'txt'" @click="sendTextMessage">发送文本消息</a-button>
             <a-button type="primary" v-show="messageForm.messageType === 'img'"
               @click="sendImageMessage">发送图片消息</a-button>
+            <a-button type="primary" v-show="messageForm.messageType === 'video'"
+              @click="sendVideoMessage">发送视频消息</a-button>
             <a-button type="primary" v-show="messageForm.messageType === 'read'"
               @click="sendMessageReadAck">发送已读回执</a-button>
             <a-button type="primary" v-show="messageForm.messageType === 'cmd'" @click="sendCmdMessage">发送命令消息</a-button>
