@@ -11,6 +11,7 @@ const loginParams: ILoginParams = reactive({
   userId: '',
   password: '',
   accessToken: '',
+  agoraToken:''
 });
 const loginIM = async () => {
   if (!loginParams.userId || !loginParams.password) {
@@ -40,6 +41,7 @@ const loginWithToken = async () => {
     await EMClient.open({
       user: loginParams.userId,
       accessToken: loginParams.accessToken,
+      agoraToken: loginParams.accessToken,
     });
     Message.success('登录成功');
   } catch (error) {

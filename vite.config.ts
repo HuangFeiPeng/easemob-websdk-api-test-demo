@@ -14,6 +14,9 @@ import svgLoader from 'vite-svg-loader';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  define: {
+    __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false',
+  },
   server: {
     host: true, // 可以以IP访问
     port: 8080, // 端口
@@ -50,7 +53,13 @@ export default defineConfig({
     },
   },
   plugins: [
-    vue(),
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => tag.startsWith('wx-'),
+        },
+      },
+    }),
     vueJsx(),
     Icons({ autoInstall: true, compiler: 'vue3' }),
     svgLoader(),

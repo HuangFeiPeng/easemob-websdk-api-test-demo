@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { Message } from '@arco-design/web-vue';
 import { IconSunFill, IconMoonFill } from '@arco-design/web-vue/es/icon';
 import { initializationEMClient, EMClient } from '@/EaseIM';
 import { SDK_TYPES } from '@/constants';
+import EC from 'easemob-websdk';
+import SC from 'shengwang-chat';
+import AgoraChat from 'agora-chat';
 /* 组件 */
 import ConfigComp from '@/components/Config/index.vue';
 import LoginComp from '@/components/Login/index.vue';
@@ -50,19 +54,65 @@ const showComponent = computed(() => {
   return testMenuList.find((item) => item.key === menuIndex.value[0])
     ?.component;
 });
-//环信/声网切换按钮
+//SDK切换checkbox
 const SDKVersion = ref(EMClient.version);
 const switchSDK = useLocalStorage('switchSDK', SDK_TYPES.EASEMOB);
-watch(switchSDK, (newVal, oldVal) => {
-  console.log('newVal', newVal);
-  if (newVal === SDK_TYPES.EASEMOB) {
-    console.log('切换为环信SDK');
+
+// 获取各个SDK的真实版本信息
+const getSDKVersion = (sdkType: string) => {
+  try {
+    switch (sdkType) {
+      case SDK_TYPES.EASEMOB: {
+        const tempClient = new EC.connection({ appKey: 'temp#temp' });
+        return `环信SDK v${tempClient.version || 'unknown'}`;
+      }
+      case SDK_TYPES.SHENGWANG: {
+        const tempClient = new SC.connection({ appId: 'temp' });
+        return `声网SDK v${(tempClient as any).version || 'unknown'}`;
+      }
+      case SDK_TYPES.AGORA: {
+        const tempClient = new AgoraChat.connection({ appKey: 'temp#temp' });
+        return `Agora Chat v${(tempClient as any).version || 'unknown'}`;
+      }
+      default:
+        return '';
+    }
+  } catch (e) {
+    // 如果创建失败，返回默认信息
+    return `${sdkType} SDK`;
+  }
+};
+
+const sdkOptions = [
+  { label: '环信SDK', value: SDK_TYPES.EASEMOB, tooltip: getSDKVersion(SDK_TYPES.EASEMOB) },
+  { label: '声网SDK', value: SDK_TYPES.SHENGWANG, tooltip: getSDKVersion(SDK_TYPES.SHENGWANG) },
+  { label: 'Agora Chat', value: SDK_TYPES.AGORA, tooltip: getSDKVersion(SDK_TYPES.AGORA) },
+];
+
+watch(switchSDK, (newVal: string) => {
+  console.log('切换SDK为:', newVal);
+  try {
     initializationEMClient();
     SDKVersion.value = EMClient.version;
-  } else if (newVal === SDK_TYPES.SHENGWANG) {
-    console.log('切换为声网SDK');
-    initializationEMClient();
-    SDKVersion.value = EMClient.version;
+    // 如果是Agora SDK且AppKey未配置，提示用户
+    if (newVal === SDK_TYPES.AGORA) {
+      nextTick(() => {
+        Message.info({
+          content: '请在【配置】页面设置Agora Chat的AppKey（格式：orgName#appName）',
+          duration: 5000,
+        });
+      });
+    }
+  } catch (error: any) {
+    console.error('SDK初始化失败:', error);
+    Message.error({
+      content: error.message || 'SDK初始化失败',
+      duration: 5000,
+    });
+    // 回滚到上一个可用的SDK
+    nextTick(() => {
+      switchSDK.value = SDK_TYPES.EASEMOB;
+    });
   }
 });
 </script>
@@ -71,17 +121,20 @@ watch(switchSDK, (newVal, oldVal) => {
   <a-card>
     <template #title>
       <a-tooltip :content="`当前SDK版本：${SDKVersion}`">
-        <h1 class="text-2xl font-bold">
-          环信WebAPI测试用例
-          <a-switch
-            v-model="switchSDK"
-            checked-value="shengwang"
-            unchecked-value="easemob"
-          >
-            <template #checked> 声网SDK </template>
-            <template #unchecked> 环信SDK </template>
-          </a-switch>
-        </h1>
+        <div class="flex items-center gap-4">
+          <h1 class="text-2xl font-bold">环信WebAPI测试用例</h1>
+          <a-radio-group v-model="switchSDK" type="button">
+            <a-tooltip
+              v-for="option in sdkOptions"
+              :key="option.value"
+              :content="option.tooltip"
+            >
+              <a-radio :value="option.value">
+                {{ option.label }}
+              </a-radio>
+            </a-tooltip>
+          </a-radio-group>
+        </div>
       </a-tooltip>
     </template>
     <template #extra>

@@ -3,7 +3,7 @@ import { EasemobChat } from 'easemob-websdk';
 import { Notification } from '@arco-design/web-vue';
 import { initializationEMClient, EMClient } from '@/EaseIM';
 import { SDK_TYPES } from '@/constants';
-const configForm = reactive<EasemobChat.ConnectionParameters>({
+const defaultConfig: EasemobChat.ConnectionParameters = {
   appKey: 'easemob-demo#support',
   appId: '',
   apiUrl: '',
@@ -12,26 +12,52 @@ const configForm = reactive<EasemobChat.ConnectionParameters>({
   isFixedDeviceId: false,
   useOwnUploadFun: false,
   useReplacedMessageContents: false,
-  deviceId: EMClient.deviceId,
+  deviceId: '',
   delivery: false,
+};
+
+// 使用 useLocalStorage 进行持久化存储
+const configForm = useLocalStorage<EasemobChat.ConnectionParameters>(
+  'easemob-config',
+  defaultConfig,
+  {
+    mergeDefaults: true, // 合并默认值，避免新增字段时丢失
+  }
+);
+
+// 在组件加载时延迟初始化EMClient，避免AppKey未配置时报错
+onMounted(() => {
+  // 如果持久化存储中没有 deviceId，则使用 EMClient 的 deviceId
+  if (!configForm.value.deviceId) {
+    configForm.value.deviceId = EMClient.deviceId || '';
+  }
+  // 使用持久化的配置初始化 EMClient
+  if (configForm.value.appKey || configForm.value.appId) {
+    initializationEMClient(configForm.value);
+  }
 });
 const saveConfig = () => {
-  console.log('configForm', configForm);
-  initializationEMClient(configForm);
-  Notification.success('配置已成功！');
+  console.log('configForm', configForm.value);
+  initializationEMClient(configForm.value);
+  Notification.success('配置已保存并持久化！');
 };
 const SDKTypes = useLocalStorage('switchSDK', 'easemob');
 watch(
   () => SDKTypes.value,
-  (newVal, oldVal) => {
+  (newVal: string, oldVal: string) => {
     console.log('newVal', newVal);
     if (newVal === SDK_TYPES.EASEMOB) {
-      configForm.appKey = 'easemob-demo#support';
+      configForm.value.appKey = 'easemob-demo#support';
+      configForm.value.appId = '';
     } else if (newVal === SDK_TYPES.SHENGWANG) {
       console.log('切换为声网SDK 重置appkey');
-      configForm.appKey = '';
-      configForm.appId = '';
-      console.log(configForm);
+      configForm.value.appKey = '';
+      configForm.value.appId = '';
+      console.log(configForm.value);
+    } else if (newVal === SDK_TYPES.AGORA) {
+      console.log('切换为Agora Chat SDK 重置appkey');
+      configForm.value.appKey = '';
+      configForm.value.appId = '';
     }
   },
 );
@@ -52,6 +78,12 @@ defineOptions({
         <a-input v-model="configForm.appId" placeholder="请输入appId" />
         <template #extra>
           <div>声网IM所必须的appId</div>
+        </template>
+      </a-form-item>
+      <a-form-item v-if="SDKTypes === 'agora'" label="appKey" required>
+        <a-input v-model="configForm.appKey" placeholder="请输入Agora Chat的appKey" />
+        <template #extra>
+          <div>Agora Chat所必须的appKey（格式：orgName#appName）</div>
         </template>
       </a-form-item>
       <a-form-item label="isHttpDNS">

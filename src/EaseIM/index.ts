@@ -21,9 +21,8 @@ export const initializationEMClient = (
     options.appKey = options.appKey || EM_APPKEY;
   } else if (SDKTypes.value === SDK_TYPES.SHENGWANG) {
     options.appId = options.appId || SHENGWANG_APPID;
-  } else if (SDKTypes.value === SDK_TYPES.AGORA) {
-    options.appKey = options.appKey || AGORA_APPKEY;
   }
+  // Agora 模式不设置默认值，需要用户手动配置
 
   let client: EasemobChat.Connection;
   if (SDKTypes.value === SDK_TYPES.EASEMOB) {
@@ -43,9 +42,20 @@ export const initializationEMClient = (
     ) as unknown as EasemobChat.Connection;
   } else if (SDKTypes.value === SDK_TYPES.AGORA) {
     console.log('>>>Agora Chat 初始化');
-    client = new AgoraChat.connection({
-      appKey: options.appKey || AGORA_APPKEY,
-    }) as unknown as EasemobChat.Connection;
+    // 检查AppKey是否有效配置
+    if (!options.appKey || options.appKey.trim() === '') {
+      console.warn('⚠️  Agora Chat AppKey未配置，请在配置页面设置有效的AppKey（格式：orgName#appName）');
+      console.warn('💡 临时使用环信SDK代替，请尽快配置Agora Chat AppKey');
+      // 临时使用环信SDK
+      client = new EC.connection({
+        appKey: EM_APPKEY,
+      });
+    } else {
+      console.log('使用 Agora Chat AppKey:', options.appKey);
+      client = new AgoraChat.connection({
+        appKey: options.appKey,
+      }) as unknown as EasemobChat.Connection;
+    }
   } else {
     throw new Error('Invalid SDK type');
   }
