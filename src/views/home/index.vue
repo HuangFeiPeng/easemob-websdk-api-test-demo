@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { Message } from '@arco-design/web-vue';
-import { IconSunFill, IconMoonFill } from '@arco-design/web-vue/es/icon';
+import {
+  IconSunFill,
+  IconMoonFill,
+  IconComputer,
+} from '@arco-design/web-vue/es/icon';
+import EnvironmentCheck from '@/components/EnvironmentCheck/index.vue';
 import { initializationEMClient, EMClient } from '@/EaseIM';
 import { SDK_TYPES } from '@/constants';
 import EC from 'easemob-websdk';
@@ -35,6 +40,7 @@ const isDark = useDark({
   },
 });
 const toggleTheme = useToggle(isDark);
+const envCheckVisible = ref(false);
 const menuIndex = ref(['1']);
 const testMenuList = [
   {
@@ -84,9 +90,21 @@ const getSDKVersion = (sdkType: string) => {
 };
 
 const sdkOptions = [
-  { label: '环信SDK', value: SDK_TYPES.EASEMOB, tooltip: getSDKVersion(SDK_TYPES.EASEMOB) },
-  { label: '声网SDK', value: SDK_TYPES.SHENGWANG, tooltip: getSDKVersion(SDK_TYPES.SHENGWANG) },
-  { label: 'Agora Chat', value: SDK_TYPES.AGORA, tooltip: getSDKVersion(SDK_TYPES.AGORA) },
+  {
+    label: '环信SDK',
+    value: SDK_TYPES.EASEMOB,
+    tooltip: getSDKVersion(SDK_TYPES.EASEMOB),
+  },
+  {
+    label: '声网SDK',
+    value: SDK_TYPES.SHENGWANG,
+    tooltip: getSDKVersion(SDK_TYPES.SHENGWANG),
+  },
+  {
+    label: 'Agora Chat',
+    value: SDK_TYPES.AGORA,
+    tooltip: getSDKVersion(SDK_TYPES.AGORA),
+  },
 ];
 
 watch(switchSDK, (newVal: string) => {
@@ -98,7 +116,8 @@ watch(switchSDK, (newVal: string) => {
     if (newVal === SDK_TYPES.AGORA) {
       nextTick(() => {
         Message.info({
-          content: '请在【配置】页面设置Agora Chat的AppKey（格式：orgName#appName）',
+          content:
+            '请在【配置】页面设置Agora Chat的AppKey（格式：orgName#appName）',
           duration: 5000,
         });
       });
@@ -138,7 +157,18 @@ watch(switchSDK, (newVal: string) => {
       </a-tooltip>
     </template>
     <template #extra>
-      <div>
+      <div class="flex items-center gap-2">
+        <a-tooltip content="运行环境检测">
+          <a-button
+            type="outline"
+            shape="circle"
+            @click="envCheckVisible = true"
+          >
+            <template #icon>
+              <icon-computer style="font-size: 16px" />
+            </template>
+          </a-button>
+        </a-tooltip>
         <a-button type="outline" shape="circle" @click="toggleTheme()">
           <template #icon>
             <icon-sun-fill style="font-size: 16px" v-if="theme === 'dark'" />
@@ -175,6 +205,7 @@ watch(switchSDK, (newVal: string) => {
     </KeepAlive>
     <!-- <component :is="showComponent"></component> -->
   </div>
+  <EnvironmentCheck v-model:visible="envCheckVisible" />
 </template>
 
 <style scoped></style>
