@@ -41,6 +41,13 @@ function parseBrowserInfo() {
   let isMobile = false;
   let isWechat = false;
   let isQQ = false;
+  let isDingTalk = false;
+  let isLark = false;
+  let isWeCom = false;
+  let isWeibo = false;
+  let isAlipay = false;
+  let isDouyin = false;
+  let isUniApp = false;
   let isMiniProgram = false;
 
   // 检测微信
@@ -69,6 +76,67 @@ function parseBrowserInfo() {
     [, browserVersion] = qbMatch;
   }
 
+  // 检测钉钉
+  const dingMatch = ua.match(/DingTalk\/(\d+(\.\d+)*)/);
+  if (dingMatch) {
+    isDingTalk = true;
+    browserName = '钉钉内置浏览器';
+    [, browserVersion] = dingMatch;
+  }
+
+  // 检测飞书
+  const larkMatch = ua.match(/Lark\/(\d+(\.\d+)*)/);
+  const feishuMatch = ua.match(/Feishu\/(\d+(\.\d+)*)/);
+  if (larkMatch) {
+    isLark = true;
+    browserName = '飞书内置浏览器';
+    [, browserVersion] = larkMatch;
+  } else if (feishuMatch) {
+    isLark = true;
+    browserName = '飞书内置浏览器';
+    [, browserVersion] = feishuMatch;
+  }
+
+  // 检测企业微信
+  const wxWorkMatch = ua.match(/wxwork\/(\d+(\.\d+)*)/i);
+  if (wxWorkMatch) {
+    isWeCom = true;
+    browserName = '企业微信内置浏览器';
+    [, browserVersion] = wxWorkMatch;
+  }
+
+  // 检测微博
+  const weiboMatch = ua.match(/Weibo\/(\d+(\.\d+)*)/);
+  if (weiboMatch) {
+    isWeibo = true;
+    browserName = '微博内置浏览器';
+    [, browserVersion] = weiboMatch;
+  }
+
+  // 检测支付宝
+  const alipayMatch = ua.match(/AlipayClient\/(\d+(\.\d+)*)/);
+  if (alipayMatch) {
+    isAlipay = true;
+    browserName = '支付宝内置浏览器';
+    [, browserVersion] = alipayMatch;
+  }
+
+  // 检测抖音
+  const douyinMatch = ua.match(/aweme\/(\d+(\.\d+)*)/i);
+  if (douyinMatch) {
+    isDouyin = true;
+    browserName = '抖音内置浏览器';
+    [, browserVersion] = douyinMatch;
+  }
+
+  // 检测 uniApp
+  if (
+    typeof (window as any).uni !== 'undefined' ||
+    /uni-app|Html5Plus/.test(ua)
+  ) {
+    isUniApp = true;
+  }
+
   // 检测小程序环境（严格判断，避免与微信内置浏览器混淆）
   const wxEnv = (window as any).__wxjs_environment;
   if (
@@ -79,8 +147,17 @@ function parseBrowserInfo() {
     isMiniProgram = true;
   }
 
-  // 浏览器检测（非微信/QQ时）
-  if (!isWechat && !isQQ) {
+  // 浏览器检测（非微信/QQ/钉钉/飞书/企业微信/微博/支付宝/抖音时）
+  if (
+    !isWechat &&
+    !isQQ &&
+    !isDingTalk &&
+    !isLark &&
+    !isWeCom &&
+    !isWeibo &&
+    !isAlipay &&
+    !isDouyin
+  ) {
     const chromeMatch = ua.match(/Chrome\/(\d+(\.\d+)*)/);
     const safariMatch = ua.match(/Version\/(\d+(\.\d+)*).*Safari/);
     const firefoxMatch = ua.match(/Firefox\/(\d+(\.\d+)*)/);
@@ -150,6 +227,13 @@ function parseBrowserInfo() {
     isMobile,
     isWechat,
     isQQ,
+    isDingTalk,
+    isLark,
+    isWeCom,
+    isWeibo,
+    isAlipay,
+    isDouyin,
+    isUniApp,
     isMiniProgram,
     ua,
   };
@@ -380,6 +464,13 @@ export async function runEnvironmentCheck(): Promise<EnvironmentCheckResult> {
             if (browserInfo.isMiniProgram) return '微信小程序';
             if (browserInfo.isWechat) return '微信内置H5';
             if (browserInfo.isQQ) return 'QQ内置H5';
+            if (browserInfo.isDingTalk) return '钉钉内置H5';
+            if (browserInfo.isLark) return '飞书内置H5';
+            if (browserInfo.isWeCom) return '企业微信内置H5';
+            if (browserInfo.isWeibo) return '微博内置H5';
+            if (browserInfo.isAlipay) return '支付宝内置H5';
+            if (browserInfo.isDouyin) return '抖音内置H5';
+            if (browserInfo.isUniApp) return 'uniApp';
             if (browserInfo.isMobile) return '移动端H5';
             return 'PC端H5';
           })(),
