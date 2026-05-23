@@ -232,7 +232,7 @@ function parseBrowserInfo() {
     }
   }
 
-  // 操作系统检测
+  // 操作系统检测（iOS 必须在 macOS 之前，因为 iOS 13+ Safari UA 包含 Mac OS X）
   if (/Windows NT 10/.test(ua)) {
     osName = 'Windows';
     osVersion = '10/11';
@@ -245,15 +245,15 @@ function parseBrowserInfo() {
   } else if (/Windows NT 6\.1/.test(ua)) {
     osName = 'Windows';
     osVersion = '7';
-  } else if (/Mac OS X/.test(ua)) {
-    osName = 'macOS';
-    const macMatch = ua.match(/Mac OS X (\d+[._]\d+)/);
-    osVersion = macMatch ? macMatch[1].replace('_', '.') : 'unknown';
   } else if (/iPhone|iPad|iPod/.test(ua)) {
     osName = 'iOS';
     const iosMatch = ua.match(/OS (\d+)[._](\d+)/);
     osVersion = iosMatch ? `${iosMatch[1]}.${iosMatch[2]}` : 'unknown';
     isMobile = true;
+  } else if (/Mac OS X/.test(ua)) {
+    osName = 'macOS';
+    const macMatch = ua.match(/Mac OS X (\d+[._]\d+)/);
+    osVersion = macMatch ? macMatch[1].replace('_', '.') : 'unknown';
   } else if (/Android/.test(ua)) {
     osName = 'Android';
     const androidMatch = ua.match(/Android (\d+(\.\d+)*)/);
