@@ -45,6 +45,7 @@ module.exports = {
     'import/newline-after-import': 'off',
     'object-curly-newline': 'off',
     'import/no-mutable-exports': 'off',
+    'no-underscore-dangle': 'off',
     // 处理 prettier 和 eslint 冲突的规则
     'prettier/prettier': [
       'error',

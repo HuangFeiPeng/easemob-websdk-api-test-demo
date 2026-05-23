@@ -50,10 +50,10 @@ function parseBrowserInfo() {
     [, browserVersion] = wechatMatch;
   }
 
-  // 检测小程序环境
+  // 检测小程序环境（严格判断，避免与微信内置浏览器混淆）
+  const wxEnv = (window as any).__wxjs_environment;
   if (
-    // eslint-disable-next-line dot-notation
-    typeof (window as any)['__wxjs_environment'] !== 'undefined' ||
+    (typeof wxEnv !== 'undefined' && wxEnv === 'miniprogram') ||
     /miniProgram/.test(ua) ||
     (window as any).wx?.miniProgram?.getEnv
   ) {
