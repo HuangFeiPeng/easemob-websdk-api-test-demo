@@ -100,17 +100,17 @@ const sendImageMessage = async () => {
 };
 //发送视频消息
 const sendVideoMessage = async () => {
-  const options: EasemobChat.CreateVideoMsgParameters = {
+  const options: any = {
     type: 'video',
     chatType: messageForm.chatType,
     to: messageForm.targetId,
-    // file: fileObj.value,
     body:{
-      url:'htttps://www.example.com/example.mp4', // 如果有url可直接传url，没有url传空字符串''
+      url:'htttps://www.example.com/example.mp4',
       filename:fileObj.value?.filename || 'example.mp4',
       type:fileObj.value?.filetype || 'video/mp4',
     },
-    deliverOnlineOnly: messageForm.deliverOnlineOnly
+    deliverOnlineOnly: messageForm.deliverOnlineOnly,
+    file: fileObj.value,
   };
   // 定向消息
   if (

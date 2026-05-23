@@ -2,7 +2,7 @@
   <div class="tool-content im-network-test-generator">
     <h2>IM网络工程测试地址生成器</h2>
     <a-card class="generator-card">
-      <a-form layout="responsive" label-align="right" :label-col="{ xs: 8, sm: 6, md: 5 }" :wrapper-col="{ xs: 16, sm: 18, md: 19 }" :model="formData">
+      <a-form layout="horizontal" label-align="right" :label-col="{ xs: 8, sm: 6, md: 5 }" :wrapper-col="{ xs: 16, sm: 18, md: 19 }" :model="formData">
         <a-form-item label="服务器:">
           <a-radio-group v-model="formData.serverType" name="serverType">
             <a-radio value="domestic">国内</a-radio>
@@ -55,7 +55,7 @@ const formData = ref({
   serverType: 'domestic',
   userId: '',
   token: '',
-  appKey: ''
+  appKey: '',
 });
 const generatedLink = ref('');
 const qrCodeUrl = ref('');

@@ -8,8 +8,9 @@ const SDKTypes = useLocalStorage('switchSDK', SDK_TYPES.EASEMOB);
 console.log('[DEBUG] 实际SDK类型:', SDKTypes.value);
 console.log('[DEBUG] 本地存储值:', localStorage.getItem('switchSDK'));
 export let EMClient = {} as EasemobChat.Connection;
-EC.logger.onLog = (data)=>{console.log('EasemobChat log:', data)};
 export const WebSDK = EC;
+console.log('window', window);
+console.log('window webim', (window as any).WebIM);
 export const initializationEMClient = (
   options?: EasemobChat.ConnectionParameters,
 ) => {

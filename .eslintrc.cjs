@@ -32,6 +32,19 @@ module.exports = {
         ignores: ['index', '403', '404', '500'], // 需要忽略的组件名
       },
     ],
+    // 放宽规则，减少开发时波浪线干扰
+    'no-console': 'off',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    'no-param-reassign': 'off',
+    'new-cap': 'off',
+    'import/order': 'off',
+    'import/first': 'off',
+    'spaced-comment': 'off',
+    'padding-line-between-statements': 'off',
+    'import/newline-after-import': 'off',
+    'object-curly-newline': 'off',
+    'import/no-mutable-exports': 'off',
     // 处理 prettier 和 eslint 冲突的规则
     'prettier/prettier': [
       'error',

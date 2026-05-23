@@ -14,8 +14,8 @@ dependencies:
     specifier: ^4.2.0
     version: 4.2.0
   easemob-websdk:
-    specifier: ^4.17.0
-    version: 4.17.0
+    specifier: ^4.19.1
+    version: 4.19.1
   eruda:
     specifier: ^3.4.3
     version: 3.4.3
@@ -2487,8 +2487,8 @@ packages:
       es-errors: 1.3.0
       gopd: 1.2.0
 
-  /easemob-websdk@4.17.0:
-    resolution: {integrity: sha512-ckuVyFk47EDyJZDpNgyTx0Barw5yr1xidSyxLb6AWhzkeyUt5Uffy/L+wjRljPG+D2YepsRvEsN/fYTXPwwI4w==}
+  /easemob-websdk@4.19.1:
+    resolution: {integrity: sha512-GJ+u7EXcbBn0SGMTfKkoGe6Sy5FieXuNlAEiQHtkTkzEMQKbEizUMah5S4R+ubtCY+n+c18ph90OSQXeDdyYkw==}
     dev: false
 
   /eastasianwidth@0.2.0:
