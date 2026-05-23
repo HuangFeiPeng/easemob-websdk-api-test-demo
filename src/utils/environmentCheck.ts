@@ -161,6 +161,16 @@ function parseBrowserInfo() {
     const quarkMatch = ua.match(/Quark\/(\d+(\.\d+)*)/);
     const qihooMatch = ua.match(/QihooBrowser\/(\d+(\.\d+)*)/);
     const qb360Match = ua.match(/360Browser\/(\d+(\.\d+)*)/);
+    const se360Match = ua.match(/360SE\/(\d+(\.\d+)*)/);
+    const ee360Match = ua.match(/360EE\/(\d+(\.\d+)*)/);
+    const sogouMatch = ua.match(/SogouMobileBrowser\/(\d+(\.\d+)*)/);
+    const sogouPcMatch = ua.match(/SE\s+\d+.*MetaSr/);
+    const liebaoMatch = ua.match(/LBBROWSER/);
+    const ucMatch = ua.match(/UCBrowser\/(\d+(\.\d+)*)/);
+    const baiduMatch = ua.match(/baidubrowser\/(\d+(\.\d+)*)/i);
+    const baiduBoxMatch = ua.match(/BaiduBoxApp\/(\d+(\.\d+)*)/);
+    const maxthonMatch = ua.match(/Maxthon\/(\d+(\.\d+)*)/);
+    const theWorldMatch = ua.match(/TheWorld\/(\d+(\.\d+)*)/);
     const chromeMatch = ua.match(/Chrome\/(\d+(\.\d+)*)/);
     const safariMatch = ua.match(/Version\/(\d+(\.\d+)*).*Safari/);
     const firefoxMatch = ua.match(/Firefox\/(\d+(\.\d+)*)/);
@@ -176,6 +186,34 @@ function parseBrowserInfo() {
     } else if (qb360Match) {
       browserName = '360浏览器';
       [, browserVersion] = qb360Match;
+    } else if (se360Match) {
+      browserName = '360极速浏览器';
+      [, browserVersion] = se360Match;
+    } else if (ee360Match) {
+      browserName = '360安全浏览器';
+      [, browserVersion] = ee360Match;
+    } else if (sogouMatch) {
+      browserName = '搜狗手机浏览器';
+      [, browserVersion] = sogouMatch;
+    } else if (sogouPcMatch) {
+      browserName = '搜狗浏览器';
+    } else if (liebaoMatch) {
+      browserName = '猎豹浏览器';
+    } else if (ucMatch) {
+      browserName = 'UC浏览器';
+      [, browserVersion] = ucMatch;
+    } else if (baiduMatch) {
+      browserName = '百度浏览器';
+      [, browserVersion] = baiduMatch;
+    } else if (baiduBoxMatch) {
+      browserName = '百度APP内置浏览器';
+      [, browserVersion] = baiduBoxMatch;
+    } else if (maxthonMatch) {
+      browserName = '傲游浏览器';
+      [, browserVersion] = maxthonMatch;
+    } else if (theWorldMatch) {
+      browserName = '世界之窗浏览器';
+      [, browserVersion] = theWorldMatch;
     } else if (edgeMatch) {
       browserName = 'Microsoft Edge';
       [, browserVersion] = edgeMatch;
