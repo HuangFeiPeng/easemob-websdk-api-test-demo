@@ -40,6 +40,7 @@ function parseBrowserInfo() {
   let osVersion = 'unknown';
   let isMobile = false;
   let isWechat = false;
+  let isQQ = false;
   let isMiniProgram = false;
 
   // 检测微信
@@ -48,6 +49,24 @@ function parseBrowserInfo() {
     isWechat = true;
     browserName = '微信内置浏览器';
     [, browserVersion] = wechatMatch;
+  }
+
+  // 检测 QQ 内置浏览器（QQ 手机版、QQ 浏览器、QQ 空间等）
+  const qqMatch = ua.match(/QQ\/(\d+(\.\d+)*)/);
+  const qzoneMatch = ua.match(/Qzone\/(\d+(\.\d+)*)/);
+  const qbMatch = ua.match(/QQBrowser\/(\d+(\.\d+)*)/);
+  if (qqMatch) {
+    isQQ = true;
+    browserName = 'QQ内置浏览器';
+    [, browserVersion] = qqMatch;
+  } else if (qzoneMatch) {
+    isQQ = true;
+    browserName = 'QQ空间内置浏览器';
+    [, browserVersion] = qzoneMatch;
+  } else if (qbMatch && !isWechat) {
+    isQQ = true;
+    browserName = 'QQ浏览器';
+    [, browserVersion] = qbMatch;
   }
 
   // 检测小程序环境（严格判断，避免与微信内置浏览器混淆）
@@ -60,8 +79,8 @@ function parseBrowserInfo() {
     isMiniProgram = true;
   }
 
-  // 浏览器检测（非微信时）
-  if (!isWechat) {
+  // 浏览器检测（非微信/QQ时）
+  if (!isWechat && !isQQ) {
     const chromeMatch = ua.match(/Chrome\/(\d+(\.\d+)*)/);
     const safariMatch = ua.match(/Version\/(\d+(\.\d+)*).*Safari/);
     const firefoxMatch = ua.match(/Firefox\/(\d+(\.\d+)*)/);
@@ -130,6 +149,7 @@ function parseBrowserInfo() {
     osVersion,
     isMobile,
     isWechat,
+    isQQ,
     isMiniProgram,
     ua,
   };
@@ -359,6 +379,7 @@ export async function runEnvironmentCheck(): Promise<EnvironmentCheckResult> {
           value: (() => {
             if (browserInfo.isMiniProgram) return '微信小程序';
             if (browserInfo.isWechat) return '微信内置H5';
+            if (browserInfo.isQQ) return 'QQ内置H5';
             if (browserInfo.isMobile) return '移动端H5';
             return 'PC端H5';
           })(),
