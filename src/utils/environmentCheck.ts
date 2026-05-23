@@ -158,13 +158,25 @@ function parseBrowserInfo() {
     !isAlipay &&
     !isDouyin
   ) {
+    const quarkMatch = ua.match(/Quark\/(\d+(\.\d+)*)/);
+    const qihooMatch = ua.match(/QihooBrowser\/(\d+(\.\d+)*)/);
+    const qb360Match = ua.match(/360Browser\/(\d+(\.\d+)*)/);
     const chromeMatch = ua.match(/Chrome\/(\d+(\.\d+)*)/);
     const safariMatch = ua.match(/Version\/(\d+(\.\d+)*).*Safari/);
     const firefoxMatch = ua.match(/Firefox\/(\d+(\.\d+)*)/);
     const edgeMatch = ua.match(/Edg\/(\d+(\.\d+)*)/);
     const operaMatch = ua.match(/OPR\/(\d+(\.\d+)*)/);
 
-    if (edgeMatch) {
+    if (quarkMatch) {
+      browserName = '夸克浏览器';
+      [, browserVersion] = quarkMatch;
+    } else if (qihooMatch) {
+      browserName = '360安全浏览器';
+      [, browserVersion] = qihooMatch;
+    } else if (qb360Match) {
+      browserName = '360浏览器';
+      [, browserVersion] = qb360Match;
+    } else if (edgeMatch) {
       browserName = 'Microsoft Edge';
       [, browserVersion] = edgeMatch;
     } else if (operaMatch) {
