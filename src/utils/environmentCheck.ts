@@ -229,6 +229,9 @@ function parseBrowserInfo() {
     } else if (safariMatch) {
       browserName = 'Safari';
       [, browserVersion] = safariMatch;
+    } else if (/Chrome\//.test(ua)) {
+      // 兜底：UA 含 Chrome/ 但未匹配上述规则（如 CriOS 等）
+      browserName = 'Chrome';
     }
   }
 
