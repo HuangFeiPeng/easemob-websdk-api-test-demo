@@ -172,6 +172,7 @@ function parseBrowserInfo() {
     const maxthonMatch = ua.match(/Maxthon\/(\d+(\.\d+)*)/);
     const theWorldMatch = ua.match(/TheWorld\/(\d+(\.\d+)*)/);
     const chromeMatch = ua.match(/Chrome\/(\d+(\.\d+)*)/);
+    const criosMatch = ua.match(/CriOS\/(\d+(\.\d+)*)/);
     const safariMatch = ua.match(/Version\/(\d+(\.\d+)*).*Safari/);
     const firefoxMatch = ua.match(/Firefox\/(\d+(\.\d+)*)/);
     const edgeMatch = ua.match(/Edg\/(\d+(\.\d+)*)/);
@@ -220,17 +221,17 @@ function parseBrowserInfo() {
     } else if (operaMatch) {
       browserName = 'Opera';
       [, browserVersion] = operaMatch;
-    } else if (chromeMatch) {
+    } else if (chromeMatch || criosMatch) {
       browserName = 'Chrome';
-      [, browserVersion] = chromeMatch;
+      [, browserVersion] = chromeMatch || criosMatch;
     } else if (firefoxMatch) {
       browserName = 'Firefox';
       [, browserVersion] = firefoxMatch;
     } else if (safariMatch) {
       browserName = 'Safari';
       [, browserVersion] = safariMatch;
-    } else if (/Chrome\//.test(ua)) {
-      // 兜底：UA 含 Chrome/ 但未匹配上述规则（如 CriOS 等）
+    } else if (/Chrome\//.test(ua) || /CriOS\//.test(ua)) {
+      // 兜底：UA 含 Chrome/ 或 CriOS/ 但未匹配上述规则
       browserName = 'Chrome';
     }
   }
