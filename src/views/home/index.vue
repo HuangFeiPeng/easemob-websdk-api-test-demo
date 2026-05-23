@@ -158,17 +158,6 @@ watch(switchSDK, (newVal: string) => {
     </template>
     <template #extra>
       <div class="flex items-center gap-2">
-        <a-tooltip content="运行环境检测">
-          <a-button
-            type="outline"
-            shape="circle"
-            @click="envCheckVisible = true"
-          >
-            <template #icon>
-              <icon-computer style="font-size: 16px" />
-            </template>
-          </a-button>
-        </a-tooltip>
         <a-button type="outline" shape="circle" @click="toggleTheme()">
           <template #icon>
             <icon-sun-fill style="font-size: 16px" v-if="theme === 'dark'" />
@@ -185,6 +174,18 @@ watch(switchSDK, (newVal: string) => {
         ⭐️：几乎所有API需要登录才能使用，如：发送消息、调用会话列表、操作好友添加等。
       </li>
     </ul>
+    <a-divider />
+    <a-button
+      type="primary"
+      status="success"
+      long
+      @click="envCheckVisible = true"
+    >
+      <template #icon>
+        <icon-computer />
+      </template>
+      运行环境检测
+    </a-button>
   </a-card>
   <div class="mt-5 sm:w - full md:w - 1/2 lg:w - 1/3">
     <a-menu
