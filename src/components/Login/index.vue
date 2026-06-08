@@ -11,7 +11,7 @@ const loginParams: ILoginParams = reactive({
   userId: '',
   password: '',
   accessToken: '',
-  agoraToken:''
+  agoraToken: '',
 });
 const loginIM = async () => {
   if (!loginParams.userId || !loginParams.password) {

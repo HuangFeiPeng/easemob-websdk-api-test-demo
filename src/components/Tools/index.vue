@@ -12,7 +12,7 @@
         :title="item.title"
       ></a-tab-pane>
     </a-tabs>
-    
+
     <div class="tool-content">
       <component :is="currentComponent" />
     </div>
@@ -20,7 +20,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, defineAsyncComponent, onMounted, onUnmounted } from 'vue';
+import {
+  ref,
+  computed,
+  defineAsyncComponent,
+  onMounted,
+  onUnmounted,
+} from 'vue';
 import TokenGenerator from './TokenGenerator.vue';
 
 const activeTab = ref<string>('tool1');
@@ -49,13 +55,17 @@ onUnmounted(() => {
 // 组件映射 - 使用defineAsyncComponent正确处理懒加载组件
 const componentMap = {
   tool1: TokenGenerator,
-  tool2: defineAsyncComponent(() => import('./IMNetworkTestAddressGenerator.vue')),
-  tool3: defineAsyncComponent(() => import('./Tool3.vue'))
+  tool2: defineAsyncComponent(
+    () => import('./IMNetworkTestAddressGenerator.vue'),
+  ),
+  tool3: defineAsyncComponent(() => import('./Tool3.vue')),
 };
 
 // 当前组件
 const currentComponent = computed(() => {
-  return componentMap[activeTab.value as keyof typeof componentMap] || TokenGenerator;
+  return (
+    componentMap[activeTab.value as keyof typeof componentMap] || TokenGenerator
+  );
 });
 
 const handleTabChange = (key: string | number) => {
@@ -99,7 +109,7 @@ const handleTabChange = (key: string | number) => {
   .tools-container {
     flex-direction: row;
   }
-  
+
   .vertical-tabs {
     margin-right: 16px;
     margin-bottom: 0;
@@ -113,7 +123,7 @@ const handleTabChange = (key: string | number) => {
   .tools-container {
     padding: 12px;
   }
-  
+
   .tool-content {
     padding: 12px;
   }

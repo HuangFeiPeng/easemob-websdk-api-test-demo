@@ -198,15 +198,15 @@ const getChatRoomMuteList = async () => {
 const getIsInChatroomMuteList = async () => {
   try {
     const res = await EMClient.isInChatRoomMutelist({
-      chatRoomId: manageChatroomMemberForm.chatroomId
-    })
+      chatRoomId: manageChatroomMemberForm.chatroomId,
+    });
     outConsoleLog('获取当前用户聊天室内禁言列表状态', res);
     Message.success('获取当前用户聊天室内禁言列表状态成功');
   } catch (error) {
     outConsoleLog('获取当前用户聊天室内禁言列表状态失败', error, 'error');
     Message.error('获取当前用户聊天室内禁言列表状态失败');
   }
-}
+};
 const muteChatRoomMember = async () => {
   if (!manageChatroomMemberForm.chatroomId) {
     Message.error('请输入聊天室ID');
@@ -376,11 +376,19 @@ const isInChatroomWhitelist = async () => {
 <template>
   <a-form :model="manageChatroomMemberForm">
     <a-form-item label="聊天室ID" required>
-      <a-input v-model="manageChatroomMemberForm.chatroomId" placeholder="请输入聊天室ID" />
+      <a-input
+        v-model="manageChatroomMemberForm.chatroomId"
+        placeholder="请输入聊天室ID"
+      />
     </a-form-item>
     <a-form-item label="聊天室成员">
-      <a-input-tag v-model="manageChatroomMemberForm.chatroomMembers" placeholder="请输入聊天室成员" :max-tag-count="5"
-        allow-clear size="small" />
+      <a-input-tag
+        v-model="manageChatroomMemberForm.chatroomMembers"
+        placeholder="请输入聊天室成员"
+        :max-tag-count="5"
+        allow-clear
+        size="small"
+      />
       <template #extra>
         <div>聊天室成员组成的数组，回车键可输入多个</div>
       </template>
@@ -388,19 +396,35 @@ const isInChatroomWhitelist = async () => {
     <a-form-item label="聊天室分页参数">
       <a-space :size="'medium'" wrap>
         <a-tooltip content="pageNum">
-          <a-input-number v-model="manageChatroomMemberForm.pageNum" :min="0" :max="100" />
+          <a-input-number
+            v-model="manageChatroomMemberForm.pageNum"
+            :min="0"
+            :max="100"
+          />
         </a-tooltip>
         <a-tooltip content="pageSize">
-          <a-input-number v-model="manageChatroomMemberForm.pageSize" :min="1" :max="100" />
+          <a-input-number
+            v-model="manageChatroomMemberForm.pageSize"
+            :min="1"
+            :max="100"
+          />
         </a-tooltip>
       </a-space>
     </a-form-item>
     <a-form-item label="聊天室基础操作">
       <a-space :size="'medium'" wrap>
-        <a-button type="primary" @click="getChatroomMembers">获取聊天室成员列表</a-button>
-        <a-button type="primary" @click="leaveChatroom">主动退出聊天室</a-button>
-        <a-tooltip content="仅聊天室所有者和聊天室管理员可以调用 removeChatRoomMember 方法将指定的单个成员移出聊天室">
-          <a-button type="primary" @click="removeChatroomMembers">移除聊天室成员</a-button>
+        <a-button type="primary" @click="getChatroomMembers"
+          >获取聊天室成员列表</a-button
+        >
+        <a-button type="primary" @click="leaveChatroom"
+          >主动退出聊天室</a-button
+        >
+        <a-tooltip
+          content="仅聊天室所有者和聊天室管理员可以调用 removeChatRoomMember 方法将指定的单个成员移出聊天室"
+        >
+          <a-button type="primary" @click="removeChatroomMembers"
+            >移除聊天室成员</a-button
+          >
         </a-tooltip>
       </a-space>
       <template #extra>
@@ -411,20 +435,34 @@ const isInChatroomWhitelist = async () => {
     </a-form-item>
     <a-form-item label="管理聊天室管理员">
       <a-space :size="'medium'" wrap>
-        <a-button type="primary" @click="addChatroomAdmin">添加聊天室管理员</a-button>
-        <a-button type="primary" @click="removeChatRoomAdmin">移除聊天室管理员</a-button>
+        <a-button type="primary" @click="addChatroomAdmin"
+          >添加聊天室管理员</a-button
+        >
+        <a-button type="primary" @click="removeChatRoomAdmin"
+          >移除聊天室管理员</a-button
+        >
       </a-space>
     </a-form-item>
     <a-form-item label="管理聊天室黑名单">
       <a-space :size="'medium'" wrap>
-        <a-button type="primary" @click="getChatRoomBlacklist">获取聊天室黑名单</a-button>
-        <a-button type="primary" @click="addChatRoomBlacklist">添加聊天室黑名单</a-button>
-        <a-button type="primary" @click="removeChatRoomBlacklist">移除聊天室黑名单</a-button>
+        <a-button type="primary" @click="getChatRoomBlacklist"
+          >获取聊天室黑名单</a-button
+        >
+        <a-button type="primary" @click="addChatRoomBlacklist"
+          >添加聊天室黑名单</a-button
+        >
+        <a-button type="primary" @click="removeChatRoomBlacklist"
+          >移除聊天室黑名单</a-button
+        >
       </a-space>
     </a-form-item>
     <a-form-item label="聊天室禁言时长">
       <a-tooltip content="单位为毫秒。若传 “-1,000” 表示永久禁言。">
-        <a-input-number v-model="manageChatroomMemberForm.muteDuration" :min="-1000" :max="1000000000" />
+        <a-input-number
+          v-model="manageChatroomMemberForm.muteDuration"
+          :min="-1000"
+          :max="1000000000"
+        />
       </a-tooltip>
       <template #extra>
         <div>
@@ -434,12 +472,24 @@ const isInChatroomWhitelist = async () => {
     </a-form-item>
     <a-form-item label="管理聊天室禁言">
       <a-space :size="'medium'" wrap>
-        <a-button type="primary" @click="getChatRoomMuteList">获取聊天室禁言列表</a-button>
-        <a-button type="primary" @click="muteChatRoomMember">禁言聊天室成员</a-button>
-        <a-button type="primary" @click="unmuteChatRoomMember">解除聊天室成员禁言</a-button>
-        <a-button type="primary" @click="disableSendChatRoomMsg">开启聊天室全员禁言</a-button>
-        <a-button type="primary" @click="enableSendChatRoomMsg">关闭聊天室全员禁言</a-button>
-        <a-button type="primary" @click="getIsInChatroomMuteList">检查当前用户是否在聊天室禁言列表中</a-button>
+        <a-button type="primary" @click="getChatRoomMuteList"
+          >获取聊天室禁言列表</a-button
+        >
+        <a-button type="primary" @click="muteChatRoomMember"
+          >禁言聊天室成员</a-button
+        >
+        <a-button type="primary" @click="unmuteChatRoomMember"
+          >解除聊天室成员禁言</a-button
+        >
+        <a-button type="primary" @click="disableSendChatRoomMsg"
+          >开启聊天室全员禁言</a-button
+        >
+        <a-button type="primary" @click="enableSendChatRoomMsg"
+          >关闭聊天室全员禁言</a-button
+        >
+        <a-button type="primary" @click="getIsInChatroomMuteList"
+          >检查当前用户是否在聊天室禁言列表中</a-button
+        >
       </a-space>
       <template #extra>
         <div>
@@ -449,12 +499,20 @@ const isInChatroomWhitelist = async () => {
     </a-form-item>
     <a-form-item label="管理聊天室白名单">
       <a-space :size="'medium'" wrap>
-        <a-button type="primary" @click="getChatroomWhitelist">获取聊天室白名单</a-button>
+        <a-button type="primary" @click="getChatroomWhitelist"
+          >获取聊天室白名单</a-button
+        >
         <a-tooltip content="仅可检查当前所登录的用户">
-          <a-button type="primary" @click="isInChatroomWhitelist">检查当前用户是否在聊天室白名单中</a-button>
+          <a-button type="primary" @click="isInChatroomWhitelist"
+            >检查当前用户是否在聊天室白名单中</a-button
+          >
         </a-tooltip>
-        <a-button type="primary" @click="addChatroomWhitelist">将成员加入聊天室白名单</a-button>
-        <a-button type="primary" @click="removeChatroomWhitelist">将成员移出聊天室白名单</a-button>
+        <a-button type="primary" @click="addChatroomWhitelist"
+          >将成员加入聊天室白名单</a-button
+        >
+        <a-button type="primary" @click="removeChatroomWhitelist"
+          >将成员移出聊天室白名单</a-button
+        >
       </a-space>
     </a-form-item>
   </a-form>

@@ -67,13 +67,13 @@ const updateGroupInfo = async () => {
     groupId: manageGroupAttributeFrom.groupId,
   };
   if (manageGroupAttributeFrom.groupName) {
-    options['groupName'] = manageGroupAttributeFrom.groupName;
+    options.groupName = manageGroupAttributeFrom.groupName;
   }
   if (manageGroupAttributeFrom.description) {
-    options['description'] = manageGroupAttributeFrom.description;
+    options.description = manageGroupAttributeFrom.description;
   }
   if (manageGroupAttributeFrom.ext) {
-    options['ext'] = manageGroupAttributeFrom.ext;
+    options.ext = manageGroupAttributeFrom.ext;
   }
   console.log('object', options);
   try {

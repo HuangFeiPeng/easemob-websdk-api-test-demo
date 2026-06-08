@@ -32,13 +32,13 @@ const getHistoryMessage = async () => {
     Message.error('请输入目标ID');
     return;
   }
-  let options = {
-      targetId: getHistoryMessageForm.targetId,
-      chatType: getHistoryMessageForm.chatType,
-      pageSize: getHistoryMessageForm.pageSize,
-      cursor: getHistoryMessageForm.cursor,
-      searchDirection: 'up' as const,
-    } 
+  const options = {
+    targetId: getHistoryMessageForm.targetId,
+    chatType: getHistoryMessageForm.chatType,
+    pageSize: getHistoryMessageForm.pageSize,
+    cursor: getHistoryMessageForm.cursor,
+    searchDirection: 'up' as const,
+  };
   try {
     const res = await EMClient.getHistoryMessages({ ...options });
     outConsoleLog('获取历史消息成功', res);
