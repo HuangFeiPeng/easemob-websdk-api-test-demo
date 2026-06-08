@@ -22,7 +22,7 @@ const configForm = useLocalStorage<EasemobChat.ConnectionParameters>(
   defaultConfig,
   {
     mergeDefaults: true, // 合并默认值，避免新增字段时丢失
-  }
+  },
 );
 
 // 在组件加载时延迟初始化EMClient，避免AppKey未配置时报错
@@ -47,18 +47,23 @@ watch(
   (newVal: string, oldVal: string) => {
     console.log('newVal', newVal);
     if (newVal === SDK_TYPES.EASEMOB) {
-      configForm.value.appKey = 'easemob-demo#support';
-      configForm.value.appId = '';
-    } else if (newVal === SDK_TYPES.SHENGWANG) {
-      console.log('切换为声网SDK 重置appkey');
-      configForm.value.appKey = '';
-      configForm.value.appId = '';
-      console.log(configForm.value);
-    } else if (newVal === SDK_TYPES.AGORA) {
-      console.log('切换为Agora Chat SDK 重置appkey');
-      configForm.value.appKey = '';
+      // 仅在用户未手动配置 appKey 时才使用默认值，避免覆盖已保存的自定义配置
+      if (!configForm.value.appKey || configForm.value.appKey === '') {
+        configForm.value.appKey = 'easemob-demo#support';
+      }
       configForm.value.appId = '';
     }
+    // TODO: 暂时禁用声网IM和Agora Chat
+    // } else if (newVal === SDK_TYPES.SHENGWANG) {
+    //   console.log('切换为声网SDK 重置appkey');
+    //   configForm.value.appKey = '';
+    //   configForm.value.appId = '';
+    //   console.log(configForm.value);
+    // } else if (newVal === SDK_TYPES.AGORA) {
+    //   console.log('切换为Agora Chat SDK 重置appkey');
+    //   configForm.value.appKey = '';
+    //   configForm.value.appId = '';
+    // }
   },
 );
 defineOptions({
@@ -69,23 +74,28 @@ defineOptions({
   <div class="m-10">
     <a-form :model="configForm" layout="horizontal">
       <a-form-item v-if="SDKTypes === 'easemob'" label="appKey" required>
-        <a-input v-model="configForm.appKey" placeholder="请输入格式正确的appKey" />
+        <a-input
+          v-model="configForm.appKey"
+          placeholder="请输入格式正确的appKey"
+        />
         <template #extra>
           <div>环信IM所必须的appKey</div>
         </template>
       </a-form-item>
-      <a-form-item v-if="SDKTypes === 'shengwang'" label="appId" required>
+      <!-- TODO: 暂时禁用声网IM -->
+      <!-- <a-form-item v-if="SDKTypes === 'shengwang'" label="appId" required>
         <a-input v-model="configForm.appId" placeholder="请输入appId" />
         <template #extra>
           <div>声网IM所必须的appId</div>
         </template>
-      </a-form-item>
-      <a-form-item v-if="SDKTypes === 'agora'" label="appKey" required>
+      </a-form-item> -->
+      <!-- TODO: 暂时禁用Agora Chat -->
+      <!-- <a-form-item v-if="SDKTypes === 'agora'" label="appKey" required>
         <a-input v-model="configForm.appKey" placeholder="请输入Agora Chat的appKey" />
         <template #extra>
           <div>Agora Chat所必须的appKey（格式：orgName#appName）</div>
         </template>
-      </a-form-item>
+      </a-form-item> -->
       <a-form-item label="isHttpDNS">
         <a-switch v-model="configForm.isHttpDNS" />
         <template #extra>
@@ -129,7 +139,10 @@ defineOptions({
         </template>
       </a-form-item>
       <a-form-item label="deviceId">
-        <a-input v-model="configForm.deviceId" placeholder="请输入自定义resource ID" />
+        <a-input
+          v-model="configForm.deviceId"
+          placeholder="请输入自定义resource ID"
+        />
         <template #extra>
           <div>自定义resource ID，用于区分用户登录的设备</div>
         </template>

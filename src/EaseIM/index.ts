@@ -1,9 +1,12 @@
 /* 环信IM */
 import EC, { EasemobChatStatic, EasemobChat } from 'easemob-websdk';
-import SC, { ShengwangChatStatic, ShengwangChat } from 'shengwang-chat';
-import AgoraChat from 'agora-chat';
+// TODO: 暂时禁用声网IM
+// import SC, { ShengwangChatStatic, ShengwangChat } from 'shengwang-chat';
+// TODO: 暂时禁用Agora Chat
+// import AgoraChat from 'agora-chat';
 import { emListenerV4, emListenerV3 } from '@/EaseIM/listener';
-import { SDK_TYPES, EM_APPKEY, SHENGWANG_APPID, AGORA_APPKEY } from '@/constants';
+import { SDK_TYPES, EM_APPKEY } from '@/constants';
+// import { SDK_TYPES, EM_APPKEY, SHENGWANG_APPID, AGORA_APPKEY } from '@/constants';
 const SDKTypes = useLocalStorage('switchSDK', SDK_TYPES.EASEMOB);
 console.log('[DEBUG] 实际SDK类型:', SDKTypes.value);
 console.log('[DEBUG] 本地存储值:', localStorage.getItem('switchSDK'));
@@ -20,9 +23,11 @@ export const initializationEMClient = (
 
   if (SDKTypes.value === SDK_TYPES.EASEMOB) {
     options.appKey = options.appKey || EM_APPKEY;
-  } else if (SDKTypes.value === SDK_TYPES.SHENGWANG) {
-    options.appId = options.appId || SHENGWANG_APPID;
+    // TODO: 暂时禁用声网IM
+    // } else if (SDKTypes.value === SDK_TYPES.SHENGWANG) {
+    //   options.appId = options.appId || SHENGWANG_APPID;
   }
+  // TODO: 暂时禁用Agora Chat
   // Agora 模式不设置默认值，需要用户手动配置
 
   let client: EasemobChat.Connection;
@@ -36,6 +41,8 @@ export const initializationEMClient = (
       ),
     });
     console.log('>>>环信IM初始化');
+    // TODO: 暂时禁用声网IM和Agora Chat
+    /*
   } else if (SDKTypes.value === SDK_TYPES.SHENGWANG) {
     console.log('>>>声网IM初始化');
     client = new SC.connection(
@@ -57,6 +64,7 @@ export const initializationEMClient = (
         appKey: options.appKey,
       }) as unknown as EasemobChat.Connection;
     }
+    */
   } else {
     throw new Error('Invalid SDK type');
   }

@@ -10,8 +10,10 @@ import EnvironmentCheck from '@/components/EnvironmentCheck/index.vue';
 import { initializationEMClient, EMClient } from '@/EaseIM';
 import { SDK_TYPES } from '@/constants';
 import EC from 'easemob-websdk';
-import SC from 'shengwang-chat';
-import AgoraChat from 'agora-chat';
+// TODO: 暂时禁用声网IM
+// import SC from 'shengwang-chat';
+// TODO: 暂时禁用Agora Chat
+// import AgoraChat from 'agora-chat';
 /* 组件 */
 import ConfigComp from '@/components/Config/index.vue';
 import LoginComp from '@/components/Login/index.vue';
@@ -21,7 +23,22 @@ import GroupComp from '@/components/Group/index.vue';
 import ContactsComp from '@/components/Contacts/index.vue';
 import ChatroomComp from '@/components/Chatroom/index.vue';
 import Tools from '@/components/Tools/index.vue';
-initializationEMClient();
+
+// 读取 localStorage 中持久化的配置，确保首次初始化使用用户保存的配置而非默认值
+const initConfig = (() => {
+  try {
+    const stored = localStorage.getItem('easemob-config');
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (parsed.appKey || parsed.appId) return parsed;
+    }
+  } catch {
+    /* ignore parse error */
+  }
+  return undefined;
+})();
+initializationEMClient(initConfig);
+
 const theme = ref('light');
 const isDark = useDark({
   valueDark: 'dark',
@@ -64,7 +81,7 @@ const showComponent = computed(() => {
 const SDKVersion = ref(EMClient.version);
 const switchSDK = useLocalStorage('switchSDK', SDK_TYPES.EASEMOB);
 
-// 获取各个SDK的真实版本信息
+// 获取SDK版本信息
 const getSDKVersion = (sdkType: string) => {
   try {
     switch (sdkType) {
@@ -72,19 +89,19 @@ const getSDKVersion = (sdkType: string) => {
         const tempClient = new EC.connection({ appKey: 'temp#temp' });
         return `环信SDK v${tempClient.version || 'unknown'}`;
       }
-      case SDK_TYPES.SHENGWANG: {
-        const tempClient = new SC.connection({ appId: 'temp' });
-        return `声网SDK v${(tempClient as any).version || 'unknown'}`;
-      }
-      case SDK_TYPES.AGORA: {
-        const tempClient = new AgoraChat.connection({ appKey: 'temp#temp' });
-        return `Agora Chat v${(tempClient as any).version || 'unknown'}`;
-      }
+      // TODO: 暂时禁用声网IM和Agora Chat
+      // case SDK_TYPES.SHENGWANG: {
+      //   const tempClient = new SC.connection({ appId: 'temp' });
+      //   return `声网SDK v${(tempClient as any).version || 'unknown'}`;
+      // }
+      // case SDK_TYPES.AGORA: {
+      //   const tempClient = new AgoraChat.connection({ appKey: 'temp#temp' });
+      //   return `Agora Chat v${(tempClient as any).version || 'unknown'}`;
+      // }
       default:
         return '';
     }
   } catch (e) {
-    // 如果创建失败，返回默认信息
     return `${sdkType} SDK`;
   }
 };
@@ -95,16 +112,17 @@ const sdkOptions = [
     value: SDK_TYPES.EASEMOB,
     tooltip: getSDKVersion(SDK_TYPES.EASEMOB),
   },
-  {
-    label: '声网SDK',
-    value: SDK_TYPES.SHENGWANG,
-    tooltip: getSDKVersion(SDK_TYPES.SHENGWANG),
-  },
-  {
-    label: 'Agora Chat',
-    value: SDK_TYPES.AGORA,
-    tooltip: getSDKVersion(SDK_TYPES.AGORA),
-  },
+  // TODO: 暂时禁用声网IM和Agora Chat
+  // {
+  //   label: '声网SDK',
+  //   value: SDK_TYPES.SHENGWANG,
+  //   tooltip: getSDKVersion(SDK_TYPES.SHENGWANG),
+  // },
+  // {
+  //   label: 'Agora Chat',
+  //   value: SDK_TYPES.AGORA,
+  //   tooltip: getSDKVersion(SDK_TYPES.AGORA),
+  // },
 ];
 
 watch(switchSDK, (newVal: string) => {
@@ -112,16 +130,7 @@ watch(switchSDK, (newVal: string) => {
   try {
     initializationEMClient();
     SDKVersion.value = EMClient.version;
-    // 如果是Agora SDK且AppKey未配置，提示用户
-    if (newVal === SDK_TYPES.AGORA) {
-      nextTick(() => {
-        Message.info({
-          content:
-            '请在【配置】页面设置Agora Chat的AppKey（格式：orgName#appName）',
-          duration: 5000,
-        });
-      });
-    }
+    // TODO: 暂时禁用Agora Chat 提示
   } catch (error: any) {
     console.error('SDK初始化失败:', error);
     Message.error({
