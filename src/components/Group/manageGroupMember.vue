@@ -87,6 +87,100 @@ const inviteGroupMembers = async () => {
     Message.error('邀请群成员入群失败');
   }
 };
+/* 入群申请与邀请处理 */
+const acceptGroupJoinRequest = async () => {
+  const { groupId, groupUserIds } = manageGroupMemberForm;
+  if (!groupId) {
+    Message.error('群组ID不能为空');
+    return;
+  }
+  if (!groupUserIds.length) {
+    Message.error('申请人ID不能为空');
+    return;
+  }
+  const applicant = groupUserIds[0];
+  try {
+    const res = await EMClient.acceptGroupJoinRequest({
+      groupId,
+      applicant,
+    });
+    outConsoleLog('同意入群申请成功', res);
+    Message.success('同意入群申请成功');
+  } catch (error) {
+    outConsoleLog('同意入群申请失败', error, 'error');
+    Message.error('同意入群申请失败');
+  }
+};
+const rejectGroupJoinRequest = async () => {
+  const { groupId, groupUserIds } = manageGroupMemberForm;
+  if (!groupId) {
+    Message.error('群组ID不能为空');
+    return;
+  }
+  if (!groupUserIds.length) {
+    Message.error('申请人ID不能为空');
+    return;
+  }
+  const applicant = groupUserIds[0];
+  try {
+    const res = await EMClient.rejectGroupJoinRequest({
+      groupId,
+      applicant,
+      reason: '拒绝你的入群申请',
+    });
+    outConsoleLog('拒绝入群申请成功', res);
+    Message.success('拒绝入群申请成功');
+  } catch (error) {
+    outConsoleLog('拒绝入群申请失败', error, 'error');
+    Message.error('拒绝入群申请失败');
+  }
+};
+const acceptGroupInvite = async () => {
+  const { groupId, groupUserIds } = manageGroupMemberForm;
+  if (!groupId) {
+    Message.error('群组ID不能为空');
+    return;
+  }
+  if (!groupUserIds.length) {
+    Message.error('被邀请人ID不能为空');
+    return;
+  }
+  const invitee = groupUserIds[0];
+  try {
+    const res = await EMClient.acceptGroupInvite({
+      groupId,
+      invitee,
+    });
+    outConsoleLog('接受入群邀请成功', res);
+    Message.success('接受入群邀请成功');
+  } catch (error) {
+    outConsoleLog('接受入群邀请失败', error, 'error');
+    Message.error('接受入群邀请失败');
+  }
+};
+const rejectGroupInvite = async () => {
+  const { groupId, groupUserIds } = manageGroupMemberForm;
+  if (!groupId) {
+    Message.error('群组ID不能为空');
+    return;
+  }
+  if (!groupUserIds.length) {
+    Message.error('被邀请人ID不能为空');
+    return;
+  }
+  const invitee = groupUserIds[0];
+  try {
+    const res = await EMClient.rejectGroupInvite({
+      groupId,
+      invitee,
+    });
+    outConsoleLog('拒绝入群邀请成功', res);
+    Message.success('拒绝入群邀请成功');
+  } catch (error) {
+    outConsoleLog('拒绝入群邀请失败', error, 'error');
+    Message.error('拒绝入群邀请失败');
+  }
+};
 /* 群成员自定义属性 */
 const setGroupMemberAttributes = async () => {
   const { groupId, groupUserIds, checkedMemberAttributes } =
@@ -549,6 +643,36 @@ const unmuteAllGroupMembers = async () => {
             邀请成员入群
           </a-button>
         </a-space>
+      </a-form-item>
+      <a-form-item label="入群申请与邀请处理">
+        <a-space :size="'medium'" wrap>
+          <a-button type="primary" @click="acceptGroupJoinRequest">
+            同意入群申请
+          </a-button>
+          <a-button
+            type="primary"
+            status="danger"
+            @click="rejectGroupJoinRequest"
+          >
+            拒绝入群申请
+          </a-button>
+          <a-button type="primary" @click="acceptGroupInvite">
+            接受入群邀请
+          </a-button>
+          <a-button type="primary" status="danger" @click="rejectGroupInvite">
+            拒绝入群邀请
+          </a-button>
+        </a-space>
+        <template #extra>
+          <div>
+            同意/拒绝入群申请：群主/管理员操作，"群成员ID"中填申请人ID，申请人会收到
+            onGroupEvent 的 acceptRequest / joinPublicGroupDeclined 事件。
+          </div>
+          <div>
+            接受/拒绝入群邀请："群成员ID"中填被邀请人ID（invitee），邀请人会收到
+            onGroupEvent 的 acceptInvite / rejectInvite 事件。
+          </div>
+        </template>
       </a-form-item>
       <a-form-item label="mock群成员自定义属性">
         <a-select

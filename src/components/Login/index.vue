@@ -7,12 +7,19 @@ interface ILoginParams {
   password: string;
   accessToken: string;
 }
+const savedUserId = useLocalStorage('easemob-login-user-id', '');
 const loginParams: ILoginParams = reactive({
-  userId: '',
+  userId: savedUserId.value,
   password: '',
   accessToken: '',
   agoraToken: '',
 });
+watch(
+  () => loginParams.userId,
+  (val: string) => {
+    savedUserId.value = val;
+  },
+);
 const loginIM = async () => {
   if (!loginParams.userId || !loginParams.password) {
     Message.warning('请输入环信ID和密码');

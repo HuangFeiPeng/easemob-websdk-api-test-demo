@@ -22,7 +22,10 @@ importers:
         version: 4.2.0
       easemob-websdk:
         specifier: ^4.19.1
-        version: 4.22.0
+        version: 4.19.1
+      easemob-websdk-5:
+        specifier: npm:easemob-websdk@5.1.3
+        version: easemob-websdk@5.1.3
       eruda:
         specifier: ^3.4.3
         version: 3.4.3
@@ -1348,8 +1351,11 @@ packages:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
     engines: {node: '>= 0.4'}
 
-  easemob-websdk@4.22.0:
-    resolution: {integrity: sha512-yGWu8FGOtACBkoxuM5nzqwfBwo8hUYhkLiXciu3Wrwyh2hW4jKc23uwzTC8EwUs7kbJk5QId58UWBbekEZdJig==}
+  easemob-websdk@4.19.1:
+    resolution: {integrity: sha512-GJ+u7EXcbBn0SGMTfKkoGe6Sy5FieXuNlAEiQHtkTkzEMQKbEizUMah5S4R+ubtCY+n+c18ph90OSQXeDdyYkw==}
+
+  easemob-websdk@5.1.3:
+    resolution: {integrity: sha512-j+PKlvMo6ppotTEVAKg9D+L65M9ZkUhVMK2sthp1IYU0l7IPpmB8ul4teoh1qfrQbvNXN05eLC8V3qmGaY7tcw==}
 
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
@@ -3359,6 +3365,9 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
+  zod@3.25.76:
+    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+
 snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
@@ -4750,7 +4759,11 @@ snapshots:
       es-errors: 1.3.0
       gopd: 1.2.0
 
-  easemob-websdk@4.22.0: {}
+  easemob-websdk@4.19.1: {}
+
+  easemob-websdk@5.1.3:
+    dependencies:
+      zod: 3.25.76
 
   eastasianwidth@0.2.0: {}
 
@@ -6940,3 +6953,5 @@ snapshots:
   yn@3.1.1: {}
 
   yocto-queue@0.1.0: {}
+
+  zod@3.25.76: {}

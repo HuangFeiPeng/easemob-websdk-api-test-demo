@@ -1,221 +1,184 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Message } from '@arco-design/web-vue';
+import { useRouter } from 'vue-router';
 import {
-  IconSunFill,
-  IconMoonFill,
+  IconCode,
+  IconNotification,
+  IconThunderbolt,
   IconComputer,
+  IconRight,
 } from '@arco-design/web-vue/es/icon';
+import PageHeader from '@/components/PageHeader/index.vue';
 import EnvironmentCheck from '@/components/EnvironmentCheck/index.vue';
-import { initializationEMClient, EMClient } from '@/EaseIM';
-import { SDK_TYPES } from '@/constants';
 import EC from 'easemob-websdk';
-// TODO: 暂时禁用声网IM
-// import SC from 'shengwang-chat';
-// TODO: 暂时禁用Agora Chat
-// import AgoraChat from 'agora-chat';
-/* 组件 */
-import ConfigComp from '@/components/Config/index.vue';
-import LoginComp from '@/components/Login/index.vue';
-import MessageComp from '@/components/Message/index.vue';
-import ConversationComp from '@/components/Conversation/index.vue';
-import GroupComp from '@/components/Group/index.vue';
-import ContactsComp from '@/components/Contacts/index.vue';
-import ChatroomComp from '@/components/Chatroom/index.vue';
-import Tools from '@/components/Tools/index.vue';
 
-// 读取 localStorage 中持久化的配置，确保首次初始化使用用户保存的配置而非默认值
-const initConfig = (() => {
-  try {
-    const stored = localStorage.getItem('easemob-config');
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      if (parsed.appKey || parsed.appId) return parsed;
-    }
-  } catch {
-    /* ignore parse error */
-  }
-  return undefined;
-})();
-initializationEMClient(initConfig);
-
-const theme = ref('light');
-const isDark = useDark({
-  valueDark: 'dark',
-  valueLight: 'light',
-  storageKey: 'theme',
-  onChanged(dark: boolean) {
-    if (dark) {
-      theme.value = 'dark';
-      document.body.setAttribute('arco-theme', 'dark');
-      document.documentElement.classList.add('dark');
-    } else {
-      theme.value = 'light';
-      document.body.removeAttribute('arco-theme');
-      document.documentElement.classList.remove('dark');
-    }
-  },
-});
-const toggleTheme = useToggle(isDark);
+const router = useRouter();
 const envCheckVisible = ref(false);
-const menuIndex = ref(['1']);
-const testMenuList = [
-  {
-    name: '配置',
-    key: '0',
-    component: ConfigComp,
-  },
-  { name: '登录', key: '1', component: LoginComp },
-  { name: '消息', key: '2', component: MessageComp },
-  { name: '会话', key: '3', component: ConversationComp },
-  { name: '用户', key: '4', component: ContactsComp },
-  { name: '群组', key: '5', component: GroupComp },
-  { name: '聊天室', key: '6', component: ChatroomComp },
-  { name: '工具集', key: '7', component: Tools },
-];
-const showComponent = computed(() => {
-  return testMenuList.find((item) => item.key === menuIndex.value[0])
-    ?.component;
-});
-//SDK切换checkbox
-const SDKVersion = ref(EMClient.version);
-const switchSDK = useLocalStorage('switchSDK', SDK_TYPES.EASEMOB);
 
-// 获取SDK版本信息
-const getSDKVersion = (sdkType: string) => {
+// 4.x SDK 版本（通过临时连接实例读取，无需登录）
+const getSDK4Version = () => {
   try {
-    switch (sdkType) {
-      case SDK_TYPES.EASEMOB: {
-        const tempClient = new EC.connection({ appKey: 'temp#temp' });
-        return `环信SDK v${tempClient.version || 'unknown'}`;
-      }
-      // TODO: 暂时禁用声网IM和Agora Chat
-      // case SDK_TYPES.SHENGWANG: {
-      //   const tempClient = new SC.connection({ appId: 'temp' });
-      //   return `声网SDK v${(tempClient as any).version || 'unknown'}`;
-      // }
-      // case SDK_TYPES.AGORA: {
-      //   const tempClient = new AgoraChat.connection({ appKey: 'temp#temp' });
-      //   return `Agora Chat v${(tempClient as any).version || 'unknown'}`;
-      // }
-      default:
-        return '';
-    }
+    const tempClient = new EC.connection({ appKey: 'temp#temp' });
+    return `easemob-websdk v${tempClient.version || 'unknown'}`;
   } catch (e) {
-    return `${sdkType} SDK`;
+    return 'easemob-websdk';
   }
 };
 
-const sdkOptions = [
+const featureCards = [
   {
-    label: '环信SDK',
-    value: SDK_TYPES.EASEMOB,
-    tooltip: getSDKVersion(SDK_TYPES.EASEMOB),
+    key: 'api-test',
+    title: 'WebSDK 4.x API 测试',
+    description:
+      '初始化配置、登录、消息、会话、用户、群组、聊天室等 4.x SDK API 测试，含 Token 生成等工具集。',
+    route: '/api-test',
+    version: getSDK4Version(),
+    icon: IconCode,
   },
-  // TODO: 暂时禁用声网IM和Agora Chat
-  // {
-  //   label: '声网SDK',
-  //   value: SDK_TYPES.SHENGWANG,
-  //   tooltip: getSDKVersion(SDK_TYPES.SHENGWANG),
-  // },
-  // {
-  //   label: 'Agora Chat',
-  //   value: SDK_TYPES.AGORA,
-  //   tooltip: getSDKVersion(SDK_TYPES.AGORA),
-  // },
+  {
+    key: 'push-request-body',
+    title: '推送请求体生成器',
+    description:
+      '可视化表单生成各厂商（APNs、FCM、小米、华为、荣耀等）推送 /push/single 接口请求体 JSON。',
+    route: '/push-request-body',
+    version: '',
+    icon: IconNotification,
+  },
+  {
+    key: 'websdk5',
+    title: 'WebSDK 5.x 测试',
+    description:
+      '基于 5.x 新架构（ChatClient + 管理器 + 类型化事件）的初始化、登录、消息、会话、群组等 API 测试。',
+    route: '/websdk5',
+    version: 'easemob-websdk v5.1.3',
+    icon: IconThunderbolt,
+  },
 ];
 
-watch(switchSDK, (newVal: string) => {
-  console.log('切换SDK为:', newVal);
-  try {
-    initializationEMClient();
-    SDKVersion.value = EMClient.version;
-    // TODO: 暂时禁用Agora Chat 提示
-  } catch (error: any) {
-    console.error('SDK初始化失败:', error);
-    Message.error({
-      content: error.message || 'SDK初始化失败',
-      duration: 5000,
-    });
-    // 回滚到上一个可用的SDK
-    nextTick(() => {
-      switchSDK.value = SDK_TYPES.EASEMOB;
-    });
-  }
-});
+const enterFeature = (route: string) => {
+  router.push(route);
+};
 </script>
 
 <template>
-  <a-card>
-    <template #title>
-      <a-tooltip :content="`当前SDK版本：${SDKVersion}`">
-        <div class="flex items-center gap-4">
-          <h1 class="text-2xl font-bold">环信WebAPI测试用例</h1>
-          <a-radio-group v-model="switchSDK" type="button">
-            <a-tooltip
-              v-for="option in sdkOptions"
-              :key="option.value"
-              :content="option.tooltip"
-            >
-              <a-radio :value="option.value">
-                {{ option.label }}
-              </a-radio>
-            </a-tooltip>
-          </a-radio-group>
-        </div>
-      </a-tooltip>
-    </template>
-    <template #extra>
-      <div class="flex items-center gap-2">
-        <a-button type="outline" shape="circle" @click="toggleTheme()">
-          <template #icon>
-            <icon-sun-fill style="font-size: 16px" v-if="theme === 'dark'" />
-            <icon-moon-fill style="font-size: 16px" v-else />
-          </template>
-        </a-button>
-      </div>
-    </template>
-    <ul>
-      <li class="font-bold">
-        ⭐️：本项目API输出均打印在控制台，因此请右键点击【检查】打开console查看输出。
-      </li>
-      <li class="font-bold">
-        ⭐️：几乎所有API需要登录才能使用，如：发送消息、调用会话列表、操作好友添加等。
-      </li>
-    </ul>
-    <a-divider />
-    <a-button
-      type="primary"
-      status="success"
-      long
-      @click="envCheckVisible = true"
-    >
-      <template #icon>
-        <icon-computer />
-      </template>
-      运行环境检测
-    </a-button>
-  </a-card>
-  <div class="mt-5 sm:w - full md:w - 1/2 lg:w - 1/3">
-    <a-menu
-      mode="horizontal"
-      v-model:selected-keys="menuIndex"
-      :default-selected-keys="['0']"
-    >
-      <a-menu-item
-        :key="item.key"
-        v-for="item in testMenuList"
-        :title="item.name"
+  <div class="home-page">
+    <PageHeader :show-back="false" title="环信WebAPI测试用例" />
+    <div class="home-page__body">
+      <a-alert class="mb-4" type="warning">
+        本项目API输出均打印在控制台，因此请右键点击【检查】打开console查看输出；几乎所有API需要登录才能使用，如：发送消息、调用会话列表、操作好友添加等。
+      </a-alert>
+      <a-button
+        type="primary"
+        status="success"
+        long
+        @click="envCheckVisible = true"
       >
-        {{ item.name }}
-      </a-menu-item>
-    </a-menu>
-    <KeepAlive>
-      <component :is="showComponent"></component>
-    </KeepAlive>
-    <!-- <component :is="showComponent"></component> -->
+        <template #icon>
+          <icon-computer />
+        </template>
+        运行环境检测
+      </a-button>
+      <div class="feature-grid">
+        <a-card
+          v-for="card in featureCards"
+          :key="card.key"
+          class="feature-card"
+          hoverable
+          @click="enterFeature(card.route)"
+        >
+          <div class="feature-card__header">
+            <component :is="card.icon" class="feature-card__icon" />
+            <div class="feature-card__title">{{ card.title }}</div>
+            <a-tag
+              v-if="card.version"
+              class="feature-card__version"
+              color="arcoblue"
+              size="small"
+            >
+              {{ card.version }}
+            </a-tag>
+          </div>
+          <div class="feature-card__desc">{{ card.description }}</div>
+          <div class="feature-card__footer">
+            进入测试
+            <icon-right />
+          </div>
+        </a-card>
+      </div>
+    </div>
+    <EnvironmentCheck v-model:visible="envCheckVisible" />
   </div>
-  <EnvironmentCheck v-model:visible="envCheckVisible" />
 </template>
 
-<style scoped></style>
+<style scoped>
+.home-page {
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 16px 20px 24px;
+  background: var(--arco-color-fill-1);
+}
+
+.home-page__body {
+  max-width: 1680px;
+  margin: 0 auto;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.feature-card {
+  cursor: pointer;
+}
+
+.feature-card__header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.feature-card__icon {
+  font-size: 22px;
+  color: rgb(var(--primary-6));
+  flex-shrink: 0;
+}
+
+.feature-card__title {
+  flex: 1;
+  min-width: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--arco-color-text-1);
+}
+
+.feature-card__version {
+  flex-shrink: 0;
+}
+
+.feature-card__desc {
+  margin-top: 8px;
+  min-height: 44px;
+  color: var(--arco-color-text-2);
+  line-height: 1.6;
+}
+
+.feature-card__footer {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-top: 12px;
+  color: rgb(var(--primary-6));
+  font-size: 13px;
+}
+
+@media (max-width: 640px) {
+  .home-page {
+    padding: 10px 8px 16px;
+  }
+}
+</style>

@@ -45,6 +45,8 @@ module.exports = {
     'import/newline-after-import': 'off',
     'object-curly-newline': 'off',
     'import/no-mutable-exports': 'off',
+    // listener 等模块使用具名导出，与 index 的 export * 配合
+    'import/prefer-default-export': 'off',
     'no-underscore-dangle': 'off',
     // 处理 prettier 和 eslint 冲突的规则
     'prettier/prettier': [

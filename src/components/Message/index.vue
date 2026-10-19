@@ -22,17 +22,23 @@ interface IMessageForm {
   deliverOnlineOnly?: boolean;
   receiverList?: string[];
 }
-const messageForm = reactive<IMessageForm>({
-  targetId: '',
-  msgContent: '',
-  chatType: 'singleChat',
-  messageType: 'txt',
-  cursor: '',
-  messageId: [],
-  pageSize: 20,
-  deliverOnlineOnly: false,
-  receiverList: [],
-});
+const messageForm = useLocalStorage<IMessageForm>(
+  'easemob-message-form',
+  {
+    targetId: '',
+    msgContent: '',
+    chatType: 'singleChat',
+    messageType: 'txt',
+    cursor: '',
+    messageId: [],
+    pageSize: 20,
+    deliverOnlineOnly: false,
+    receiverList: [],
+  },
+  {
+    mergeDefaults: true,
+  },
+).value;
 //发送文本消息
 const sendTextMessage = async () => {
   const options: EasemobChat.CreateTextMsgParameters = {

@@ -1,14 +1,8 @@
 import { EasemobChat } from 'easemob-websdk';
-import { SDK_TYPES } from '@/constants';
-const SDKTypes = useLocalStorage('switchSDK', SDK_TYPES.EASEMOB);
-const listenerV3 = 'emListenerV3';
+import { outConsoleLog as outLog } from '@/utils/consoleOutput';
 const outConsoleLog = (logContent: string, logData?: any) => {
-  console.log(
-    `%c${logContent}`,
-    `color: red; font-size: 18px`,
-    logData,
-    `From：${SDKTypes.value}-${listenerV3}`,
-  );
+  // V3 事件回调：打 console 并写入结果面板的「SDK 事件」
+  outLog(`V3-${logContent}`, logData, 'debug', 'event');
 };
 export const emListenerV3 = (EMClient: EasemobChat.Connection) => {
   console.log('>>>>>emListenerV3 挂载完成....');

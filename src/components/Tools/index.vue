@@ -34,7 +34,6 @@ const isMobile = ref<boolean>(false);
 const toolsTabs = [
   { key: 0, title: '生成动态Token' },
   { key: 1, title: 'IM网络测试工具' },
-  { key: 2, title: '工具3' },
 ];
 
 // 检测屏幕尺寸是否为移动设备
@@ -58,7 +57,6 @@ const componentMap = {
   tool2: defineAsyncComponent(
     () => import('./IMNetworkTestAddressGenerator.vue'),
   ),
-  tool3: defineAsyncComponent(() => import('./Tool3.vue')),
 };
 
 // 当前组件
@@ -70,7 +68,7 @@ const currentComponent = computed(() => {
 
 const handleTabChange = (key: string | number) => {
   console.log('当前选中的标签:', key);
-  const keyNum = typeof key === 'string' ? parseInt(key) : key;
+  const keyNum = typeof key === 'string' ? parseInt(key, 10) : key;
   activeTab.value = `tool${keyNum + 1}`;
 };
 </script>

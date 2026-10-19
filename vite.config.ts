@@ -23,7 +23,8 @@ export default defineConfig({
     open: true, // 自动打开游览器
     cors: true, // 允许跨域
     proxy: {
-      '/api': {
+      // 仅代理真实 API 子路径，避免与 /api-test 等前端路由冲突
+      '^/api/': {
         // 这里配置真实的后端环境地址
         target: 'http://example',
         changeOrigin: true,
