@@ -10,10 +10,11 @@ import {
 } from '@arco-design/web-vue/es/icon';
 import PageHeader from '@/components/PageHeader/index.vue';
 import EnvironmentCheck from '@/components/EnvironmentCheck/index.vue';
-import EC from 'easemob-websdk';
+import { getWebSdk } from '@/sdk';
 
 const router = useRouter();
 const envCheckVisible = ref(false);
+const EC = getWebSdk();
 
 // 4.x SDK 版本（通过临时连接实例读取，无需登录）
 const getSDK4Version = () => {

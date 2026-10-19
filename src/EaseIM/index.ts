@@ -1,5 +1,5 @@
 /* 环信IM */
-import EC, { EasemobChatStatic, EasemobChat } from 'easemob-websdk';
+import type { EasemobChatStatic, EasemobChat } from 'easemob-websdk';
 // TODO: 暂时禁用声网IM
 // import SC, { ShengwangChatStatic, ShengwangChat } from 'shengwang-chat';
 // TODO: 暂时禁用Agora Chat
@@ -7,9 +7,13 @@ import EC, { EasemobChatStatic, EasemobChat } from 'easemob-websdk';
 import { emListenerV4, emListenerV3 } from '@/EaseIM/listener';
 import { SDK_TYPES, EM_APPKEY } from '@/constants';
 // import { SDK_TYPES, EM_APPKEY, SHENGWANG_APPID, AGORA_APPKEY } from '@/constants';
+import { getWebSdk } from '@/sdk';
+
 const SDKTypes = useLocalStorage('switchSDK', SDK_TYPES.EASEMOB);
 console.log('[DEBUG] 实际SDK类型:', SDKTypes.value);
 console.log('[DEBUG] 本地存储值:', localStorage.getItem('switchSDK'));
+// 运行时按用户选择的版本动态加载，等价于原来的 `import EC from 'easemob-websdk'`
+const EC = getWebSdk();
 export let EMClient = {} as EasemobChat.Connection;
 export const WebSDK = EC;
 console.log('window', window);

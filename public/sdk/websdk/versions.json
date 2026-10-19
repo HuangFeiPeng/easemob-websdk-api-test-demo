@@ -1,0 +1,85 @@
+{
+  "name": "easemob-websdk",
+  "generatedAt": "2026-10-19T08:34:06.996Z",
+  "range": {
+    "from": "4.19.1",
+    "to": "4.24.1"
+  },
+  "default": "4.19.1",
+  "versions": [
+    {
+      "version": "4.19.1",
+      "channel": "stable",
+      "path": "sdk/websdk/4.19.1/Easemob-chat.js",
+      "bytes": 628167,
+      "sha256": "ac57832dde35234ef83e1caffa973d72f79bc5eda9ceb443d2f092977cb27c0b",
+      "publishedAt": "2026-02-27T08:02:29.506Z"
+    },
+    {
+      "version": "4.21.0",
+      "channel": "stable",
+      "path": "sdk/websdk/4.21.0/Easemob-chat.js",
+      "bytes": 641879,
+      "sha256": "a96100d93f93c08f6a76a2ea3d1d53209ae716cb0205790edd678e7ae392dc76",
+      "publishedAt": "2026-04-27T02:53:08.415Z"
+    },
+    {
+      "version": "4.21.1-beta.0",
+      "channel": "beta",
+      "path": "sdk/websdk/4.21.1/Easemob-chat.js",
+      "bytes": 633853,
+      "sha256": "3179541f5295e63efb00b96041556bd793dae5e61fa63143f08c4018357c4703",
+      "publishedAt": "2026-05-12T03:57:07.562Z",
+      "aliasOf": "4.21.1"
+    },
+    {
+      "version": "4.21.1",
+      "channel": "stable",
+      "path": "sdk/websdk/4.21.1/Easemob-chat.js",
+      "bytes": 633853,
+      "sha256": "3179541f5295e63efb00b96041556bd793dae5e61fa63143f08c4018357c4703",
+      "publishedAt": "2026-05-12T04:02:02.997Z"
+    },
+    {
+      "version": "4.22.0-beta.0",
+      "channel": "beta",
+      "path": "sdk/websdk/4.22.0/Easemob-chat.js",
+      "bytes": 660497,
+      "sha256": "67c79aa91d130e288c7341e3581fa687f61f93dd504e72754d7a5a33a9537267",
+      "publishedAt": "2026-06-08T02:56:13.084Z",
+      "aliasOf": "4.22.0"
+    },
+    {
+      "version": "4.22.0",
+      "channel": "stable",
+      "path": "sdk/websdk/4.22.0/Easemob-chat.js",
+      "bytes": 660497,
+      "sha256": "67c79aa91d130e288c7341e3581fa687f61f93dd504e72754d7a5a33a9537267",
+      "publishedAt": "2026-06-08T03:05:34.177Z"
+    },
+    {
+      "version": "4.23.0",
+      "channel": "stable",
+      "path": "sdk/websdk/4.23.0/Easemob-chat.js",
+      "bytes": 660885,
+      "sha256": "5b30debfb3ac93c7b51abc2fb6489949a7ad3d4c03f426f9bf0b980f33265257",
+      "publishedAt": "2026-06-10T09:48:42.477Z"
+    },
+    {
+      "version": "4.24.0",
+      "channel": "stable",
+      "path": "sdk/websdk/4.24.0/Easemob-chat.js",
+      "bytes": 669390,
+      "sha256": "fa824fbb3e36d653a10f868ed2b691a5a9113fe903edcfd9edefe32effbad970",
+      "publishedAt": "2026-06-25T02:56:41.139Z"
+    },
+    {
+      "version": "4.24.1",
+      "channel": "stable",
+      "path": "sdk/websdk/4.24.1/Easemob-chat.js",
+      "bytes": 669311,
+      "sha256": "633b1e0be86fab9ed3ea6be3d163c5b6a18380aef4aa1bcc78a6b6c1946408c4",
+      "publishedAt": "2026-07-10T08:36:49.671Z"
+    }
+  ]
+}

@@ -3,6 +3,38 @@
 ## 介绍
 基于 Vue3、Vite4 和 Typescript 搭建的项目模板，帮你更快更好的创建功能完善的模板，其中使用到的库和依赖皆为最新版本，并在之后持续更新！！！
 [在线预览](https://vite-vue3-typescript.netlify.app/)
+
+## SDK 多版本切换（WebSDK 4.x）
+
+项目内置了 `easemob-websdk` 4.19.1 ~ 4.24.1 区间内 npm 发布过的全部版本，在「WebSDK 4.x API 测试」页右上角可切换版本，切换后页面会自动重新加载。
+
+- 版本产物：`public/sdk/websdk/<version>/Easemob-chat.js`（4.x 为自包含 UMD 单文件，无需二次打包）
+- 版本清单：`public/sdk/websdk/versions.json`（运行时通过 fetch 读取，**新增版本不需要重新构建主应用**）
+- 选择方式：页头下拉框，或直接访问 `?sdk=4.24.1`；选择结果会记在 localStorage
+
+```bash
+# 同步默认区间（4.19.1 ~ 4.24.1，含 beta）
+pnpm sdk:sync
+
+# 强制重新下载 / 指定区间 / 排除预发布版
+pnpm sdk:sync:force
+node scripts/sync-sdk-versions.mjs --from=4.24.0 --to=4.24.3 --no-prerelease
+
+# 发布前自检（校验 dist 引用、版本清单、产物、SDK 是否误打包）
+pnpm build && pnpm dist:check
+```
+
+实现细节与维护约定见 [.qoder/skills/easemob-websdk-version-matrix/SKILL.md](.qoder/skills/easemob-websdk-version-matrix/SKILL.md)。
+
+实现要点：
+
+- 启动流程改为「先注入选中版本的 UMD → 再加载 Vue 应用」，见 `src/main.ts`、`src/sdk/`；
+- 业务代码通过 `getWebSdk()` 拿到 SDK，等价于原来的 `import EC from 'easemob-websdk'`；
+- `package.json` 里的 `easemob-websdk` 依赖现在**只用于 TypeScript 类型**，运行时不再打包进 bundle；
+- beta 与正式版产物完全一致时会复用同一个文件（清单里标记 `aliasOf`），避免重复占体积。
+
+> 部署时记得把 `public/sdk/` 一并发布，否则切换版本会 404。
+
 ## 开箱即用功能
 
 - [Vue3](https://cn.vuejs.org/) - 更好的性能和开发体验，提供更多新的特性和改进的API

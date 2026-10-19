@@ -77,6 +77,7 @@ declare module '@vue/runtime-core' {
     ResultPanel: typeof import('./components/ResultPanel/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SdkVersionSelect: typeof import('./components/SdkVersionSelect/index.vue')['default']
     TokenGenerator: typeof import('./components/Tools/TokenGenerator.vue')['default']
     Tools: typeof import('./components/Tools/index.vue')['default']
   }

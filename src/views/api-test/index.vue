@@ -3,10 +3,11 @@ import { ref } from 'vue';
 import { Message } from '@arco-design/web-vue';
 import { IconComputer } from '@arco-design/web-vue/es/icon';
 import PageHeader from '@/components/PageHeader/index.vue';
+import SdkVersionSelect from '@/components/SdkVersionSelect/index.vue';
 import EnvironmentCheck from '@/components/EnvironmentCheck/index.vue';
 import { initializationEMClient, EMClient } from '@/EaseIM';
 import { SDK_TYPES } from '@/constants';
-import EC from 'easemob-websdk';
+import { getWebSdk } from '@/sdk';
 /* 组件 */
 import ConfigComp from '@/components/Config/index.vue';
 import LoginComp from '@/components/Login/index.vue';
@@ -33,6 +34,9 @@ const initConfig = (() => {
   return undefined;
 })();
 initializationEMClient(initConfig);
+
+// 当前选中的 SDK 版本（运行时动态加载），等价于原来的 `import EC from 'easemob-websdk'`
+const EC = getWebSdk();
 
 const envCheckVisible = ref(false);
 const menuIndex = ref(['1']);
@@ -243,6 +247,7 @@ watch(switchSDK, (newVal: string) => {
             </a-tooltip>
           </a-radio-group>
         </a-tooltip>
+        <SdkVersionSelect />
       </template>
     </PageHeader>
     <div class="api-test-page__body">
